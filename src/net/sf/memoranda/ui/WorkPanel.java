@@ -32,12 +32,16 @@ public class WorkPanel extends JPanel {
 	CardLayout cardLayout1 = new CardLayout();
 
 	public JButton notesB = new JButton();
+	public DefectLogPanel defectLogPanel = new DefectLogPanel();
+	public TimeSheetPanel timeSheetPanel = new TimeSheetPanel();
 	public DailyItemsPanel dailyItemsPanel = new DailyItemsPanel(this);
 	public ResourcesPanel filesPanel = new ResourcesPanel();
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
 	public JButton eventsB = new JButton();
 	public JButton filesB = new JButton();
+	public JButton timesheetB = new JButton();
+	public JButton defectlogB = new JButton();
 	JButton currentB = null;
 	Border border1;
 
@@ -195,9 +199,65 @@ public class WorkPanel extends JPanel {
 		filesB.setMinimumSize(new Dimension(30, 30));
 		filesB.setOpaque(false);
 		filesB.setMaximumSize(new Dimension(60, 80));
-		filesB.setBackground(Color.white);
+		/*---------------------------------------------------------------------------*/
+		timesheetB.setSelected(true);
+		timesheetB.setMargin(new Insets(0, 0, 0, 0));
+		timesheetB.setIcon(
+			new ImageIcon(
+				net.sf.memoranda.ui.AppFrame.class.getResource(
+					"resources/icons/files.png")));
+		timesheetB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		timesheetB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timesheetB_actionPerformed(e);
+			}
+		});
+		timesheetB.setFont(new java.awt.Font("Dialog", 1, 10));
+		timesheetB.setVerticalAlignment(SwingConstants.TOP);
+		timesheetB.setText(Local.getString("Time"));
+		timesheetB.setHorizontalTextPosition(SwingConstants.CENTER);
+		timesheetB.setFocusPainted(false);
+		timesheetB.setBorderPainted(false);
+		timesheetB.setContentAreaFilled(false);
+		timesheetB.setPreferredSize(new Dimension(50, 50));
+		timesheetB.setMinimumSize(new Dimension(30, 30));
+		timesheetB.setOpaque(false);
+		timesheetB.setMaximumSize(new Dimension(60, 80));
+		timesheetB.setBackground(Color.red);
+
+		/*--------------------------------------------------------------------------*/
+		/*---------------------------------------------------------------------------*/
+		defectlogB.setSelected(true);
+		defectlogB.setMargin(new Insets(0, 0, 0, 0));
+		defectlogB.setIcon(
+			new ImageIcon(
+				net.sf.memoranda.ui.AppFrame.class.getResource(
+					"resources/icons/files.png")));
+		defectlogB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		defectlogB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				defectlogB_actionPerformed(e);
+			}
+		});
+		defectlogB.setFont(new java.awt.Font("Dialog", 1, 10));
+		defectlogB.setVerticalAlignment(SwingConstants.TOP);
+		defectlogB.setText(Local.getString("Defects"));
+		defectlogB.setHorizontalTextPosition(SwingConstants.CENTER);
+		defectlogB.setFocusPainted(false);
+		defectlogB.setBorderPainted(false);
+		defectlogB.setContentAreaFilled(false);
+		defectlogB.setPreferredSize(new Dimension(50, 50));
+		defectlogB.setMinimumSize(new Dimension(30, 30));
+		defectlogB.setOpaque(false);
+		defectlogB.setMaximumSize(new Dimension(60, 80));
+		defectlogB.setBackground(Color.red);
+
+		/*--------------------------------------------------------------------------*/
+		filesB.setBackground(Color.red);
 		this.add(toolBar, BorderLayout.WEST);
 		this.add(panel, BorderLayout.CENTER);
+		panel.add(defectLogPanel, "DEFECTLOG");
+		panel.add(timeSheetPanel, "TIMESHEET");
 		panel.add(dailyItemsPanel, "DAILYITEMS");
 		panel.add(filesPanel, "FILES");
 		toolBar.add(agendaB, null);
@@ -205,6 +265,8 @@ public class WorkPanel extends JPanel {
 		toolBar.add(tasksB, null);
 		toolBar.add(notesB, null);
 		toolBar.add(filesB, null);
+		toolBar.add(timesheetB, null);
+		toolBar.add(defectlogB, null);
 		currentB = agendaB;
 		// Default blue color
 		currentB.setBackground(new Color(215, 225, 250));
@@ -226,6 +288,10 @@ public class WorkPanel extends JPanel {
 			else if (pan.equals("EVENTS"))
 				eventsB_actionPerformed(null);
 			else if (pan.equals("FILES"))
+				filesB_actionPerformed(null);
+			else if (pan.equals("TIMESHEET"))
+				filesB_actionPerformed(null);
+			else if (pan.equals("DEFECTLOG"))
 				filesB_actionPerformed(null);
 		}
 	}
@@ -262,6 +328,16 @@ public class WorkPanel extends JPanel {
 		cardLayout1.show(panel, "FILES");
 		setCurrentButton(filesB);
 		Context.put("CURRENT_PANEL", "FILES");
+	}
+	public void timesheetB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "TIMESHEET");
+		setCurrentButton(timesheetB);
+		Context.put("CURRENT_PANEL", "FILES");
+	}
+	public void defectlogB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DEFECTLOG");
+		setCurrentButton(defectlogB);
+		Context.put("CURRENT_PANEL", "DEFECTLOG");
 	}
 
 	void setCurrentButton(JButton cb) {

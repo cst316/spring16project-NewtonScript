@@ -34,7 +34,7 @@ import net.sf.memoranda.util.Util;
 import java.io.*;
 
 /*$Id: ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
-public class ResourcesPanel extends JPanel {
+public class DefectLogPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
     JToolBar toolBar = new JToolBar();
     JButton newResB = new JButton();
@@ -48,7 +48,7 @@ public class ResourcesPanel extends JPanel {
   JMenuItem ppNewRes = new JMenuItem();
   JMenuItem ppRefresh = new JMenuItem();
 
-    public ResourcesPanel() {
+    public DefectLogPanel() {
         try {
             jbInit();
         }
@@ -60,11 +60,11 @@ public class ResourcesPanel extends JPanel {
         toolBar.setFloatable(false);
         this.setLayout(borderLayout1);
         newResB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/addresource.png")));
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
         newResB.setEnabled(true);
         newResB.setMaximumSize(new Dimension(24, 24));
         newResB.setMinimumSize(new Dimension(24, 24));
-        newResB.setToolTipText(Local.getString("New Resource"));
+        newResB.setToolTipText(Local.getString("New Defect Log"));
         newResB.setRequestFocusEnabled(false);
         newResB.setPreferredSize(new Dimension(24, 24));
         newResB.setFocusable(false);
@@ -85,12 +85,12 @@ public class ResourcesPanel extends JPanel {
         });
         removeResB.setPreferredSize(new Dimension(24, 24));
         removeResB.setRequestFocusEnabled(false);
-        removeResB.setToolTipText(Local.getString("Remove resource"));
+        removeResB.setToolTipText(Local.getString("Remove Defect Log"));
         removeResB.setMinimumSize(new Dimension(24, 24));
         removeResB.setMaximumSize(new Dimension(24, 24));
         removeResB.setIcon(
             new ImageIcon(
-                net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/removeresource.png")));
+                net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/notify.png")));
         removeResB.setEnabled(false);
         scrollPane.getViewport().setBackground(Color.white);
         toolBar.addSeparator(new Dimension(8, 24));
@@ -123,7 +123,7 @@ public class ResourcesPanel extends JPanel {
         refreshB.setMaximumSize(new Dimension(24, 24));
         refreshB.setEnabled(true);
         refreshB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/refreshres.png")));
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/ppopen.png")));
         resPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
     ppRun.setFont(new java.awt.Font("Dialog", 1, 11));
     ppRun.setText(Local.getString("Open resource")+"...");
@@ -141,7 +141,7 @@ public class ResourcesPanel extends JPanel {
                 ppRemoveRes_actionPerformed(e);
             }
         });
-    ppRemoveRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/removeresource.png")));
+    ppRemoveRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
     ppRemoveRes.setEnabled(false);
     ppNewRes.setFont(new java.awt.Font("Dialog", 1, 11));
     ppNewRes.setText(Local.getString("New resource")+"...");
@@ -150,7 +150,7 @@ public class ResourcesPanel extends JPanel {
                 ppNewRes_actionPerformed(e);
             }
         });
-    ppNewRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/addresource.png")));
+    ppNewRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/date.png")));
 
     ppRefresh.setFont(new java.awt.Font("Dialog", 1, 11));
     ppRefresh.setText(Local.getString("Refresh"));
@@ -159,7 +159,7 @@ public class ResourcesPanel extends JPanel {
         ppRefresh_actionPerformed(e);
       }
     });
-    ppRefresh.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/refreshres.png")));
+    ppRefresh.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/error.png")));
 
     toolBar.add(newResB, null);
         toolBar.add(removeResB, null);
@@ -188,7 +188,7 @@ public class ResourcesPanel extends JPanel {
     }
 
     void newResB_actionPerformed(ActionEvent e) {
-        AddResourceDialog dlg = new AddResourceDialog(App.getFrame(), Local.getString("New resource"));
+        AddResourceDialog dlg = new AddResourceDialog(App.getFrame(), Local.getString("New Timesheet"));
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
