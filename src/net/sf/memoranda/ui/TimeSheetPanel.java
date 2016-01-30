@@ -395,7 +395,7 @@ public class TimeSheetPanel extends JPanel {
   }
   
   /**
-   * Copy a file to the directory of the current project
+   * Copy a file to the b directory of the current project
    * @param srcStr The path of the source file.
    * @param destStr The destination path.
    * @return The new path of the file.
