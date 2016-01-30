@@ -8,11 +8,16 @@
  */
 package net.sf.memoranda;
 
-import java.net.ServerSocket;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.Socket;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
+import net.sf.memoranda.server.ServerInterface;
+import net.sf.memoranda.server.ServerStart;
 import net.sf.memoranda.ui.*;
-import net.sf.memoranda.util.Configuration;
 
 /**
  *
@@ -21,68 +26,48 @@ import net.sf.memoranda.util.Configuration;
 public class Start {
     
     static App app = null;
-    
-    static int DEFAULT_PORT = 19432;
     static boolean checkIfAlreadyStartet = true;
-    
-    static {
-        String port = Configuration.get("PORT_NUMBER").toString().trim();
-        if (port.length() >0) {
-            // The Portnumber must be between 1024 (in *nix all Port's < 1024
-            // are privileged) and 65535 (the highest Portnumber everywhere)
-            int i = Integer.parseInt(port);
-            if ((i >= 1024) && (i <= 65535)) {
-                DEFAULT_PORT = i;
-            }
-            /*DEBUG*/ //System.out.println("Port " + DEFAULT_PORT + " used.");
-        }
-        
-        String check = Configuration.get("CHECK_IF_ALREADY_STARTED").toString().trim();
-        if (check.length() > 0 && check.equalsIgnoreCase("no")) {
-            checkIfAlreadyStartet = false;
-        }
-    }
+    public static final String DEFAULT_IP = "localhost";
+	public static final int DEFAULT_PORT = 1099;
     
     public static void main(String[] args) {
-        if (checkIfAlreadyStartet) {
-            try {
-                // Try to open a socket. If socket opened successfully (app is already started), take no action and exit.
-                Socket socket = new Socket("127.0.0.1", DEFAULT_PORT);
-                socket.close();
-                System.exit(0);
-                
-            } catch (Exception e) {
-                // If socket is not opened (app is not started), continue
-                // e.printStackTrace();
-            }
-            new SLThread().start();
-        }
         
-        //System.out.println(EventsScheduler.isEventScheduled());
-        if ((args.length == 0) || (!args[0].equals("-m"))) {
-            app = new App(true);
-        }
-        else
-            app = new App(false);
-    }
-}
-
-class SLThread extends Thread {
-    
-    public void run() {
-        ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(Start.DEFAULT_PORT);
-            serverSocket.accept();
-            Start.app.show();
-            serverSocket.close();
-            new SLThread().start();
+        	
+        	// DEBUG ONLY -- START SERVER HERE
+        	System.out.println("Starting server");
+    		class Server extends Thread {
+    		    public void run(){
+    		      ServerStart.main(args);
+    		    }
+    		  }
+    		Server serv = new Server();
+    		serv.start();
+    		// END DEBUG
+        	
+    		// Connect to the server
+        	ClientComm comm = new ClientComm(DEFAULT_IP, DEFAULT_PORT);	
+            
+            if ((args.length == 0) || (!args[0].equals("-m"))) {
+                app = new App(true);
+            }
+            else{
+                app = new App(false);
+            }
+            
+            // Shutdown hook to gracefully exit no matter how the program closes.
+            AppFrame.addExitListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent arg0) {
+    				
+    			}
+            });
+          
             
         } catch (Exception e) {
-            System.err.println("Port:"+Start.DEFAULT_PORT);
+            System.out.println("Socket not opened, cannot connect to server! Is server up?");
             e.printStackTrace();
-            new ExceptionDialog(e, "Cannot create a socket connection on localhost:"+Start.DEFAULT_PORT,
-            "Make sure that other software does not use the port "+Start.DEFAULT_PORT+" and examine your security settings.");
         }
-    }
+	}
 }
+
+

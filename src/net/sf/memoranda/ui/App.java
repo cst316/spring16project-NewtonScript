@@ -3,11 +3,16 @@ package net.sf.memoranda.ui;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import net.sf.memoranda.EventsScheduler;
@@ -96,7 +101,17 @@ public class App {
 			init();
 		}
 		if (!Configuration.get("SHOW_SPLASH").equals("no"))
-			splash.dispose();
+			splash.dispose();	  
+	  
+	  // Additional functionality to allow program to exit gracefully when x button is pressed.
+	  JFrame anFrame = (JFrame) SwingUtilities.getWindowAncestor(frame.getRootPane());
+	 
+	  anFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			    	System.exit(0); // Runs the shutdown hook.
+		    	}
+		    });
 	}
 
 	void init() {

@@ -4,6 +4,7 @@
  */
 package net.sf.memoranda.util;
 
+import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.Collections;
 
+import net.sf.memoranda.ClientComm;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Event;
 import net.sf.memoranda.EventsManager;
@@ -298,7 +300,15 @@ public class AgendaGenerator {
 		return s + "</td>";
 	}
 
-	static String generateEventsInfo(CalendarDate date) {
+	static String generateEventsInfo(CalendarDate date){
+		
+		String MOTD = "None";
+		try {
+			MOTD = ClientComm.getServer().getMOTD();
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		
 		String s =
 				"<td width=\"34%\" valign=\"top\">"
 						+ "<a href=\"memoranda:events\"><h1>"
@@ -307,6 +317,17 @@ public class AgendaGenerator {
 						+ "<table width=\"100%\" valign=\"top\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#FFFFF6\">\n";
 		Vector v = (Vector) EventsManager.getEventsForDate(date);
 		int n = 0;
+		// Here we add the MOTD space
+		s += "<tr>\n<td>"
+				+ " "
+				+ "</td>"
+				+ "MOTD"
+				+ "<td nowrap class=\"eventtime\">"
+				+  MOTD
+				+ "</td>"
+				+ "<td width=\"100%\" class=\"eventtext\">&nbsp;&nbsp;"
+				+ "</td>\n"
+				+ "</tr>";
 		for (Iterator i = v.iterator(); i.hasNext();) {
 			Event e = (Event) i.next();
 			String txt = e.getText();
@@ -342,7 +363,7 @@ public class AgendaGenerator {
 					"<img align=\"right\" width=\"16\" height=\"16\" src=\""
 							+ iurl
 							+ "\" border=\"0\"  hspace=\"0\" vspace=\"0\" alt=\"\">";
-
+			
 			s += "<tr>\n<td>"
 					+ icon
 					+ "</td>"
