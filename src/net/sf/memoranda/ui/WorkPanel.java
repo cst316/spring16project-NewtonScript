@@ -21,7 +21,7 @@ import net.sf.memoranda.util.Local;
 
 /**
  * 
- * ***:Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
+ * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 
 /*$Id: WorkPanel.java,v 1.9 2004/04/05 10:05:44 alexeya Exp $*/
