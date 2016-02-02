@@ -10,12 +10,6 @@ package net.sf.memoranda;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-import net.sf.memoranda.server.ServerInterface;
 import net.sf.memoranda.server.ServerStart;
 import net.sf.memoranda.ui.*;
 
@@ -35,6 +29,8 @@ public class Start {
         try {
         	
         	// DEBUG ONLY -- START SERVER HERE
+        	// If using this block of code, make DEFAULT_IP = localhost
+        	// You will also have to do this in ServerStart.
         	System.out.println("Starting server");
     		class Server extends Thread {
     		    public void run(){
