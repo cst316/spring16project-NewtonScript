@@ -1,11 +1,14 @@
 package net.sf.memoranda;
 
-import java.io.Serializable;
+import nu.xom.Attribute;
+import nu.xom.Element;
 
 // Currently a phase only has a title
 // Phase object is needed to allow phases with the same title
 // Doug Carroll
-public class Phase implements Serializable{
+
+
+public class Phase{
 	
 	private String title = "";
 	
@@ -20,4 +23,10 @@ public class Phase implements Serializable{
 	}
 	
 	public String toString(){return title;}
+	
+	public Element toElement(){
+		Element e = new Element(title);
+		e.addAttribute(new Attribute("title", title));
+		return e;
+	}
 }

@@ -19,6 +19,7 @@ public interface TaskList {
 	Project getProject();
     Task getTask(String id);
 
+    Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId, String phase);
     Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId);
 
     void removeTask(Task task);

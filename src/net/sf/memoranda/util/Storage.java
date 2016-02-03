@@ -10,6 +10,7 @@ package net.sf.memoranda.util;
 
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
+import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
@@ -48,5 +49,9 @@ public interface Storage {
     
     void restoreContext();
     void storeContext(); 
+   
+    PhaseList openPhaseList(Project prj);
+    void storePhaseList(PhaseList phaseList, Project prj);
+	
        
 }

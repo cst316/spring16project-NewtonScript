@@ -86,4 +86,9 @@ public interface Task {
 	long getRate();
     
     nu.xom.Element getContent();
+    
+    // Phases addition
+    Phase getPhase();
+    String getPhaseTitle();
+    void setPhase(Phase p);
 }

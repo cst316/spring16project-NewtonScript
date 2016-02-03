@@ -387,6 +387,21 @@ public class TaskImpl implements Task, Comparable {
 				return true;
 		return false;
 	}
-
 	
+	// Start phase implementation
+	@Override
+	public Phase getPhase(){
+		PhaseList list = CurrentProject.getPhaseList();
+		return list.getPhase(getPhaseTitle());
+	}
+	
+	@Override
+	public String getPhaseTitle() {
+		return _element.getAttribute("phase").getValue();
+	}
+
+	@Override
+	public void setPhase(Phase p) {
+		setAttr("phase", p.toString());
+	}
 }

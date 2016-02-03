@@ -23,6 +23,7 @@ import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
 import net.sf.memoranda.NoteListImpl;
+import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
@@ -469,5 +470,39 @@ public class FileStorage implements Storage {
                 "");
         }
     }
+    
+    // Open phase list - Doug Carroll
+	@Override
+	public PhaseList openPhaseList(Project prj) {
+		String fn = JN_DOCPATH + prj.getID() + File.separator + ".phaselist";
+		// If the document exists, load it
+		if (documentExists(fn)) {
+			Document phaselistDoc = openDocument(fn);
+			return new PhaseList(phaselistDoc, prj); 
+		}
+		// Else lets make a new one
+		else {
+            // DEBUG
+            System.out.println("[DEBUG] New task list created");
+            return new PhaseList(prj);
+	    }
+	}
+	
+	
+	// Save phase list - Doug Carroll
+	@Override
+	public void storePhaseList(PhaseList phaseList, Project prj) {
+		// DEBUG
+		System.out.println(
+	            "[DEBUG] Save task list: "
+	                + JN_DOCPATH
+	                + prj.getID()
+	                + File.separator
+	                + ".phaselist");
+		
+		Document phaselistDoc = phaseList.getXMLContent();
+        saveDocument(phaselistDoc,JN_DOCPATH + prj.getID() + 
+        		File.separator + ".phaselist");
+	}
 
 }

@@ -44,6 +44,7 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Phase;
 import net.sf.memoranda.PhaseList;
+import net.sf.memoranda.Task;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.util.Local;
@@ -117,6 +118,7 @@ public class TaskDialog extends JDialog {
 	
 	JPanel phaseParent = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	JComboBox<Phase> phaseOptions;
+	public static final String SELECT = "<Select>";
     
     public TaskDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -341,12 +343,12 @@ public class TaskDialog extends JDialog {
         phaseOptions = new JComboBox<Phase>();
         JLabel phaseLabel = new JLabel("Phase");
         JButton addPhase = new JButton("New Phase");
-        ArrayList<Phase> phaseList = PhaseList.getPhases();
+        ArrayList<Phase> phaseList = CurrentProject.getPhaseList().getPhases();
         // Add phases to the combo box
         for(Phase p: phaseList){
         	phaseOptions.addItem(p);
         }
-        Phase temp = new Phase("<Select>");
+        Phase temp = new Phase(SELECT);
         phaseOptions.addItem(temp);
         phaseOptions.setSelectedItem(temp);
         phaseSubPanel.add(phaseLabel);
@@ -505,20 +507,59 @@ public class TaskDialog extends JDialog {
         // Unless the text box is empty, create a new phase
         String text = dlg.getText();
         if("".equals(text)){
-        	JOptionPane.showMessageDialog(dlg, "Please enter a phase name");
+        	JOptionPane.showMessageDialog(dlg, "Please enter a phase name.");
         }
-        else
-        	addPhase(text);
+        else{
+        	PhaseList list = CurrentProject.getPhaseList();
+        	Phase ph = list.getPhase(text);
+        	// Check if the phase already exists
+        	if(ph != null)
+        		JOptionPane.showMessageDialog(dlg, "Phase already exists.");
+        	else
+        		addPhase(text);
+        }
     }
     
     // Add phase to the combo box (and to phases list)
     private void addPhase(String text){
     	// Add this phase to the list
-        Phase phase = PhaseList.addPhase(text);
+    	PhaseList list = CurrentProject.getPhaseList();
+        Phase phase = list.addNewPhase(text);
         phaseOptions.addItem(phase);
         
         // Set the combo box to this phase
         phaseOptions.setSelectedItem(phase);
+    }
+    
+    // Check if phase is selected
+    public boolean phaseSelected(){
+    	String item = phaseOptions.getSelectedItem().toString();
+    	boolean res = true;
+    	
+    	if(item.equals(SELECT)){
+    		res = false;
+    	}
+    	return res;
+    }
+    
+    // Returns the selected phase from the combo box
+    public Phase getSelectedPhase(){
+    	Phase ph;
+    	PhaseList list = CurrentProject.getPhaseList();
+    	if(phaseSelected()){
+    		String title = phaseOptions.getSelectedItem().toString();
+    		ph = list.getPhase(title);
+    	}
+    	else{
+    		ph = list.getDefault();
+    	}
+    	return ph;
+    }
+    
+    // Sets the phase combo box to the tasks phase
+    public void setSelectedPhase(Task t){
+    	Phase ph = t.getPhase();
+    	phaseOptions.setSelectedItem(ph);
     }
 
 }
