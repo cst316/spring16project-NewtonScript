@@ -25,7 +25,7 @@ public class Phase{
 	public String toString(){return title;}
 	
 	public Element toElement(){
-		Element e = new Element(title);
+		Element e = new Element("Phase");
 		e.addAttribute(new Attribute("title", title));
 		return e;
 	}

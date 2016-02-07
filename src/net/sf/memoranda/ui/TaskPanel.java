@@ -27,6 +27,7 @@ import javax.swing.event.ListSelectionListener;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
 import net.sf.memoranda.NoteList;
+import net.sf.memoranda.Phase;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ResourcesList;
@@ -52,6 +53,7 @@ public class TaskPanel extends JPanel {
     JButton editTaskB = new JButton();
     JButton removeTaskB = new JButton();
     JButton completeTaskB = new JButton();
+    JButton addPhaseButton = new JButton(); // Button to add a phase - Doug Carroll
     
 	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 		
@@ -177,7 +179,26 @@ public class TaskPanel extends JPanel {
         completeTaskB.setMaximumSize(new Dimension(24, 24));
         completeTaskB.setIcon(
             new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/todo_complete.png")));
-
+        
+        
+        // Create 'add phase' button properties here - Doug Carroll
+        addPhaseButton.setPreferredSize(new Dimension(24, 24));
+        addPhaseButton.setEnabled(true);
+        addPhaseButton.setRequestFocusEnabled(false);
+        addPhaseButton.setToolTipText(Local.getString("Add a phase"));
+        addPhaseButton.setMinimumSize(new Dimension(24, 24));
+        addPhaseButton.setMaximumSize(new Dimension(24, 24));
+        // TODO Make icon for new phase
+        addPhaseButton.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/phase_new.png")));
+        addPhaseButton.setBorderPainted(false);
+        addPhaseButton.setFocusable(false);
+        addPhaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	phase_actionPerformed(e);
+            }
+        });
+        
 		// added by rawsushi
 //		showActiveOnly.setBorderPainted(false);
 //		showActiveOnly.setFocusable(false);
@@ -323,6 +344,7 @@ public class TaskPanel extends JPanel {
         tasksToolBar.addSeparator(new Dimension(8, 24));
         tasksToolBar.add(editTaskB, null);
         tasksToolBar.add(completeTaskB, null);
+        tasksToolBar.add(addPhaseButton, null); // add phase to the tool bar
 
 		//tasksToolBar.add(showActiveOnly, null);
         
@@ -740,6 +762,34 @@ public class TaskPanel extends JPanel {
                     }
                 }
 
+    }
+    
+    // Open the phase window - Doug Carroll
+    void phase_actionPerformed(ActionEvent e){
+    	PhaseDialog dlg = new PhaseDialog(App.getFrame(), Local.getString("New Phase"));
+        Dimension frmSize = App.getFrame().getSize();
+        Point loc = App.getFrame().getLocation();
+        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        dlg.setVisible(true);
+        
+        // If cancel was pressed, leave
+        if(dlg.isCancelled())
+        	return;
+        
+        // Unless the text box is empty, create a new phase
+        String text = dlg.getText();
+        if("".equals(text)){
+        	JOptionPane.showMessageDialog(dlg, "Please enter a phase name.");
+        }
+        else{
+        	PhaseList list = CurrentProject.getPhaseList();
+        	Phase ph = list.getPhase(text);
+        	// Check if the phase already exists
+        	if(ph != null)
+        		JOptionPane.showMessageDialog(dlg, "Phase already exists.");
+        	else
+        		list.addNewPhase(text);
+        }
     }
 
   void ppEditTask_actionPerformed(ActionEvent e) {

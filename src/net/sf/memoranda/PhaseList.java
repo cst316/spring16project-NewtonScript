@@ -17,6 +17,8 @@ public class PhaseList {
 	private Project _project = null;
 	private Element _root = null;
 	
+	public PhaseList(){phases = new ArrayList<Phase>();}
+	
 	public PhaseList(Project _prj){
 		_project = _prj;
 		_root = new Element("phaselist");
