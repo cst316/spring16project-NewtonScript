@@ -1,5 +1,9 @@
 package net.sf.memoranda.ui;
 
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,10 +36,17 @@ import net.sf.memoranda.util.MimeTypesList;
 import net.sf.memoranda.util.Util;
 
 import java.io.*;
+import java.awt.GridBagLayout;
+import javax.swing.JTable;
+import javax.swing.BoxLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /* ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
 public class TimeSheetPanel extends JPanel {
-    BorderLayout borderLayout1 = new BorderLayout();
     JToolBar toolBar = new JToolBar();
     JButton newResB = new JButton();
     ResourcesTable resourcesTable = new ResourcesTable();
@@ -47,6 +58,7 @@ public class TimeSheetPanel extends JPanel {
   JMenuItem ppRemoveRes = new JMenuItem();
   JMenuItem ppNewRes = new JMenuItem();
   JMenuItem ppRefresh = new JMenuItem();
+  private final JTable table = new JTable();
 
     public TimeSheetPanel() {
         try {
@@ -57,73 +69,9 @@ public class TimeSheetPanel extends JPanel {
         }
     }
     void jbInit() throws Exception {
-        toolBar.setFloatable(false);
-        this.setLayout(borderLayout1);
-        newResB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
-        newResB.setEnabled(true);
-        newResB.setMaximumSize(new Dimension(24, 24));
-        newResB.setMinimumSize(new Dimension(24, 24));
-        newResB.setToolTipText(Local.getString("New Timesheet"));
-        newResB.setRequestFocusEnabled(false);
-        newResB.setPreferredSize(new Dimension(24, 24));
-        newResB.setFocusable(false);
-        newResB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                newResB_actionPerformed(e);
-            }
-        });
-        newResB.setBorderPainted(false);
-        resourcesTable.setMaximumSize(new Dimension(32767, 32767));
-        resourcesTable.setRowHeight(24);
-        removeResB.setBorderPainted(false);
-        removeResB.setFocusable(false);
-        removeResB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                removeResB_actionPerformed(e);
-            }
-        });
-        removeResB.setPreferredSize(new Dimension(24, 24));
-        removeResB.setRequestFocusEnabled(false);
-        removeResB.setToolTipText(Local.getString("Remove Time Sheet"));
-        removeResB.setMinimumSize(new Dimension(24, 24));
-        removeResB.setMaximumSize(new Dimension(24, 24));
-        removeResB.setIcon(
-            new ImageIcon(
-                net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/agenda.png")));
-        removeResB.setEnabled(false);
-        scrollPane.getViewport().setBackground(Color.white);
-        toolBar.addSeparator(new Dimension(8, 24));
-        toolBar.addSeparator(new Dimension(8, 24));
 
 
         PopupListener ppListener = new PopupListener();
-        scrollPane.addMouseListener(ppListener);
-        resourcesTable.addMouseListener(ppListener);
-
-        resourcesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                boolean enbl = (resourcesTable.getRowCount() > 0) && (resourcesTable.getSelectedRow() > -1);
-
-                removeResB.setEnabled(enbl); ppRemoveRes.setEnabled(enbl);
-                ppRun.setEnabled(enbl);
-            }
-        });
-        refreshB.setBorderPainted(false);
-        refreshB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                refreshB_actionPerformed(e);
-            }
-        });
-        refreshB.setFocusable(false);
-        refreshB.setPreferredSize(new Dimension(24, 24));
-        refreshB.setRequestFocusEnabled(false);
-        refreshB.setToolTipText(Local.getString("Refresh"));
-        refreshB.setMinimumSize(new Dimension(24, 24));
-        refreshB.setMaximumSize(new Dimension(24, 24));
-        refreshB.setEnabled(true);
-        refreshB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/refreshres.png")));
         resPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
     ppRun.setFont(new java.awt.Font("Dialog", 1, 11));
     ppRun.setText(Local.getString("Open resource")+"...");
@@ -160,31 +108,116 @@ public class TimeSheetPanel extends JPanel {
       }
     });
     ppRefresh.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/error.png")));
-
-    toolBar.add(newResB, null);
-        toolBar.add(removeResB, null);
-        toolBar.addSeparator();
-        toolBar.add(refreshB, null);
-        this.add(scrollPane, BorderLayout.CENTER);
-        scrollPane.getViewport().add(resourcesTable, null);
-        this.add(toolBar, BorderLayout.NORTH);
+        resourcesTable.setSurrendersFocusOnKeystroke(true);
+        resourcesTable.setShowVerticalLines(true);
+        resourcesTable.setShowHorizontalLines(true);
+        resourcesTable.setMaximumSize(new Dimension(32767, 32767));
+        resourcesTable.setRowHeight(24);
+        scrollPane.getViewport().setBackground(Color.white);
+        scrollPane.addMouseListener(ppListener);
+        resourcesTable.addMouseListener(ppListener);
+        
+                resourcesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                    public void valueChanged(ListSelectionEvent e) {
+                        boolean enbl = (resourcesTable.getRowCount() > 0) && (resourcesTable.getSelectedRow() > -1);
+        
+                        removeResB.setEnabled(enbl); ppRemoveRes.setEnabled(enbl);
+                        ppRun.setEnabled(enbl);
+                    }
+                });
+                toolBar.setFloatable(false);
+                newResB.setIcon(
+                    new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
+                newResB.setEnabled(true);
+                newResB.setMaximumSize(new Dimension(24, 24));
+                newResB.setMinimumSize(new Dimension(24, 24));
+                newResB.setToolTipText(Local.getString("New Timesheet"));
+                newResB.setRequestFocusEnabled(false);
+                newResB.setPreferredSize(new Dimension(24, 24));
+                newResB.setFocusable(false);
+                newResB.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        newResB_actionPerformed(e);
+                    }
+                });
+                newResB.setBorderPainted(false);
+                toolBar.addSeparator(new Dimension(8, 24));
+                toolBar.addSeparator(new Dimension(8, 24));
+                refreshB.setBorderPainted(false);
+                refreshB.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        refreshB_actionPerformed(e);
+                    }
+                });
+                refreshB.setFocusable(false);
+                refreshB.setPreferredSize(new Dimension(24, 24));
+                refreshB.setRequestFocusEnabled(false);
+                refreshB.setToolTipText(Local.getString("Refresh"));
+                refreshB.setMinimumSize(new Dimension(24, 24));
+                refreshB.setMaximumSize(new Dimension(24, 24));
+                refreshB.setEnabled(true);
+                refreshB.setIcon(
+                    new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/refreshres.png")));
+                
+                    toolBar.add(newResB, null);
+                    toolBar.addSeparator();
+                    toolBar.add(refreshB, null);
+                    removeResB.setBorderPainted(false);
+                    removeResB.setFocusable(false);
+                    removeResB.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            removeResB_actionPerformed(e);
+                        }
+                    });
+                    removeResB.setPreferredSize(new Dimension(24, 24));
+                    removeResB.setRequestFocusEnabled(false);
+                    removeResB.setToolTipText(Local.getString("Remove Time Sheet"));
+                    removeResB.setMinimumSize(new Dimension(24, 24));
+                    removeResB.setMaximumSize(new Dimension(24, 24));
+                    removeResB.setIcon(
+                        new ImageIcon(
+                            net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/agenda.png")));
+                    removeResB.setEnabled(false);
+                    toolBar.add(removeResB, null);
+                scrollPane.setViewportView(resourcesTable);
+                GroupLayout groupLayout = new GroupLayout(this);
+                groupLayout.setHorizontalGroup(
+                	groupLayout.createParallelGroup(Alignment.LEADING)
+                		.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)
+                		.addGroup(groupLayout.createSequentialGroup()
+                			.addContainerGap()
+                			.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                				.addComponent(table, GroupLayout.PREFERRED_SIZE, 710, GroupLayout.PREFERRED_SIZE)
+                				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)))
+                );
+                groupLayout.setVerticalGroup(
+                	groupLayout.createParallelGroup(Alignment.LEADING)
+                		.addGroup(groupLayout.createSequentialGroup()
+                			.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+                			.addGap(5)
+                			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+                			.addPreferredGap(ComponentPlacement.RELATED)
+                			.addComponent(table, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+                			.addContainerGap(287, Short.MAX_VALUE))
+                );
+                setLayout(groupLayout);
+                
+                	// remove resources using the DEL key
+                	resourcesTable.addKeyListener(new KeyListener() {
+                		public void keyPressed(KeyEvent e){
+                			if(resourcesTable.getSelectedRows().length>0 
+                				&& e.getKeyCode()==KeyEvent.VK_DELETE)
+                				ppRemoveRes_actionPerformed(null);
+                		}
+                		public void	keyReleased(KeyEvent e){}
+                		public void keyTyped(KeyEvent e){} 
+                	});
     resPPMenu.add(ppRun);
     resPPMenu.addSeparator();
     resPPMenu.add(ppNewRes);
     resPPMenu.add(ppRemoveRes);
     resPPMenu.addSeparator();
     resPPMenu.add(ppRefresh);
-	
-		// remove resources using the DEL key
-		resourcesTable.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e){
-				if(resourcesTable.getSelectedRows().length>0 
-					&& e.getKeyCode()==KeyEvent.VK_DELETE)
-					ppRemoveRes_actionPerformed(null);
-			}
-			public void	keyReleased(KeyEvent e){}
-			public void keyTyped(KeyEvent e){} 
-		});
     }
 
     void newResB_actionPerformed(ActionEvent e) {
