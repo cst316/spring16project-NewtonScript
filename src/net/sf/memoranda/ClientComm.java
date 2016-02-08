@@ -1,8 +1,5 @@
 package net.sf.memoranda;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,7 +17,7 @@ public class ClientComm {
 	public ClientComm(String ip, int port){
 		
 		try {
-			
+			System.out.println("Connecting to server . . .");
 			clientReg = LocateRegistry.getRegistry(ip, port);
 			server = (ServerInterface)clientReg.lookup("memoServer");
 			
