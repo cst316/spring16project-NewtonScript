@@ -91,4 +91,5 @@ public interface Task {
     Phase getPhase();
     String getPhaseTitle();
     void setPhase(Phase p);
+    public boolean isPhase();
 }

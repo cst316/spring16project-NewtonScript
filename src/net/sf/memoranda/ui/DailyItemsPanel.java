@@ -302,7 +302,7 @@ public class DailyItemsPanel extends JPanel {
         mainTabsPanel.add(tasksTabbedPane, "TASKSTAB");
         mainTabsPanel.add(notesControlPane, "NOTESTAB");
 		mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
-        updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
+        updateIndicators(CurrentDate.get(), CurrentProject.getPhaseList().getAllTasks());
         mainPanel.setBorder(null);
     }
 
@@ -344,7 +344,7 @@ public class DailyItemsPanel extends JPanel {
             currentDateLabel.setIcon(null);
         }		
 
-        updateIndicators(newdate, CurrentProject.getTaskList());
+        updateIndicators(newdate,  CurrentProject.getPhaseList().getAllTasks());
         App.getFrame().setCursor(cur);
     }
 
@@ -442,7 +442,7 @@ public class DailyItemsPanel extends JPanel {
     }
 
     public void updateIndicators() {
-        updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
+        updateIndicators(CurrentDate.get(),  CurrentProject.getPhaseList().getAllTasks());
     }
 
     public void selectPanel(String pan) {
@@ -452,7 +452,7 @@ public class DailyItemsPanel extends JPanel {
         }
         if (pan.equals("TASKS") && (tasksPanel.taskTable.getSelectedRow() > -1)) {
             Task t =
-                CurrentProject.getTaskList().getTask(
+                CurrentProject.getPhaseList().getAllByID(
                     tasksPanel
                         .taskTable
                         .getModel()

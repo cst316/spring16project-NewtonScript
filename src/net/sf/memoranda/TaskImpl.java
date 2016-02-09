@@ -404,4 +404,6 @@ public class TaskImpl implements Task, Comparable {
 	public void setPhase(Phase p) {
 		setAttr("phase", p.toString());
 	}
+	
+	public boolean isPhase(){return false;}
 }

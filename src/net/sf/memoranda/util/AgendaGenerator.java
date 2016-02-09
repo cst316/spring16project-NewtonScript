@@ -49,10 +49,11 @@ public class AgendaGenerator {
 	static String generateTasksInfo(Project p, CalendarDate date, Collection expandedTasks) {    	    	
 		TaskList tl;
 		if (p.getID().equals(CurrentProject.get().getID())) {
-			tl = CurrentProject.getTaskList();        	
+			tl =  CurrentProject.getPhaseList().getAllTasks();        	
 		}
 		else {
-			tl = CurrentStorage.get().openTaskList(p);        	
+			tl = CurrentStorage.get().openPhaseList(p).getAllTasks(); 
+			System.out.println("TL: " + tl.size());
 		}
 		String s = "";
 		int k = getProgress(tl);

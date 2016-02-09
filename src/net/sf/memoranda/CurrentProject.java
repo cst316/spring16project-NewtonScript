@@ -51,10 +51,10 @@ public class CurrentProject {
 			
 		}		
 		
-        _tasklist = CurrentStorage.get().openTaskList(_project);
         _notelist = CurrentStorage.get().openNoteList(_project);
         _resources = CurrentStorage.get().openResourcesList(_project);
         _phaseList = CurrentStorage.get().openPhaseList(_project);
+        _tasklist = _phaseList.getAllTasks();
         AppFrame.addExitListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();                                               
@@ -65,10 +65,6 @@ public class CurrentProject {
 
     public static Project get() {
         return _project;
-    }
-
-    public static TaskList getTaskList() {
-            return _tasklist;
     }
 
     public static NoteList getNoteList() {
@@ -85,10 +81,10 @@ public class CurrentProject {
 
     public static void set(Project project) {
         if (project.getID().equals(_project.getID())) return;
-        TaskList newtasklist = CurrentStorage.get().openTaskList(project);
         NoteList newnotelist = CurrentStorage.get().openNoteList(project);
         ResourcesList newresources = CurrentStorage.get().openResourcesList(project);
         PhaseList newPhases = CurrentStorage.get().openPhaseList(project);
+        TaskList newtasklist = newPhases.getAllTasks();
         notifyListenersBefore(project, newnotelist, newtasklist, newresources, newPhases);
         _project = project;
         _tasklist = newtasklist;
@@ -124,7 +120,6 @@ public class CurrentProject {
         Storage storage = CurrentStorage.get();
 
         storage.storeNoteList(_notelist, _project);
-        storage.storeTaskList(_tasklist, _project); 
         storage.storeResourcesList(_resources, _project);
         storage.storePhaseList(_phaseList, _project); // Save the phase list to a file
         storage.storeProjectManager();

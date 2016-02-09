@@ -262,7 +262,7 @@ public class FileStorage implements Storage {
         f.delete();
     }
 
-    public TaskList openTaskList(Project prj) {
+    public PhaseList openPhaseList(Project prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".tasklist";
 
         if (documentExists(fn)) {
@@ -285,16 +285,16 @@ public class FileStorage implements Storage {
                 // reload from new file
                 tasklistDoc = openDocument(fn);
             }*/
-            return new TaskListImpl(tasklistDoc, prj);   
+            return new PhaseList(tasklistDoc, prj);   
         }
         else {
             /*DEBUG*/
             System.out.println("[DEBUG] New task list created");
-            return new TaskListImpl(prj);
+            return new PhaseList(prj);
         }
     }
 
-    public void storeTaskList(TaskList tasklist, Project prj) {
+    public void storePhaseList(PhaseList phaselist, Project prj) {
         /*DEBUG*/
         System.out.println(
             "[DEBUG] Save task list: "
@@ -302,7 +302,7 @@ public class FileStorage implements Storage {
                 + prj.getID()
                 + File.separator
                 + ".tasklist");
-        Document tasklistDoc = tasklist.getXMLContent();
+        Document tasklistDoc = phaselist.getXMLContent();
         //tasklistDoc.setDocType(TaskListVersioning.getCurrentDocType());
         saveDocument(tasklistDoc,JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
     }
@@ -470,39 +470,4 @@ public class FileStorage implements Storage {
                 "");
         }
     }
-    
-    // Open phase list - Doug Carroll
-	@Override
-	public PhaseList openPhaseList(Project prj) {
-		String fn = JN_DOCPATH + prj.getID() + File.separator + ".phaselist";
-		// If the document exists, load it
-		if (documentExists(fn)) {
-			Document phaselistDoc = openDocument(fn);
-			return new PhaseList(phaselistDoc, prj); 
-		}
-		// Else lets make a new one
-		else {
-            // DEBUG
-            System.out.println("[DEBUG] New task list created");
-            return new PhaseList(prj);
-	    }
-	}
-	
-	
-	// Save phase list - Doug Carroll
-	@Override
-	public void storePhaseList(PhaseList phaseList, Project prj) {
-		// DEBUG
-		System.out.println(
-	            "[DEBUG] Save task list: "
-	                + JN_DOCPATH
-	                + prj.getID()
-	                + File.separator
-	                + ".phaselist");
-		
-		Document phaselistDoc = phaseList.getXMLContent();
-        saveDocument(phaselistDoc,JN_DOCPATH + prj.getID() + 
-        		File.separator + ".phaselist");
-	}
-
 }

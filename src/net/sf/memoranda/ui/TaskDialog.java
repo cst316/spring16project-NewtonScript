@@ -343,14 +343,13 @@ public class TaskDialog extends JDialog {
         phaseOptions = new JComboBox<Phase>();
         JLabel phaseLabel = new JLabel("Phase");
         JButton addPhase = new JButton("New Phase");
-        ArrayList<Phase> phaseList = CurrentProject.getPhaseList().getPhases();
+        PhaseList phaseList = CurrentProject.getPhaseList();
         // Add phases to the combo box
-        for(Phase p: phaseList){
+        for(Phase p: phaseList.getPhases()){
         	phaseOptions.addItem(p);
         }
-        Phase temp = new Phase(SELECT);
-        phaseOptions.addItem(temp);
-        phaseOptions.setSelectedItem(temp);
+        // Set the initial phase to default
+        phaseOptions.setSelectedItem(phaseList.getDefault());
         phaseSubPanel.add(phaseLabel);
         phaseSubPanel.add(phaseOptions);
         phasePanel.add(phaseSubPanel);

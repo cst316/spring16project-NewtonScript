@@ -1,7 +1,15 @@
 package net.sf.memoranda;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Vector;
 
+import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.Util;
+import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -16,15 +24,16 @@ public class PhaseList {
 	private Document _doc = null;
 	private Project _project = null;
 	private Element _root = null;
+	private Hashtable<String, Element> elements = new Hashtable<String, Element>();
 	
 	public PhaseList(){phases = new ArrayList<Phase>();}
 	
 	public PhaseList(Project _prj){
 		_project = _prj;
-		_root = new Element("phaselist");
+		_root = new Element("tasklist");
         _doc = new Document(_root);
         phases = new ArrayList<Phase>();
-        addNewPhase(new Phase("default")); // Create the default phase
+        addNewPhase("Default");
 	}
 	
 
@@ -38,12 +47,13 @@ public class PhaseList {
 	
 	// Build the list from file
 	private void buildElements(){
-		Elements els = _root.getChildElements();
-		
+		Elements els = _root.getChildElements("task");
 		for(int i = 0; i < els.size(); i++){
 			Element e = els.get(i);
-			String title = e.getAttribute("title").getValue();
-			addPhase(new Phase(title));
+			TaskList list = new TaskListImpl(e, _project);
+			Util.debug("Adding phase:" + e.getFirstChildElement("text").getValue());
+			elements.put(e.getAttribute("id").getValue(), e);
+			addPhase(new Phase(e, list));
 		}
 	}
 
@@ -62,7 +72,6 @@ public class PhaseList {
 	
 	// Adds a phase to be saved
 	public void addNewPhase(Phase e) {
-		_root.appendChild(e.toElement());
 		addPhase(e);
 	}
 	
@@ -72,7 +81,7 @@ public class PhaseList {
 	
 	// Add new phase by string
 	public Phase addNewPhase(String e){
-		Phase phase = new Phase(e);
+		Phase phase = createPhase(e);
 		addNewPhase(phase);
 		return phase;
 	}
@@ -91,12 +100,143 @@ public class PhaseList {
 	
 	// Returns the default phase
 	public Phase getDefault(){
-		return phases.get(0);
+		Phase ph = null;
+		
+		try{
+			if(phases.size() == 0)
+				throw new NullPointerException();
+			ph = phases.get(0);
+			
+		}catch(NullPointerException e){
+			System.out.println("There are no phases! Something went wrong.");
+			e.printStackTrace();
+		}
+		
+		return ph;
 	}
+	
+	// Returns a task list of all the tasks
+	// Careful that this does not save anywhere
+	public TaskList getAllTasks(){
+		Element root = new Element("tasklist");
+		TaskList list = new TaskListImpl(root, _project);
+		for(Phase p : phases){
+			if(p.hasTasks()){
+				TaskList tempList = p.getTaskList();
+				for(Object t : tempList.getTopLevelTasks()){
+					Task task = (Task) t;
+					list.getTopLevelTasks().add(task.getContent());
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	// Returns a task based on its name
+	public Task getTask(String name){
+		Task task = null;
+		for(Phase p : phases){
+			Collection tasks = p.getSubTasks();
+			Task[] taskArr = (Task[]) tasks.toArray();
+			for(int i = 0; i < tasks.size(); i++){
+				if(taskArr[i].getText().equals(name)){
+					task = taskArr[i];
+				}
+			}
+		}
+		
+		return task;
+		}
+	
+	// No generic type set as this is how it was done by the caller
+	public Collection getAllActiveTasks(String taskId, CalendarDate date){
+		Collection list;
+		HashSet set = new HashSet();
+		for(Phase ph : phases){
+			Collection temp = ph.getTaskList().getActiveSubTasks(taskId, date);
+			set.addAll(temp);
+		}
+		list = new Vector(set);
+		
+		return list;
+	}
+	
+	// Get Phase element by ID
+	public Element getPhaseByID(String ID){
+		Element res = null;
+		res = elements.get(ID);
+		return res;
+	}
+	
+	// Get any task element by ID (Including phases)
+	public Element getElementByID(String ID){
+		Element res = getPhaseByID(ID);
+		if(res == null){
+			for(Phase ph : phases){
+				Element temp = ph.getSubTask(ID).getContent();
+				if(temp != null)
+					res = ph.getSubTask(ID).getContent();
+			}
+		}
+		return res;
+	}
+	
+	
+	// Get any task by ID (Including phases)
+	public Task getAllByID(String ID){
+		Element e = getElementByID(ID);
+		String phaseName = e.getAttribute("phase").getValue();
+		Phase ph = getPhase(phaseName);
+		TaskList tl = ph.getTaskList();
+		return new TaskImpl(e, tl);
+	}
+	
+	
+	public Phase createPhase(String text) {
+        Element el = new Element("task");
+        el.addAttribute(new Attribute("startDate", ""));
+        el.addAttribute(new Attribute("endDate", ""));
+		String id = Util.generateId();
+        el.addAttribute(new Attribute("id", id));
+        el.addAttribute(new Attribute("progress", "0"));
+        el.addAttribute(new Attribute("effort", "0"));
+        el.addAttribute(new Attribute("priority","0"));
+        el.addAttribute(new Attribute("phase",text)); // Phases have their own name 
+        
+        Element txt = new Element("text");
+        txt.appendChild(text);
+        el.appendChild(txt);
+
+        Element desc = new Element("description");
+        desc.appendChild("");
+        el.appendChild(desc);
+       
+        _root.appendChild(el);
+       
+        Util.debug("Created phase " + text);
+        
+        TaskList list = new TaskListImpl(el, _project); // New task list for this element
+        elements.put(id, el); // Add this phase to the list
+        
+        return new Phase(el, list);
+    }
 	
 	// Get XML document for this list
 	public Document getXMLContent() {
 		return _doc;
 	}
+	
+	public void removeTask(Task task) {
+        String parentTaskId = task.getParentId();
+        if (parentTaskId == null) {
+            _root.removeChild(task.getContent());            
+        }
+        else {
+            Element parentNode = getElementByID(parentTaskId);
+            parentNode.removeChild(task.getContent());
+        }
+		elements.remove(task.getID());
+    }
 	
 }

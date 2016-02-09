@@ -20,8 +20,8 @@ import net.sf.memoranda.TaskList;
 /*$Id: Storage.java,v 1.4 2004/01/30 12:17:42 alexeya Exp $*/
 public interface Storage {
             
-    TaskList openTaskList(Project prj);    
-    void storeTaskList(TaskList tl, Project prj);
+    PhaseList openPhaseList(Project prj);    
+    void storePhaseList(PhaseList _tasklist, Project prj);
     
     NoteList openNoteList(Project prj);
     void storeNoteList(NoteList nl, Project prj);
@@ -48,10 +48,6 @@ public interface Storage {
     void storeResourcesList(ResourcesList rl, Project prj);
     
     void restoreContext();
-    void storeContext(); 
-   
-    PhaseList openPhaseList(Project prj);
-    void storePhaseList(PhaseList phaseList, Project prj);
-	
+    void storeContext();
        
 }
