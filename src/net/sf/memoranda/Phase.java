@@ -185,7 +185,7 @@ public class Phase implements Task{
 	// TODO Add functionality to get priority of this phase
 	@Override
 	public int getPriority() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -316,11 +316,6 @@ public class Phase implements Task{
 	public String getPhaseTitle() {
 		return getTitle();
 	}
-
-	@Override
-	public void setPhase(Phase p) {
-		Util.debug("Setting phases to phase tried.");
-	}
 	
 	private void setAttr(String a, String value) {
         Attribute attr = phaseElement.getAttribute(a);
@@ -330,5 +325,20 @@ public class Phase implements Task{
             attr.setValue(value);
     }
 	public boolean isPhase(){return true;}
+	
+	@Override
+	public void setPhaseTitle(String p) {
+		setAttr("phase", p);
+	}
+
+	// This should never return the parent, the parent of all phases is root
+	@Override
+	public Element getParentElem() {
+		return null;
+	}
+
+	// This should do nothing here because phases are not in phases
+	@Override
+	public void setPhaseElem(Element e) {}
 	
 }

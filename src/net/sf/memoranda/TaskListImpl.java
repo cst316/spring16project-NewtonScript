@@ -61,7 +61,7 @@ public class TaskListImpl implements TaskList {
 		for (int i = 0; i < els.size(); i++) {
 			Element el = els.get(i);
 			Util.debug("Adding Task:" + el.getFirstChildElement("text").getValue());
-			elements.put(el.getAttribute("id").getValue(), el);
+			addElement(el);
 			buildElements(el);
 		}
 	}
@@ -94,6 +94,16 @@ public class TaskListImpl implements TaskList {
     public Collection getActiveSubTasks(String taskId,CalendarDate date) {
         Collection allTasks = getAllSubTasks(taskId);        
         return filterActiveTasks(allTasks,date);
+    }
+    
+    // Remove element from hashtable
+    public void removeElement(Element e){
+    	elements.remove(e);
+    }
+    
+    // add element to hashtable
+    public void addElement(Element e){
+    	elements.put(e.getAttribute("id").getValue(), e);
     }
 
     public Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId, String phase) {
@@ -158,7 +168,6 @@ public class TaskListImpl implements TaskList {
     }
 
     public Task getTask(String id) {
-        Util.debug("Getting task " + id);          
         return new TaskImpl(getTaskElement(id), this);          
     }
     

@@ -493,7 +493,7 @@ public class TaskDialog extends JDialog {
     
     // Open the phase window
     void phase_actionPerformed(ActionEvent e){
-    	PhaseDialog dlg = new PhaseDialog(this, Local.getString("New Phase"));
+    	NewPhaseDialog dlg = new NewPhaseDialog(this);
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);

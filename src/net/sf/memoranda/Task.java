@@ -11,6 +11,7 @@ package net.sf.memoranda;
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
+import nu.xom.Element;
 
 /**
  * 
@@ -80,6 +81,7 @@ public interface Task {
 
     Task getParentTask();
     String getParentId();
+    Element getParentElem();
     
     void freeze();
     void unfreeze();
@@ -90,6 +92,7 @@ public interface Task {
     // Phases addition
     Phase getPhase();
     String getPhaseTitle();
-    void setPhase(Phase p);
+    public void setPhaseTitle(String p);
     public boolean isPhase();
+    public void setPhaseElem(Element e);
 }

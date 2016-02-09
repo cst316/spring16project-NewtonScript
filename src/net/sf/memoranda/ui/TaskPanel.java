@@ -392,18 +392,21 @@ public class TaskPanel extends JPanel {
 				
                 if (enbl) {   
     				String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
-    				
-    				boolean hasSubTasks = CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId);
-    				//ppSubTasks.setEnabled(hasSubTasks);
-    				ppCalcTask.setEnabled(hasSubTasks);
-    				Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
-                    parentPanel.calendar.jnCalendar.renderer.setTask(t);
-                    parentPanel.calendar.jnCalendar.updateUI();
+    				// Only grab this phase/task if it's still alive
+    				if(CurrentProject.getPhaseList().contains(thisTaskId)){
+	    				boolean hasSubTasks = CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId);
+	    				//ppSubTasks.setEnabled(hasSubTasks);
+	    				ppCalcTask.setEnabled(hasSubTasks);
+	    				Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
+	                    parentPanel.calendar.jnCalendar.renderer.setTask(t);
+	                    parentPanel.calendar.jnCalendar.updateUI();
+    				}
                 }    
                 else {
                     parentPanel.calendar.jnCalendar.renderer.setTask(null);
                     parentPanel.calendar.jnCalendar.updateUI();
                 }
+                
             }
         });
         editTaskB.setEnabled(false);
@@ -468,8 +471,13 @@ public class TaskPanel extends JPanel {
     void editTaskB_actionPerformed(ActionEvent e) {
     	
     	Task ph = CurrentProject.getPhaseList().getAllByID(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+    	// If a phase is highlighted, open the rename diabox instead
     	if(ph.isPhase()){
-    		// TODO Add code here for phase rename dialog
+    		RenamePhaseDialog dlg = new RenamePhaseDialog(App.getFrame(), ph);
+            Dimension frmSize = App.getFrame().getSize();
+            Point loc = App.getFrame().getLocation();
+            dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+            dlg.setVisible(true);
     	}
     	else{
     	
@@ -514,15 +522,16 @@ public class TaskPanel extends JPanel {
 	        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
 	        t.setProgress(((Integer)dlg.progress.getValue()).intValue());
 	     
-	        t.setPhase(dlg.getSelectedPhase()); // Set the phase for this task
+	        t.setPhaseTitle(dlg.getSelectedPhase().getText()); // Set the phase for this task
+	        t.setPhaseElem(CurrentProject.getPhaseList().getPhaseElem(dlg.getSelectedPhase().getText()));
 	        
 	//		CurrentProject.getTaskList().adjustParentTasks(t);
-	       
-	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
-	        taskTable.tableChanged();
-	        parentPanel.updateIndicators();
-	        //taskTable.updateUI();
     	}
+    	// Save no matter the user reaction
+    	CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
+        taskTable.tableChanged();
+        parentPanel.updateIndicators();
+        //taskTable.updateUI();
     }
 
     void newTaskB_actionPerformed(ActionEvent e) {
@@ -677,44 +686,51 @@ public class TaskPanel extends JPanel {
     void removeTaskB_actionPerformed(ActionEvent e) {
         String msg;
         String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
+        Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
         
-        if (taskTable.getSelectedRows().length > 1)
-            msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("tasks")+"?"
-             + "\n"+Local.getString("Are you sure?");
-        else {        	
-        	Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
-        	// check if there are subtasks
-			if(CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId)) {
-				msg = Local.getString("Remove task")+"\n'" + t.getText() + Local.getString("' and all subtasks") +"\n"+Local.getString("Are you sure?");
-			}
-			else {		            
-				msg = Local.getString("Remove task")+"\n'" + t.getText() + "'\n"+Local.getString("Are you sure?");
-			}
+        // If the task is really a phase, don't allow the remove
+        if(t.isPhase()){
+        	// Nothing here, simply don't react to the remove when a phase is selected
+        	// User should use 'remove phase' button
+        	// This is to protect the user from accidentally removing an entire phase and its contents
         }
-        int n =
-            JOptionPane.showConfirmDialog(
-                App.getFrame(),
-                msg,
-                Local.getString("Remove task"),
-                JOptionPane.YES_NO_OPTION);
-        if (n != JOptionPane.YES_OPTION)
-            return;
-        Vector toremove = new Vector();
-        for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
-            Task t =
-            CurrentProject.getPhaseList().getAllByID(
-                taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
-            if (t != null)
-                toremove.add(t);
+        else{
+	        if (taskTable.getSelectedRows().length > 1)
+	            msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("tasks")+"?"
+	             + "\n"+Local.getString("Are you sure?");
+	        else {        	
+	        	// check if there are subtasks
+				if(CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId)) {
+					msg = Local.getString("Remove task")+"\n'" + t.getText() + Local.getString("' and all subtasks") +"\n"+Local.getString("Are you sure?");
+				}
+				else {		            
+					msg = Local.getString("Remove task")+"\n'" + t.getText() + "'\n"+Local.getString("Are you sure?");
+				}
+	        }
+	        int n =
+	            JOptionPane.showConfirmDialog(
+	                App.getFrame(),
+	                msg,
+	                Local.getString("Remove task"),
+	                JOptionPane.YES_NO_OPTION);
+	        if (n != JOptionPane.YES_OPTION)
+	            return;
+	        Vector toremove = new Vector();
+	        for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
+	            Task t2 =
+	            CurrentProject.getPhaseList().getAllByID(
+	                taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
+	            if (t2 != null)
+	                toremove.add(t2);
+	        }
+	        for (int i = 0; i < toremove.size(); i++) {
+	            CurrentProject.getPhaseList().removeTask((Task)toremove.get(i));
+	        }
+	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
+	        taskTable.tableChanged();
+	        parentPanel.updateIndicators();
+	        //taskTable.updateUI();
         }
-        for (int i = 0; i < toremove.size(); i++) {
-            CurrentProject.getPhaseList().removeTask((Task)toremove.get(i));
-        }
-        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
-        taskTable.tableChanged();
-        parentPanel.updateIndicators();
-        //taskTable.updateUI();
-
     }
 
 	void ppCompleteTask_actionPerformed(ActionEvent e) {
@@ -774,7 +790,7 @@ public class TaskPanel extends JPanel {
     
     // Open the phase window - Doug Carroll
     void phase_actionPerformed(ActionEvent e){
-    	PhaseDialog dlg = new PhaseDialog(App.getFrame(), Local.getString("New Phase"));
+    	NewPhaseDialog dlg = new NewPhaseDialog(App.getFrame());
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);

@@ -11,6 +11,7 @@ import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Document;
+import nu.xom.Element;
 /**
  * 
  */
@@ -41,5 +42,7 @@ public interface TaskList {
     public long[] calculateCompletionFromSubTasks(Task t);
     
     public int size();
+	public void addElement(Element e);
+	public void removeElement(Element _element);
 
 }

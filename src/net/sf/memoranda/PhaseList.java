@@ -98,6 +98,11 @@ public class PhaseList {
 		return ph;
 	}
 	
+	// Returns the phase element by title
+	public Element getPhaseElem(String title){
+		return getPhase(title).getContent();
+	}
+	
 	// Returns the default phase
 	public Phase getDefault(){
 		Phase ph = null;
@@ -185,11 +190,20 @@ public class PhaseList {
 	
 	// Get any task by ID (Including phases)
 	public Task getAllByID(String ID){
+		Task res;
 		Element e = getElementByID(ID);
 		String phaseName = e.getAttribute("phase").getValue();
-		Phase ph = getPhase(phaseName);
-		TaskList tl = ph.getTaskList();
-		return new TaskImpl(e, tl);
+		if(phaseName.equals("")){
+			res = getPhase(e.getFirstChildElement("text").getValue());
+			Util.debug("Getting Phase: " + res.getText());
+		}
+		else{
+			Phase ph = getPhase(phaseName);
+			TaskList tl = ph.getTaskList();
+			res = new TaskImpl(e, tl);
+			Util.debug("Getting task: " + res.getText());
+		}
+		return res;
 	}
 	
 	
@@ -202,7 +216,7 @@ public class PhaseList {
         el.addAttribute(new Attribute("progress", "0"));
         el.addAttribute(new Attribute("effort", "0"));
         el.addAttribute(new Attribute("priority","0"));
-        el.addAttribute(new Attribute("phase",text)); // Phases have their own name 
+        el.addAttribute(new Attribute("phase","")); // Phases have no name
         
         Element txt = new Element("text");
         txt.appendChild(text);
@@ -238,5 +252,15 @@ public class PhaseList {
         }
 		elements.remove(task.getID());
     }
+	
+	// Returns if the element exists for not
+	public boolean contains(String ID){
+		Element e = getElementByID(ID);
+		boolean res = false;
+		if(e != null){
+			res = true;
+		}
+		return res;	
+	}
 	
 }
