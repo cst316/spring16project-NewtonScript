@@ -35,6 +35,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JCheckBox;
+import java.util.Vector;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
@@ -106,6 +107,12 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
+	
+	//Button to assign owner
+	UsersList myUsers = UsersList.getInstance();
+	Vector<String> systemUsers = myUsers.getUserList();
+	JComboBox ownerCB = new JComboBox(systemUsers);
+	String currentOwner;
     
     public TaskDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -317,6 +324,22 @@ public class TaskDialog extends JDialog {
                 setNotifB_actionPerformed(e);
             }
         });
+      //Adds listener to Owner Button
+        if(ownerCB.getItemCount() == 0) {
+        	ownerCB.insertItemAt(" ", 0);
+        }
+        else if(!ownerCB.getItemAt(0).equals(" ")) {
+        	ownerCB.insertItemAt(" ", 0);
+    	}
+        ownerCB.setSelectedIndex(0);
+        ownerCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ownerCB_actionPerformed(e);
+            }
+        });
+        //Assign owner to the task
+        jPanel3.add(ownerCB, null);
+        
         jLabel7.setMaximumSize(new Dimension(100, 16));
         jLabel7.setMinimumSize(new Dimension(60, 16));
         //jLabel7.setPreferredSize(new Dimension(60, 16));
@@ -401,10 +424,16 @@ public class TaskDialog extends JDialog {
     void okB_actionPerformed(ActionEvent e) {
 	CANCELLED = false;
         this.dispose();
+        if(ownerCB.getItemAt(0).equals(" ")) {
+    		ownerCB.removeItemAt(0);
+    	}
     }
 
     void cancelB_actionPerformed(ActionEvent e) {
         this.dispose();
+        if(ownerCB.getItemAt(0).equals(" ")) {
+    		ownerCB.removeItemAt(0);
+    	}
     }
 	
 	void chkEndDate_actionPerformed(ActionEvent e) {
@@ -438,6 +467,14 @@ public class TaskDialog extends JDialog {
     void setNotifB_actionPerformed(ActionEvent e) {
     	((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e, 
 			this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
+    }
+    
+    //ComboBox to assign an owner listener
+    void ownerCB_actionPerformed(ActionEvent e) {
+    	currentOwner = String.valueOf(ownerCB.getSelectedItem());
+    }
+    public String getSelectedOwner() {
+    	return currentOwner;
     }
 
 }
