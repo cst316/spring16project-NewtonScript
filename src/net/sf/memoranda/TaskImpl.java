@@ -441,4 +441,9 @@ public class TaskImpl implements Task, Comparable {
 	}
 	
 	public boolean isPhase(){return false;}
+	
+	public boolean hasSubTasks(){
+		Elements subTasks = _element.getChildElements("task");
+		return subTasks.size() > 0;
+	}
 }

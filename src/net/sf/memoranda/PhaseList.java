@@ -126,7 +126,7 @@ public class PhaseList {
 		Element root = new Element("tasklist");
 		TaskList list = new TaskListImpl(root, _project);
 		for(Phase p : phases){
-			if(p.hasTasks()){
+			if(p.hasSubTasks()){
 				TaskList tempList = p.getTaskList();
 				for(Object t : tempList.getTopLevelTasks()){
 					Task task = (Task) t;
@@ -241,6 +241,7 @@ public class PhaseList {
 		return _doc;
 	}
 	
+	// Remove task or phase
 	public void removeTask(Task task) {
         String parentTaskId = task.getParentId();
         if (parentTaskId == null) {
@@ -251,6 +252,8 @@ public class PhaseList {
             parentNode.removeChild(task.getContent());
         }
 		elements.remove(task.getID());
+		if(task.isPhase())
+			phases.remove(getPhase(task.getText()));
     }
 	
 	// Returns if the element exists for not

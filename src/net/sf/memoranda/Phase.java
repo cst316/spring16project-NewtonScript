@@ -51,8 +51,10 @@ public class Phase implements Task{
 		return phaseElement;
 	}
 	
-	public boolean hasTasks() {
-		return taskList.size() > 0;
+	// Does this phase contain any tasks?
+	public boolean hasSubTasks(){
+		Elements subTasks = phaseElement.getChildElements("task");
+		return subTasks.size() > 0;
 	}
 	
 	// Get task element in this phase by ID

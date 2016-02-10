@@ -76,6 +76,7 @@ public interface Task {
     Task getSubTask(String id);
     
     boolean hasSubTasks(String id);
+    boolean hasSubTasks();
     
     void setEffort(long effort);
     long getEffort();

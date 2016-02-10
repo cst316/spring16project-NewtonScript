@@ -54,6 +54,7 @@ public class TaskPanel extends JPanel {
     JButton removeTaskB = new JButton();
     JButton completeTaskB = new JButton();
     JButton addPhaseButton = new JButton(); // Button to add a phase - Doug Carroll
+    JButton removePhaseButton = new JButton(); // Button to remove a phase - Doug Carroll
     
 	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 		
@@ -195,7 +196,26 @@ public class TaskPanel extends JPanel {
         addPhaseButton.setFocusable(false);
         addPhaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	phase_actionPerformed(e);
+            	phase_addActionPerformed(e);
+            }
+        });
+        
+        
+        // Create 'remove phase' button properties here - Doug Carroll
+        removePhaseButton.setPreferredSize(new Dimension(24, 24));
+        removePhaseButton.setEnabled(true);
+        removePhaseButton.setRequestFocusEnabled(false);
+        removePhaseButton.setToolTipText(Local.getString("Remove selected phase"));
+        removePhaseButton.setMinimumSize(new Dimension(24, 24));
+        removePhaseButton.setMaximumSize(new Dimension(24, 24));
+        // TODO Make icon for new phase
+        removePhaseButton.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/phase_remove.png")));
+        removePhaseButton.setBorderPainted(false);
+        removePhaseButton.setFocusable(false);
+        removePhaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	phase_removeActionPerformed(e);
             }
         });
         
@@ -344,7 +364,8 @@ public class TaskPanel extends JPanel {
         tasksToolBar.addSeparator(new Dimension(8, 24));
         tasksToolBar.add(editTaskB, null);
         tasksToolBar.add(completeTaskB, null);
-        tasksToolBar.add(addPhaseButton, null); // add phase to the tool bar
+        tasksToolBar.add(addPhaseButton, null); // add add phase to the tool bar
+        tasksToolBar.add(removePhaseButton, null); // add remove phase to the tool bar
 
 		//tasksToolBar.add(showActiveOnly, null);
         
@@ -575,7 +596,8 @@ public class TaskPanel extends JPanel {
         parentPanel.updateIndicators();
         //taskTable.updateUI();
     }
-
+    
+    // Fixed to work with phases
     void addSubTask_actionPerformed(ActionEvent e) {
         TaskDialog dlg = new TaskDialog(App.getFrame(), Local.getString("New Task"));
         String parentTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
@@ -584,39 +606,51 @@ public class TaskPanel extends JPanel {
         
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
-		Task parent = dlg.getSelectedPhase().getTaskList().getTask(parentTaskId);
-		CalendarDate todayD = CurrentDate.get();
-		if (todayD.after(parent.getStartDate()))
-			dlg.setStartDate(todayD);
-		else
-			dlg.setStartDate(parent.getStartDate());
-		if (parent.getEndDate() != null) 
-			dlg.setEndDate(parent.getEndDate());
-		else 
-			dlg.setEndDate(CurrentProject.get().getEndDate());
-		dlg.setStartDateLimit(parent.getStartDate(), parent.getEndDate());
-		dlg.setEndDateLimit(parent.getStartDate(), parent.getEndDate());
-        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return;
-        CalendarDate sd = new CalendarDate((Date) dlg.startDate.getModel().getValue());
-//        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
-          CalendarDate ed;
- 		if(dlg.chkEndDate.isSelected())
- 			ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
- 		else
- 			ed = null;
-        long effort = Util.getMillisFromHours(dlg.effortField.getText());
-        Phase ph = dlg.getSelectedPhase();
-		Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId,dlg.getSelectedPhase().toString());
-        newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
-//		CurrentProject.getTaskList().adjustParentTasks(newTask);
-
-        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
-        taskTable.tableChanged();
-        parentPanel.updateIndicators();
-        //taskTable.updateUI();
+		Task parent = CurrentProject.getPhaseList().getAllByID(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+		// Phases do not allow sub tasks directly.
+		if(parent.isPhase()){
+			String msg = "Please select a task";
+			JOptionPane.showMessageDialog(this, msg);
+		}
+		else{
+			CalendarDate todayD = CurrentDate.get();
+			if (todayD.after(parent.getStartDate()))
+				dlg.setStartDate(todayD);
+			else
+				dlg.setStartDate(parent.getStartDate());
+			if (parent.getEndDate() != null) 
+				dlg.setEndDate(parent.getEndDate());
+			else {
+				dlg.setEndDate(CurrentProject.get().getEndDate());
+			}
+			
+			dlg.setSelectedPhase(parent); // Set the pre selected phase to parent.
+			dlg.getPhaseBox().setEnabled(false); // Do not allow the user to select a different phase
+			dlg.setStartDateLimit(parent.getStartDate(), parent.getEndDate());
+			dlg.setEndDateLimit(parent.getStartDate(), parent.getEndDate());
+	        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+	        dlg.setVisible(true);
+	        
+	        if (dlg.CANCELLED)
+	            return;
+	        CalendarDate sd = new CalendarDate((Date) dlg.startDate.getModel().getValue());
+	//        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
+	          CalendarDate ed;
+	 		if(dlg.chkEndDate.isSelected())
+	 			ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
+	 		else
+	 			ed = null;
+	        long effort = Util.getMillisFromHours(dlg.effortField.getText());
+	        Phase ph = dlg.getSelectedPhase();
+			Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId,dlg.getSelectedPhase().toString());
+	        newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
+	//		CurrentProject.getTaskList().adjustParentTasks(newTask);
+	
+	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
+	        taskTable.tableChanged();
+	        parentPanel.updateIndicators();
+	        //taskTable.updateUI();
+		}
     }
 
     void calcTask_actionPerformed(ActionEvent e) {
@@ -710,7 +744,7 @@ public class TaskPanel extends JPanel {
 	             + "\n"+Local.getString("Are you sure?");
 	        else {        	
 	        	// check if there are subtasks
-				if(CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId)) {
+				if(t.hasSubTasks(thisTaskId)) {
 					msg = Local.getString("Remove task")+"\n'" + t.getText() + Local.getString("' and all subtasks") +"\n"+Local.getString("Are you sure?");
 				}
 				else {		            
@@ -799,7 +833,7 @@ public class TaskPanel extends JPanel {
     }
     
     // Open the phase window - Doug Carroll
-    void phase_actionPerformed(ActionEvent e){
+    void phase_addActionPerformed(ActionEvent e){
     	NewPhaseDialog dlg = new NewPhaseDialog(App.getFrame());
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
@@ -824,9 +858,57 @@ public class TaskPanel extends JPanel {
         	else
         		list.addNewPhase(text);
         }
-        
+        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
+    }
+    
+    // Remove a phase - Doug Carroll
+    void phase_removeActionPerformed(ActionEvent e){
+    	 String msg;
+    	 String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
+         Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
+         
+         // If the task is not really a phase, don't allow the remove
+         if(!(t.isPhase()))
+        	 return;
+         
+         // Dialog/removal code partly taken from above remove method
+         if (taskTable.getSelectedRows().length > 1)
+	            msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("phases")+"?"
+	             + "\n"+Local.getString("Are you sure?");
+	        else {        	
+	        	// check if there are subtasks
+				if(t.hasSubTasks()) {
+					msg = Local.getString("Remove phase")+"\n'" + t.getText() + Local.getString("' and all tasks/subtasks") +"\n"+Local.getString("Are you sure?");
+				}
+				else {		            
+					msg = Local.getString("Remove phase")+"\n'" + t.getText() + "'\n"+Local.getString("Are you sure?");
+				}
+	        }
+	        int n =
+	            JOptionPane.showConfirmDialog(
+	                App.getFrame(),
+	                msg,
+	                Local.getString("Remove phase"),
+	                JOptionPane.YES_NO_OPTION);
+	        if (n != JOptionPane.YES_OPTION)
+	            return;
+	        
+	        Vector<Task> toremove = new Vector<Task>();
+	        for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
+	            Task t2 =
+	            CurrentProject.getPhaseList().getAllByID(
+	                taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
+	            if (t2 != null && t2.isPhase()) // Only take none null phases
+	                toremove.add(t2);
+	        }
+	        for (int i = 0; i < toremove.size(); i++) {
+	            CurrentProject.getPhaseList().removeTask(toremove.get(i));
+	        }
+	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
+	        taskTable.tableChanged();
+	        parentPanel.updateIndicators();
     }
 
   void ppEditTask_actionPerformed(ActionEvent e) {

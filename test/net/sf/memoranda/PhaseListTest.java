@@ -4,6 +4,8 @@
 package net.sf.memoranda;
 
 import static org.junit.Assert.*;
+import nu.xom.Attribute;
+import nu.xom.Element;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,13 +20,20 @@ import org.junit.Test;
 public class PhaseListTest {
 	
 	PhaseList list;
+	Phase phase;
+	TaskList taskList;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		list = new PhaseList();
+		Element e = new Element("elem");
+		ProjectManager.getProject("__default");
+		Project prj = ProjectManager.getProject("__default");
+		taskList = new TaskListImpl(e, prj);
+		phase = new Phase(e, taskList);
+		list = new PhaseList(prj);
 	}
 
 	/**
@@ -40,60 +49,36 @@ public class PhaseListTest {
 	 */
 	@Test
 	public void getPhaseTest() {
-		String str = "test";
-		
+		String testName = "testname";
+		Element e = new Element("task");
+		Element txt = new Element("text");
+		txt.appendChild(testName);
+		e.appendChild(txt);
+	
 		// Add test phases to list
-		list.getPhases().add(new Phase(str));
-		list.getPhases().add(new Phase("tEst2"));
-		list.getPhases().add(new Phase("123"));
+		list.getPhases().add(new Phase(e, taskList));
 		
 		// Retrieve the phase
-		Phase ph = list.getPhase(str);
+		Phase ph = list.getPhase(testName);
 		
 		// Compare the retrieved phase
-		assertEquals(ph.getTitle(), str);
+		assertEquals(ph.getTitle(), testName);
 	}
 	
-	/**
-	 * Test if phase is not in the list
-	 * 
-	 * Test method for {@link net.sf.memoranda.PhaseList#getPhase(java.lang.String)}.
-	 */
-	@Test
-	public void getPhaseTest2() {
-		String str = "test";
-		
-		// Add test phases to list
-		list.getPhases().add(new Phase("tEst2"));
-		list.getPhases().add(new Phase("123"));
-		
-		// Retrieve the phase
-		Phase ph = list.getPhase(str);
-		
-		// Compare the retrieved phase
-		assertEquals(ph, null);
-	}
 	
 	/**
-	 * Test method for {@link net.sf.memoranda.PhaseList#getDefault()}.
-	 * 
-	 * Tests to see if the default (first in list) is properly retreived
+	 * Test method for {@link net.sf.memoranda.PhaseList#createPhase(java.lang.String)}.
 	 */
 	@Test
-	public void getDefaultTest() {
-		String str = "default";
+	public void createPhaseTest() {
+		String testName = "testname";
 		
-		// Add test phases to list
-		list.getPhases().add(new Phase(str));
-		list.getPhases().add(new Phase("tEst2"));
-		list.getPhases().add(new Phase("123"));
-		list.getPhases().add(new Phase("test"));
+		Phase phase = list.createPhase(testName);
 		
-		// Retrieve the phase
-		Phase ph = list.getDefault();
-		
-		// Compare the retrieved phase
-		assertEquals(ph.getTitle(), str);
+		// Compare the retrieved phase with various default values
+		assertEquals(phase.getTitle(), testName);
+		assertEquals(phase.getPriority(), 5);
+		assertEquals(phase.getProgress(), 0);
 	}
 
 }
