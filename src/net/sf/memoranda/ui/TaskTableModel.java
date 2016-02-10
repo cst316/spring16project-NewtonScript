@@ -141,6 +141,8 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
             return Local.getString("High");
         case Task.PRIORITY_HIGHEST:
             return Local.getString("Highest");
+        case Task.PRIORITY_PHASE:
+        	return Local.getString(" ");
         }
         return "";
     }

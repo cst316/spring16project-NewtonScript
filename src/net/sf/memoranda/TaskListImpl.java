@@ -321,7 +321,7 @@ public class TaskListImpl implements TaskList {
         } */
 		Element el = (Element)elements.get(id);
 		if (el == null) {
-			Util.debug("Task " + id + " cannot be found in project " + _project.getTitle());
+			
 		}
 		return el;
     }

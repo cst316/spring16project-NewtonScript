@@ -535,8 +535,18 @@ public class TaskPanel extends JPanel {
     }
 
     void newTaskB_actionPerformed(ActionEvent e) {
+  
         TaskDialog dlg = new TaskDialog(App.getFrame(), Local.getString("New task"));
         
+        // If a phase or task is highlighted
+        if((taskTable.getRowCount() > 0)&&(taskTable.getSelectedRow() > -1)){
+    		String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
+    		Task ph = CurrentProject.getPhaseList().getAllByID(thisTaskId);
+    		if(ph.isPhase())
+    			dlg.setSelectedPhase(ph.getText()); // Set the tasks phase to be pre-selected
+    		else
+    			dlg.setSelectedPhase(ph);
+    	}
         //XXX String parentTaskId = taskTable.getCurrentRootTask();
         
         Dimension frmSize = App.getFrame().getSize();

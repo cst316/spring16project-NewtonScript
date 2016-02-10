@@ -77,7 +77,7 @@ public class Phase implements Task{
 	}
 
 	@Override
-	// Gets the earliest start date from the children tasks
+	// Gets the earliest start date from the children task
 	public CalendarDate getStartDate() {
 		Elements els = phaseElement.getChildElements("task");
 		Calendar cal = Calendar.getInstance(); // In case there are no tasks
@@ -182,13 +182,15 @@ public class Phase implements Task{
             setAttr("progress", new Integer(p).toString());
 	}
 	
-	// TODO Add functionality to get priority of this phase
+	// Return phase priority
 	@Override
 	public int getPriority() {
-		
-		return 0;
+		Attribute pa = phaseElement.getAttribute("priority");
+        if (pa == null)
+            return Task.PRIORITY_PHASE;
+        return new Integer(pa.getValue()).intValue();
 	}
-
+	
 	@Override
 	public void setPriority(int p) {
 		setAttr("priority", String.valueOf(p));

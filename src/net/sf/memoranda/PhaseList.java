@@ -215,7 +215,7 @@ public class PhaseList {
         el.addAttribute(new Attribute("id", id));
         el.addAttribute(new Attribute("progress", "0"));
         el.addAttribute(new Attribute("effort", "0"));
-        el.addAttribute(new Attribute("priority","0"));
+        el.addAttribute(new Attribute("priority","5"));
         el.addAttribute(new Attribute("phase","")); // Phases have no name
         
         Element txt = new Element("text");

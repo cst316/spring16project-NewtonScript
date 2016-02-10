@@ -560,5 +560,10 @@ public class TaskDialog extends JDialog {
     	Phase ph = t.getPhase();
     	phaseOptions.setSelectedItem(ph);
     }
+    // Sets a phase based on the title
+    public void setSelectedPhase(String ph){
+    	Phase phase = CurrentProject.getPhaseList().getPhase(ph);
+    	phaseOptions.setSelectedItem(phase);
+    }
 
 }

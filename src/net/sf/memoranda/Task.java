@@ -33,6 +33,8 @@ public interface Task {
     
     public static final int DEADLINE = 7;
     
+    public static final int PHASE = 8;
+    
     public static final int PRIORITY_LOWEST = 0;
     
     public static final int PRIORITY_LOW = 1;
@@ -42,6 +44,8 @@ public interface Task {
     public static final int PRIORITY_HIGH = 3;
     
     public static final int PRIORITY_HIGHEST = 4;
+    
+    public static final int PRIORITY_PHASE = 5;
     
     CalendarDate getStartDate();
     void setStartDate(CalendarDate date);
