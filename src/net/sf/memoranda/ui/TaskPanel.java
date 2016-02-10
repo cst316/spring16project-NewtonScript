@@ -27,11 +27,13 @@ import javax.swing.event.ListSelectionListener;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
 import net.sf.memoranda.NoteList;
+import net.sf.memoranda.Phase;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.Task;
 import net.sf.memoranda.TaskList;
+import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -51,6 +53,7 @@ public class TaskPanel extends JPanel {
     JButton editTaskB = new JButton();
     JButton removeTaskB = new JButton();
     JButton completeTaskB = new JButton();
+    JButton addPhaseButton = new JButton(); // Button to add a phase - Doug Carroll
     
 	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 		
@@ -176,7 +179,26 @@ public class TaskPanel extends JPanel {
         completeTaskB.setMaximumSize(new Dimension(24, 24));
         completeTaskB.setIcon(
             new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/todo_complete.png")));
-
+        
+        
+        // Create 'add phase' button properties here - Doug Carroll
+        addPhaseButton.setPreferredSize(new Dimension(24, 24));
+        addPhaseButton.setEnabled(true);
+        addPhaseButton.setRequestFocusEnabled(false);
+        addPhaseButton.setToolTipText(Local.getString("Add a phase"));
+        addPhaseButton.setMinimumSize(new Dimension(24, 24));
+        addPhaseButton.setMaximumSize(new Dimension(24, 24));
+        // TODO Make icon for new phase
+        addPhaseButton.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/phase_new.png")));
+        addPhaseButton.setBorderPainted(false);
+        addPhaseButton.setFocusable(false);
+        addPhaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	phase_actionPerformed(e);
+            }
+        });
+        
 		// added by rawsushi
 //		showActiveOnly.setBorderPainted(false);
 //		showActiveOnly.setFocusable(false);
@@ -322,6 +344,7 @@ public class TaskPanel extends JPanel {
         tasksToolBar.addSeparator(new Dimension(8, 24));
         tasksToolBar.add(editTaskB, null);
         tasksToolBar.add(completeTaskB, null);
+        tasksToolBar.add(addPhaseButton, null); // add phase to the tool bar
 
 		//tasksToolBar.add(showActiveOnly, null);
         
@@ -340,7 +363,7 @@ public class TaskPanel extends JPanel {
             }
         });
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph) {
                 newTaskB.setEnabled(
                     CurrentDate.get().inPeriod(p.getStartDate(), p.getEndDate()));
             }
@@ -369,18 +392,21 @@ public class TaskPanel extends JPanel {
 				
                 if (enbl) {   
     				String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
-    				
-    				boolean hasSubTasks = CurrentProject.getTaskList().hasSubTasks(thisTaskId);
-    				//ppSubTasks.setEnabled(hasSubTasks);
-    				ppCalcTask.setEnabled(hasSubTasks);
-    				Task t = CurrentProject.getTaskList().getTask(thisTaskId);
-                    parentPanel.calendar.jnCalendar.renderer.setTask(t);
-                    parentPanel.calendar.jnCalendar.updateUI();
+    				// Only grab this phase/task if it's still alive
+    				if(CurrentProject.getPhaseList().contains(thisTaskId)){
+	    				boolean hasSubTasks = CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId);
+	    				//ppSubTasks.setEnabled(hasSubTasks);
+	    				ppCalcTask.setEnabled(hasSubTasks);
+	    				Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
+	                    parentPanel.calendar.jnCalendar.renderer.setTask(t);
+	                    parentPanel.calendar.jnCalendar.updateUI();
+    				}
                 }    
                 else {
                     parentPanel.calendar.jnCalendar.renderer.setTask(null);
                     parentPanel.calendar.jnCalendar.updateUI();
                 }
+                
             }
         });
         editTaskB.setEnabled(false);
@@ -443,54 +469,84 @@ public class TaskPanel extends JPanel {
     }
 
     void editTaskB_actionPerformed(ActionEvent e) {
-        Task t =
-            CurrentProject.getTaskList().getTask(
-                taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
-        TaskDialog dlg = new TaskDialog(App.getFrame(), Local.getString("Edit task"));
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.todoField.setText(t.getText());
-        dlg.descriptionField.setText(t.getDescription());
-        dlg.startDate.getModel().setValue(t.getStartDate().getDate());
-        dlg.endDate.getModel().setValue(t.getEndDate().getDate());
-        dlg.priorityCB.setSelectedIndex(t.getPriority());                
-        dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
-	if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
-		dlg.chkEndDate.setSelected(false);
-	else
-		dlg.chkEndDate.setSelected(true);
-		dlg.progress.setValue(new Integer(t.getProgress()));
- 	dlg.chkEndDate_actionPerformed(null);	
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return;
-        CalendarDate sd = new CalendarDate((Date) dlg.startDate.getModel().getValue());
-//        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
-         CalendarDate ed;
- 		if(dlg.chkEndDate.isSelected())
- 			ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
- 		else
- 			ed = null;
-        t.setStartDate(sd);
-        t.setEndDate(ed);
-        t.setText(dlg.todoField.getText());
-        t.setDescription(dlg.descriptionField.getText());
-        t.setPriority(dlg.priorityCB.getSelectedIndex());
-        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
-        t.setProgress(((Integer)dlg.progress.getValue()).intValue());
-        
-//		CurrentProject.getTaskList().adjustParentTasks(t);
-
-        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+    	
+    	Task ph = CurrentProject.getPhaseList().getAllByID(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+    	// If a phase is highlighted, open the rename diabox instead
+    	if(ph.isPhase()){
+    		RenamePhaseDialog dlg = new RenamePhaseDialog(App.getFrame(), ph);
+            Dimension frmSize = App.getFrame().getSize();
+            Point loc = App.getFrame().getLocation();
+            dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+            dlg.setVisible(true);
+    	}
+    	else{
+    	
+	        TaskDialog dlg = new TaskDialog(App.getFrame(), Local.getString("Edit task"));
+	        
+	        Task t =
+	        		CurrentProject.getPhaseList().getAllByID(
+	                    taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+	        
+	        dlg.setSelectedPhase(t); // Set the tasks phase to be pre-selected
+	        
+	        Dimension frmSize = App.getFrame().getSize();
+	        Point loc = App.getFrame().getLocation();
+	        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+	        dlg.todoField.setText(t.getText());
+	        dlg.descriptionField.setText(t.getDescription());
+	        dlg.startDate.getModel().setValue(t.getStartDate().getDate());
+	        dlg.endDate.getModel().setValue(t.getEndDate().getDate());
+	        dlg.priorityCB.setSelectedIndex(t.getPriority());                
+	        dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
+		if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
+			dlg.chkEndDate.setSelected(false);
+		else
+			dlg.chkEndDate.setSelected(true);
+			dlg.progress.setValue(new Integer(t.getProgress()));
+	 	dlg.chkEndDate_actionPerformed(null);	
+	        dlg.setVisible(true);
+	        if (dlg.CANCELLED)
+	            return;
+	        CalendarDate sd = new CalendarDate((Date) dlg.startDate.getModel().getValue());
+	//        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
+	         CalendarDate ed;
+	 		if(dlg.chkEndDate.isSelected())
+	 			ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
+	 		else
+	 			ed = null;
+	        t.setStartDate(sd);
+	        t.setEndDate(ed);
+	        t.setText(dlg.todoField.getText());
+	        t.setDescription(dlg.descriptionField.getText());
+	        t.setPriority(dlg.priorityCB.getSelectedIndex());
+	        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
+	        t.setProgress(((Integer)dlg.progress.getValue()).intValue());
+	     
+	        t.setPhaseTitle(dlg.getSelectedPhase().getText()); // Set the phase for this task
+	        t.setPhaseElem(CurrentProject.getPhaseList().getPhaseElem(dlg.getSelectedPhase().getText()));
+	        
+	//		CurrentProject.getTaskList().adjustParentTasks(t);
+    	}
+    	// Save no matter the user reaction
+    	CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
         //taskTable.updateUI();
     }
 
     void newTaskB_actionPerformed(ActionEvent e) {
+  
         TaskDialog dlg = new TaskDialog(App.getFrame(), Local.getString("New task"));
         
+        // If a phase or task is highlighted
+        if((taskTable.getRowCount() > 0)&&(taskTable.getSelectedRow() > -1)){
+    		String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
+    		Task ph = CurrentProject.getPhaseList().getAllByID(thisTaskId);
+    		if(ph.isPhase())
+    			dlg.setSelectedPhase(ph.getText()); // Set the tasks phase to be pre-selected
+    		else
+    			dlg.setSelectedPhase(ph);
+    	}
         //XXX String parentTaskId = taskTable.getCurrentRootTask();
         
         Dimension frmSize = App.getFrame().getSize();
@@ -510,10 +566,11 @@ public class TaskPanel extends JPanel {
  			ed = null;
         long effort = Util.getMillisFromHours(dlg.effortField.getText());
 		//XXX Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
-		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),null);
+        Phase ph = dlg.getSelectedPhase();
+		Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(), ph.getID(), ph.toString());
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
-        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
         //taskTable.updateUI();
@@ -527,7 +584,7 @@ public class TaskPanel extends JPanel {
         
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
-		Task parent = CurrentProject.getTaskList().getTask(parentTaskId);
+		Task parent = dlg.getSelectedPhase().getTaskList().getTask(parentTaskId);
 		CalendarDate todayD = CurrentDate.get();
 		if (todayD.after(parent.getStartDate()))
 			dlg.setStartDate(todayD);
@@ -551,11 +608,12 @@ public class TaskPanel extends JPanel {
  		else
  			ed = null;
         long effort = Util.getMillisFromHours(dlg.effortField.getText());
-		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
+        Phase ph = dlg.getSelectedPhase();
+		Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId,dlg.getSelectedPhase().toString());
         newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
 
-		CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
         //taskTable.updateUI();
@@ -564,7 +622,7 @@ public class TaskPanel extends JPanel {
     void calcTask_actionPerformed(ActionEvent e) {
         TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
         dlg.pack();
-        Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+        Task t = CurrentProject.getPhaseList().getAllByID(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
         
         Dimension frmSize = App.getFrame().getSize();
         Point loc = App.getFrame().getLocation();
@@ -575,7 +633,7 @@ public class TaskPanel extends JPanel {
             return;            
         }
         
-        TaskList tl = CurrentProject.getTaskList();
+        TaskList tl =  CurrentProject.getPhaseList().getAllTasks();
         if(dlg.calcEffortChB.isSelected()) {
             t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
         }
@@ -602,7 +660,7 @@ public class TaskPanel extends JPanel {
 //		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
 //		
 		
-        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
 //        parentPanel.updateIndicators();
         //taskTable.updateUI();
@@ -638,44 +696,51 @@ public class TaskPanel extends JPanel {
     void removeTaskB_actionPerformed(ActionEvent e) {
         String msg;
         String thisTaskId = taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString();
+        Task t = CurrentProject.getPhaseList().getAllByID(thisTaskId);
         
-        if (taskTable.getSelectedRows().length > 1)
-            msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("tasks")+"?"
-             + "\n"+Local.getString("Are you sure?");
-        else {        	
-        	Task t = CurrentProject.getTaskList().getTask(thisTaskId);
-        	// check if there are subtasks
-			if(CurrentProject.getTaskList().hasSubTasks(thisTaskId)) {
-				msg = Local.getString("Remove task")+"\n'" + t.getText() + Local.getString("' and all subtasks") +"\n"+Local.getString("Are you sure?");
-			}
-			else {		            
-				msg = Local.getString("Remove task")+"\n'" + t.getText() + "'\n"+Local.getString("Are you sure?");
-			}
+        // If the task is really a phase, don't allow the remove
+        if(t.isPhase()){
+        	// Nothing here, simply don't react to the remove when a phase is selected
+        	// User should use 'remove phase' button
+        	// This is to protect the user from accidentally removing an entire phase and its contents
         }
-        int n =
-            JOptionPane.showConfirmDialog(
-                App.getFrame(),
-                msg,
-                Local.getString("Remove task"),
-                JOptionPane.YES_NO_OPTION);
-        if (n != JOptionPane.YES_OPTION)
-            return;
-        Vector toremove = new Vector();
-        for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
-            Task t =
-            CurrentProject.getTaskList().getTask(
-                taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
-            if (t != null)
-                toremove.add(t);
+        else{
+	        if (taskTable.getSelectedRows().length > 1)
+	            msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("tasks")+"?"
+	             + "\n"+Local.getString("Are you sure?");
+	        else {        	
+	        	// check if there are subtasks
+				if(CurrentProject.getPhaseList().getAllByID(thisTaskId).hasSubTasks(thisTaskId)) {
+					msg = Local.getString("Remove task")+"\n'" + t.getText() + Local.getString("' and all subtasks") +"\n"+Local.getString("Are you sure?");
+				}
+				else {		            
+					msg = Local.getString("Remove task")+"\n'" + t.getText() + "'\n"+Local.getString("Are you sure?");
+				}
+	        }
+	        int n =
+	            JOptionPane.showConfirmDialog(
+	                App.getFrame(),
+	                msg,
+	                Local.getString("Remove task"),
+	                JOptionPane.YES_NO_OPTION);
+	        if (n != JOptionPane.YES_OPTION)
+	            return;
+	        Vector toremove = new Vector();
+	        for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
+	            Task t2 =
+	            CurrentProject.getPhaseList().getAllByID(
+	                taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
+	            if (t2 != null)
+	                toremove.add(t2);
+	        }
+	        for (int i = 0; i < toremove.size(); i++) {
+	            CurrentProject.getPhaseList().removeTask((Task)toremove.get(i));
+	        }
+	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
+	        taskTable.tableChanged();
+	        parentPanel.updateIndicators();
+	        //taskTable.updateUI();
         }
-        for (int i = 0; i < toremove.size(); i++) {
-            CurrentProject.getTaskList().removeTask((Task)toremove.get(i));
-        }
-        taskTable.tableChanged();
-        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
-        parentPanel.updateIndicators();
-        //taskTable.updateUI();
-
     }
 
 	void ppCompleteTask_actionPerformed(ActionEvent e) {
@@ -683,7 +748,7 @@ public class TaskPanel extends JPanel {
 		Vector tocomplete = new Vector();
 		for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
 			Task t =
-			CurrentProject.getTaskList().getTask(
+			CurrentProject.getPhaseList().getAllByID(
 				taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
 			if (t != null)
 				tocomplete.add(t);
@@ -693,7 +758,7 @@ public class TaskPanel extends JPanel {
 			t.setProgress(100);
 		}
 		taskTable.tableChanged();
-		CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+		 CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
 		parentPanel.updateIndicators();
 		//taskTable.updateUI();
 	}
@@ -731,6 +796,37 @@ public class TaskPanel extends JPanel {
                     }
                 }
 
+    }
+    
+    // Open the phase window - Doug Carroll
+    void phase_actionPerformed(ActionEvent e){
+    	NewPhaseDialog dlg = new NewPhaseDialog(App.getFrame());
+        Dimension frmSize = App.getFrame().getSize();
+        Point loc = App.getFrame().getLocation();
+        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        dlg.setVisible(true);
+        
+        // If cancel was pressed, leave
+        if(dlg.isCancelled())
+        	return;
+        
+        // Unless the text box is empty, create a new phase
+        String text = dlg.getText();
+        if("".equals(text)){
+        	JOptionPane.showMessageDialog(dlg, "Please enter a phase name.");
+        }
+        else{
+        	PhaseList list = CurrentProject.getPhaseList();
+        	Phase ph = list.getPhase(text);
+        	// Check if the phase already exists
+        	if(ph != null)
+        		JOptionPane.showMessageDialog(dlg, "Phase already exists.");
+        	else
+        		list.addNewPhase(text);
+        }
+        
+        taskTable.tableChanged();
+        parentPanel.updateIndicators();
     }
 
   void ppEditTask_actionPerformed(ActionEvent e) {

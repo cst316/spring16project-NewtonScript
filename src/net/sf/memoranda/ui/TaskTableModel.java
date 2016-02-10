@@ -78,8 +78,9 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
      *      int)
      */
     public Object getValueAt(Object node, int column) {
-        if (node instanceof Project)
+        if (node instanceof Project){
             return null;
+        }
         Task t = (Task) node;
         switch (column) {
         case 0:
@@ -140,6 +141,8 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
             return Local.getString("High");
         case Task.PRIORITY_HIGHEST:
             return Local.getString("Highest");
+        case Task.PRIORITY_PHASE:
+        	return Local.getString(" ");
         }
         return "";
     }
@@ -149,14 +152,18 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
      */
     public int getChildCount(Object parent) {
         if (parent instanceof Project) {
-		if( activeOnly() ){
-			return CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get()).size();
-		}
-		else return CurrentProject.getTaskList().getTopLevelTasks().size();
-        }
+			if( activeOnly() ){
+				return CurrentProject.getPhaseList().getAllActiveTasks(null, CurrentDate.get()).size();
+			}
+			else{
+				return CurrentProject.getPhaseList().getPhases().size();
+			}
+	    }
         Task t = (Task) parent;
-        if(activeOnly()) return CurrentProject.getTaskList().getActiveSubTasks(t.getID(), CurrentDate.get()).size();
-	else return t.getSubTasks().size();
+        if(activeOnly()) 
+        	return CurrentProject.getPhaseList().getAllActiveTasks(t.getID(), CurrentDate.get()).size();
+        else 
+        	return t.getSubTasks().size();
     }
 
     /**
@@ -164,10 +171,10 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
      */
     public Object getChild(Object parent, int index) {
         if (parent instanceof Project)
-            if( activeOnly() ) return CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get()).toArray()[index];
-	    else return CurrentProject.getTaskList().getTopLevelTasks().toArray()[index];
+            if( activeOnly() ) return CurrentProject.getPhaseList().getAllActiveTasks(null, CurrentDate.get()).toArray()[index];
+	    else return CurrentProject.getPhaseList().getPhases().toArray()[index];
         Task t = (Task) parent;
-        if(activeOnly()) return CurrentProject.getTaskList().getActiveSubTasks(t.getID(), CurrentDate.get()).toArray()[index];
+        if(activeOnly()) return CurrentProject.getPhaseList().getAllActiveTasks(t.getID(), CurrentDate.get()).toArray()[index];
 	else return t.getSubTasks().toArray()[index];
     }
 

@@ -11,6 +11,7 @@ package net.sf.memoranda;
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
+import nu.xom.Element;
 
 /**
  * 
@@ -32,6 +33,8 @@ public interface Task {
     
     public static final int DEADLINE = 7;
     
+    public static final int PHASE = 8;
+    
     public static final int PRIORITY_LOWEST = 0;
     
     public static final int PRIORITY_LOW = 1;
@@ -41,6 +44,8 @@ public interface Task {
     public static final int PRIORITY_HIGH = 3;
     
     public static final int PRIORITY_HIGHEST = 4;
+    
+    public static final int PRIORITY_PHASE = 5;
     
     CalendarDate getStartDate();
     void setStartDate(CalendarDate date);
@@ -80,10 +85,18 @@ public interface Task {
 
     Task getParentTask();
     String getParentId();
+    Element getParentElem();
     
     void freeze();
     void unfreeze();
 	long getRate();
     
     nu.xom.Element getContent();
+    
+    // Phases addition
+    Phase getPhase();
+    String getPhaseTitle();
+    public void setPhaseTitle(String p);
+    public boolean isPhase();
+    public void setPhaseElem(Element e);
 }

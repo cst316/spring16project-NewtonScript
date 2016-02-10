@@ -8,19 +8,23 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -29,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 //import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -37,7 +42,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.JCheckBox;
 
 import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Phase;
+import net.sf.memoranda.PhaseList;
+import net.sf.memoranda.Task;
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.util.Local;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
@@ -106,6 +115,10 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
+	
+	JPanel phaseParent = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	JComboBox<Phase> phaseOptions;
+	public static final String SELECT = "<Select>";
     
     public TaskDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -321,7 +334,41 @@ public class TaskDialog extends JDialog {
         jLabel7.setMinimumSize(new Dimension(60, 16));
         //jLabel7.setPreferredSize(new Dimension(60, 16));
         jLabel7.setText(Local.getString("Priority"));
-
+        
+        // Start phase options here - Doug Carroll
+        JPanel phasePanel = new JPanel();
+        phasePanel.setLayout(new BoxLayout(phasePanel, BoxLayout.Y_AXIS));
+        JPanel phaseSubPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        phaseSubPanel.setAlignmentX(LEFT_ALIGNMENT);
+        phaseOptions = new JComboBox<Phase>();
+        JLabel phaseLabel = new JLabel("Phase");
+        JButton addPhase = new JButton("New Phase");
+        PhaseList phaseList = CurrentProject.getPhaseList();
+        // Add phases to the combo box
+        for(Phase p: phaseList.getPhases()){
+        	phaseOptions.addItem(p);
+        }
+        // Set the initial phase to default
+        phaseOptions.setSelectedItem(phaseList.getDefault());
+        phaseSubPanel.add(phaseLabel);
+        phaseSubPanel.add(phaseOptions);
+        phasePanel.add(phaseSubPanel);
+        phasePanel.add(addPhase);
+        phaseParent.add(phasePanel);
+        
+        // Button action listener
+        addPhase.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               phase_actionPerformed(e);
+            }
+        });
+        
+        // Change inner panel to a box layout
+        JPanel subArea = new JPanel();
+        subArea.setLayout(new BoxLayout(subArea, BoxLayout.Y_AXIS));
+        areaPanel.add(subArea, BorderLayout.CENTER);
+        subArea.add(jPanel2);
+        
         priorityCB.setFont(new java.awt.Font("Dialog", 0, 11));
         jPanel4.add(jLabel7, null);
         getContentPane().add(mPanel);
@@ -335,7 +382,7 @@ public class TaskDialog extends JDialog {
         jPanel8.add(todoField, null);
         jPanel8.add(jLabelDescription);
         jPanel8.add(descriptionScrollPane, null);
-        areaPanel.add(jPanel2, BorderLayout.CENTER);
+        //areaPanel.add(jPanel2, BorderLayout.CENTER);
         jPanel2.add(jPanel6, null);
         jPanel6.add(jLabel6, null);
         jPanel6.add(startDate, null);
@@ -360,6 +407,10 @@ public class TaskDialog extends JDialog {
         jPanelProgress.add(jLabelProgress, null);
         jPanelProgress.add(progress, null);
         jPanel2.add(jPanelProgress);
+        
+        // Add phase options to the panel
+        // Using the parent box panel so this does not disturb previous items
+        subArea.add(phaseParent);
         
         priorityCB.setSelectedItem(Local.getString("Normal"));
         startCalFrame.cal.addSelectionListener(new ActionListener() {
@@ -438,6 +489,81 @@ public class TaskDialog extends JDialog {
     void setNotifB_actionPerformed(ActionEvent e) {
     	((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e, 
 			this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
+    }
+    
+    // Open the phase window
+    void phase_actionPerformed(ActionEvent e){
+    	NewPhaseDialog dlg = new NewPhaseDialog(this);
+        Dimension frmSize = App.getFrame().getSize();
+        Point loc = App.getFrame().getLocation();
+        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        dlg.setVisible(true);
+        
+        // If cancel was pressed, leave
+        if(dlg.isCancelled())
+        	return;
+        
+        // Unless the text box is empty, create a new phase
+        String text = dlg.getText();
+        if("".equals(text)){
+        	JOptionPane.showMessageDialog(dlg, "Please enter a phase name.");
+        }
+        else{
+        	PhaseList list = CurrentProject.getPhaseList();
+        	Phase ph = list.getPhase(text);
+        	// Check if the phase already exists
+        	if(ph != null)
+        		JOptionPane.showMessageDialog(dlg, "Phase already exists.");
+        	else
+        		addPhase(text);
+        }
+    }
+    
+    // Add phase to the combo box (and to phases list)
+    private void addPhase(String text){
+    	// Add this phase to the list
+    	PhaseList list = CurrentProject.getPhaseList();
+        Phase phase = list.addNewPhase(text);
+        phaseOptions.addItem(phase);
+        
+        // Set the combo box to this phase
+        phaseOptions.setSelectedItem(phase);
+    }
+    
+    // Check if phase is selected
+    public boolean phaseSelected(){
+    	String item = phaseOptions.getSelectedItem().toString();
+    	boolean res = true;
+    	
+    	if(item.equals(SELECT)){
+    		res = false;
+    	}
+    	return res;
+    }
+    
+    // Returns the selected phase from the combo box
+    public Phase getSelectedPhase(){
+    	Phase ph;
+    	PhaseList list = CurrentProject.getPhaseList();
+    	if(phaseSelected()){
+    		String title = phaseOptions.getSelectedItem().toString();
+    		ph = list.getPhase(title);
+    	}
+    	else{
+    		ph = list.getDefault();
+    	}
+    	return ph;
+    }
+    
+    // Sets the phase combo box to the tasks phase
+    public void setSelectedPhase(Task t){
+    	Phase ph = t.getPhase();
+    	phaseOptions.setSelectedItem(ph);
+    }
+    // Sets a phase based on the title
+    public void setSelectedPhase(String ph){
+    	Phase phase = CurrentProject.getPhaseList().getPhase(ph);
+    	phaseOptions.setSelectedItem(phase);
     }
 
 }

@@ -22,6 +22,7 @@ import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
+import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -61,7 +62,7 @@ public class NotesList extends JList {
         });
 
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph) {
             }
             public void projectWasChanged() {
                 update();

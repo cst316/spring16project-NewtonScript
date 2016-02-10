@@ -10,6 +10,7 @@ package net.sf.memoranda.util;
 
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
+import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
@@ -19,8 +20,8 @@ import net.sf.memoranda.TaskList;
 /*$Id: Storage.java,v 1.4 2004/01/30 12:17:42 alexeya Exp $*/
 public interface Storage {
             
-    TaskList openTaskList(Project prj);    
-    void storeTaskList(TaskList tl, Project prj);
+    PhaseList openPhaseList(Project prj);    
+    void storePhaseList(PhaseList _tasklist, Project prj);
     
     NoteList openNoteList(Project prj);
     void storeNoteList(NoteList nl, Project prj);
@@ -47,6 +48,6 @@ public interface Storage {
     void storeResourcesList(ResourcesList rl, Project prj);
     
     void restoreContext();
-    void storeContext(); 
+    void storeContext();
        
 }

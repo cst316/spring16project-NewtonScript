@@ -45,6 +45,16 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
             .getResource("resources/icons/task_failed.png"));
     static ImageIcon TASK_COMPLETED_ICON = new ImageIcon(net.sf.memoranda.ui.AppFrame.class
             .getResource("resources/icons/task_completed.png"));
+    static ImageIcon PHASE_ACTIVE_ICON = new ImageIcon(net.sf.memoranda.ui.AppFrame.class
+            .getResource("resources/icons/phase_active.png"));
+    static ImageIcon PHASE_SCHEDULED_ICON = new ImageIcon(net.sf.memoranda.ui.AppFrame.class
+            .getResource("resources/icons/phase_scheduled.png"));
+    static ImageIcon PHASE_DEADLINE_ICON = new ImageIcon(net.sf.memoranda.ui.AppFrame.class
+            .getResource("resources/icons/phase_deadline.png"));
+    static ImageIcon PHASE_FAILED_ICON = new ImageIcon(net.sf.memoranda.ui.AppFrame.class
+            .getResource("resources/icons/phase_failed.png"));
+    static ImageIcon PHASE_COMPLETED_ICON = new ImageIcon(net.sf.memoranda.ui.AppFrame.class
+            .getResource("resources/icons/phase_completed.png"));
     // reusable cellrenderers
     JLabel label = new JLabel();
     //JLabel tree_label = new JLabel();
@@ -74,8 +84,9 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
                 hasFocus);
         if (value instanceof Project)
             return empty_panel;
-        if (!(value instanceof Task))
+        if (!(value instanceof Task)){
             return empty_panel;
+        }
         Task t = (Task) value; 
         setText(t.getText());
         setToolTipText(t.getDescription());
@@ -225,18 +236,33 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
     }
 
     public static ImageIcon getStatusIcon(Task t) {
+    	// If its a phase, use phase icons
+    	if(t.isPhase()){
+    		switch (t.getStatus(CurrentDate.get())) {
+	 	        case Task.ACTIVE:
+	 	            return PHASE_ACTIVE_ICON;
+	 	        case Task.SCHEDULED:
+	 	            return PHASE_SCHEDULED_ICON;
+	 	        case Task.DEADLINE:
+	 	            return PHASE_DEADLINE_ICON;
+	 	        case Task.FAILED:
+	 	            return PHASE_FAILED_ICON;
+	 	        case Task.COMPLETED:
+	 	            return PHASE_COMPLETED_ICON;
+ 	        }
+    	}
         switch (t.getStatus(CurrentDate.get())) {
-        case Task.ACTIVE:
-            return TASK_ACTIVE_ICON;
-        case Task.SCHEDULED:
-            return TASK_SCHEDULED_ICON;
-        case Task.DEADLINE:
-            return TASK_DEADLINE_ICON;
-        case Task.FAILED:
-            return TASK_FAILED_ICON;
-        case Task.COMPLETED:
-            return TASK_COMPLETED_ICON;
-        }
+	        case Task.ACTIVE:
+	            return TASK_ACTIVE_ICON;
+	        case Task.SCHEDULED:
+	            return TASK_SCHEDULED_ICON;
+	        case Task.DEADLINE:
+	            return TASK_DEADLINE_ICON;
+	        case Task.FAILED:
+	            return TASK_FAILED_ICON;
+	        case Task.COMPLETED:
+	            return TASK_COMPLETED_ICON;
+	        }
         System.err.println("Problem finding status icon");
         return null;
     }
@@ -253,6 +279,8 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
             return PR_LOW_ICON;
         case Task.PRIORITY_LOWEST:
             return PR_LOWEST_ICON;
+        case Task.PRIORITY_PHASE:
+        	return null;
         }
         System.err.println("Problem finding priority icon");
         return null;

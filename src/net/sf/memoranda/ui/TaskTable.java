@@ -111,7 +111,7 @@ public class TaskTable extends JTable {
         });
         CurrentProject.addProjectListener(new ProjectListener() {
             public void projectChange(Project p, NoteList nl, TaskList tl,
-                    ResourcesList rl) {
+                    ResourcesList rl, PhaseList ph) {
             }
 
             public void projectWasChanged() {
@@ -324,6 +324,16 @@ public class TaskTable extends JTable {
                 int column) {
             if (isSelected)
                 setBackground(table.getSelectionBackground());
+            // Change color for phase - Doug Carroll
+            // This was done while experimenting, leaving code commented for future implementation
+            /*
+            else if(value instanceof Task){
+            	Task t = (Task) value;
+            	if(t.isPhase())
+            		 setBackground(table.getBackground());
+            	else
+            		 setBackground(table.getBackground());
+            }*/
             else
                 setBackground(table.getBackground());
             visibleRow = row;

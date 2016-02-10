@@ -10,6 +10,8 @@ package net.sf.memoranda;
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
+import nu.xom.Document;
+import nu.xom.Element;
 /**
  * 
  */
@@ -19,7 +21,7 @@ public interface TaskList {
 	Project getProject();
     Task getTask(String id);
 
-    Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId);
+    Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId, String phase);
 
     void removeTask(Task task);
 
@@ -38,7 +40,9 @@ public interface TaskList {
     public CalendarDate getLatestEndDateFromSubTasks(Task t);
     public CalendarDate getEarliestStartDateFromSubTasks(Task t);
     public long[] calculateCompletionFromSubTasks(Task t);
-
-    nu.xom.Document getXMLContent();
+    
+    public int size();
+	public void addElement(Element e);
+	public void removeElement(Element _element);
 
 }
