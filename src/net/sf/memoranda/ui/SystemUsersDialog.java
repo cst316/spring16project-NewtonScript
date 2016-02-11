@@ -5,21 +5,23 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
  
-public class SystemUsersFrame extends JPanel
+public class SystemUsersDialog extends JDialog
                       implements ListSelectionListener {
     @SuppressWarnings("rawtypes")
 	//Using JList for compatibility with List Model
     private JList list;
     private DefaultListModel listModel;
+    private JPanel myPanel;
  
     private JButton addB;
     private JButton removeB;
     private JTextField userName;
     UsersList myUsers = UsersList.getInstance();
  
-    public SystemUsersFrame() {
-        super(new BorderLayout());
+    public SystemUsersDialog(Frame appFrame, String title) {
+        super(appFrame, title);
         
+        myPanel = new JPanel(new BorderLayout());
         listModel = new DefaultListModel();
         if(!myUsers.isEmpty()) {
         	String[] tmpList = myUsers.getNames();
@@ -74,6 +76,17 @@ public class SystemUsersFrame extends JPanel
  
         add(listScrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.PAGE_END);
+        //Create and set up the content pane.
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        //Display the window.
+        setPreferredSize(new Dimension(600, 600));
+        pack();
+        setLocationRelativeTo(null);
+	    setVisible(true);
+		setFocusableWindowState(true);
+	    requestFocusInWindow();
+	    setAlwaysOnTop(true);
     }
  
     //Remove button listener that enables when theres a selection.
@@ -189,25 +202,6 @@ public class SystemUsersFrame extends JPanel
                 removeB.setEnabled(true);
             }
         }
-    }
- 
-    //Displays the dialog.
-    public static void display() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("System Users");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
- 
-        //Create and set up the content pane.
-        JComponent newContentPane = new SystemUsersFrame();
-        newContentPane.setOpaque(true);
-        frame.setContentPane(newContentPane);
- 
-        //Display the window.
-        frame.setPreferredSize(new Dimension(600, 600));
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-	    frame.setVisible(true);    
-	    frame.setAlwaysOnTop(true);
     }
     
     // Returns string array of list

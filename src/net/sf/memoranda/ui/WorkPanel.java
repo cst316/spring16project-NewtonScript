@@ -44,7 +44,7 @@ public class WorkPanel extends JPanel {
 	public JButton defectlogB = new JButton();
 	
 	public JButton usersB = new JButton(); //Button for system users
-	SystemUsersFrame sysUser = new SystemUsersFrame(); // System Users dialog
+	SystemUsersDialog sysUser; // System Users dialog
 	UsersList userList = UsersList.getInstance(); //List of system users
 	
 	JButton currentB = null;
@@ -378,7 +378,7 @@ public class WorkPanel extends JPanel {
 		dailyItemsPanel.selectPanel("USERS");
 		setCurrentButton(usersB);
 		Context.put("CURRENT_PANEL", "USERS");
-    	sysUser.display();
+		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
     	sysUser.requestFocus();
     	userList.addArray(sysUser.getUsersArray());
 	}
