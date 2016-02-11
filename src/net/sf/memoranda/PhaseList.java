@@ -94,7 +94,6 @@ public class PhaseList {
 			if(p.getTitle().equals(title))
 				ph = p;	
 		}
-		
 		return ph;
 	}
 	
@@ -138,21 +137,6 @@ public class PhaseList {
 		return list;
 	}
 	
-	// Returns a task based on its name
-	public Task getTask(String name){
-		Task task = null;
-		for(Phase p : phases){
-			Collection tasks = p.getSubTasks();
-			Task[] taskArr = (Task[]) tasks.toArray();
-			for(int i = 0; i < tasks.size(); i++){
-				if(taskArr[i].getText().equals(name)){
-					task = taskArr[i];
-				}
-			}
-		}
-		
-		return task;
-		}
 	
 	// No generic type set as this is how it was done by the caller
 	public Collection getAllActiveTasks(String taskId, CalendarDate date){
@@ -168,7 +152,7 @@ public class PhaseList {
 	}
 	
 	// Get Phase element by ID
-	public Element getPhaseByID(String ID){
+	private Element getPhaseByID(String ID){
 		Element res = null;
 		res = elements.get(ID);
 		return res;

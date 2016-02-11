@@ -185,7 +185,7 @@ public class TaskImpl implements Task, Comparable {
         return check;
     }
 */
-    private boolean isFrozen() {
+    public boolean isFrozen() {
         return _element.getAttribute("frozen") != null;
     }
 

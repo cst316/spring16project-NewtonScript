@@ -4,9 +4,11 @@
 package net.sf.memoranda;
 
 import static org.junit.Assert.*;
+import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
+import net.sf.memoranda.util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,5 +82,57 @@ public class PhaseListTest {
 		assertEquals(phase.getPriority(), 5);
 		assertEquals(phase.getProgress(), 0);
 	}
-
+	
+	/**
+	 * Test method for {@link net.sf.memoranda.PhaseList#getElementByID(java.lang.String)}.
+	 * 
+	 * Get a phase element by ID
+	 */
+	@Test
+	public void getElementByIDTest() {
+		String testName = "testname";
+		Phase phase = list.createPhase(testName);
+		
+		// Retrieve the phase
+		Element e = list.getElementByID(phase.getID());
+		
+		// Compare the retrieved element
+		assertEquals(e.getFirstChildElement("text").getValue(), testName);
+	}
+	
+	/**
+	 * Test method for {@link net.sf.memoranda.PhaseList#getAllByID(java.lang.String)}.
+	 * 
+	 * Get a phase by ID
+	 */
+	@Test
+	public void getAllByIDTest() {
+		String testName = "testname";
+		Phase phase = list.addNewPhase(testName);
+		
+		// Retrieve the phase
+		Task t = list.getAllByID(phase.getID());
+		
+		// Compare the retrieved task
+		assertEquals(t.getID(), phase.getID());
+	}
+	
+	/**
+	 * Test method for {@link net.sf.memoranda.PhaseList#removeTask(net.sf.memoranda.Task)}.
+	 * 
+	 * Remove a task
+	 */
+	@Test
+	public void removeTaskTest() {
+		String testName = "testname";
+		Task phase = list.createPhase(testName);
+		
+		// Retrieve the phase
+		list.removeTask(phase);
+		
+		// If phase not found, then test passes
+		assertNull(list.getPhase(testName));
+	}
+	
+	
 }

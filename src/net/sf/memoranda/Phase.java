@@ -163,11 +163,6 @@ public class Phase implements Task{
         return Task.FAILED;
 	}
 	
-	// TODO Add functionality to check if all tasks are frozen
-	private boolean isFrozen() {
-		return false;
-	}
-	
 	// TODO Add functionality to check if all tasks are completed
 	private boolean isCompleted() {
 		return false;
@@ -175,7 +170,7 @@ public class Phase implements Task{
 
 	// TODO Add functionality to get progress of ALL tasks
 	public int getProgress() {
-		return 0;
+		return new Integer(phaseElement.getAttribute("progress").getValue());
 	}
 	
 	@Override
@@ -297,8 +292,12 @@ public class Phase implements Task{
 	@Override
 	public void unfreeze() {
 		 if (this.isFrozen())
-			 phaseElement.removeAttribute(new Attribute("frozen", "yes"));
+			 phaseElement.removeAttribute(phaseElement.getAttribute("frozen"));
 	}
+	
+	public boolean isFrozen() {
+        return phaseElement.getAttribute("frozen") != null;
+    }
 	
 	// TODO Make average of all tasks
 	@Override

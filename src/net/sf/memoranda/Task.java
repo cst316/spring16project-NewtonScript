@@ -90,6 +90,7 @@ public interface Task {
     
     void freeze();
     void unfreeze();
+    public boolean isFrozen();
 	long getRate();
     
     nu.xom.Element getContent();
