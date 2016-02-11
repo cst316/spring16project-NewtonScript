@@ -1,4 +1,6 @@
 package main;
+import net.sf.memoranda.PhaseListTest;
+import net.sf.memoranda.PhaseTest;
 import net.sf.memoranda.server.ServerCommCoreTest;
 import net.sf.memoranda.server.ServerStartTest;
 
@@ -16,8 +18,11 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	ServerCommCoreTest.class,
+	// Add test classes here
 	ServerStartTest.class,
+	ServerCommCoreTest.class,
+	PhaseTest.class,
+	PhaseListTest.class,
 })
 public class TestAll {
 

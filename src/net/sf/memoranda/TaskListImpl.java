@@ -32,7 +32,6 @@ import nu.xom.Nodes;
 public class TaskListImpl implements TaskList {
 
     private Project _project = null;
-    private Document _doc = null;
     private Element _root = null;
 	
 	/*
@@ -44,17 +43,10 @@ public class TaskListImpl implements TaskList {
     /**
      * Constructor for TaskListImpl.
      */
-    public TaskListImpl(Document doc, Project prj) {
-        _doc = doc;
-        _root = _doc.getRootElement();
+    public TaskListImpl(Element phase, Project prj) {
+        _root = phase;
         _project = prj;
 		buildElements(_root);
-    }
-    
-    public TaskListImpl(Project prj) {            
-            _root = new Element("tasklist");
-            _doc = new Document(_root);
-            _project = prj;
     }
     
 	public Project getProject() {
@@ -68,7 +60,8 @@ public class TaskListImpl implements TaskList {
 		Elements els = parent.getChildElements("task");
 		for (int i = 0; i < els.size(); i++) {
 			Element el = els.get(i);
-			elements.put(el.getAttribute("id").getValue(), el);
+			Util.debug("Adding Task:" + el.getFirstChildElement("text").getValue());
+			addElement(el);
 			buildElements(el);
 		}
 	}
@@ -102,8 +95,18 @@ public class TaskListImpl implements TaskList {
         Collection allTasks = getAllSubTasks(taskId);        
         return filterActiveTasks(allTasks,date);
     }
+    
+    // Remove element from hashtable
+    public void removeElement(Element e){
+    	elements.remove(e);
+    }
+    
+    // add element to hashtable
+    public void addElement(Element e){
+    	elements.put(e.getAttribute("id").getValue(), e);
+    }
 
-    public Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId) {
+    public Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId, String phase) {
         Element el = new Element("task");
         el.addAttribute(new Attribute("startDate", startDate.toString()));
         el.addAttribute(new Attribute("endDate", endDate != null? endDate.toString():""));
@@ -112,7 +115,8 @@ public class TaskListImpl implements TaskList {
         el.addAttribute(new Attribute("progress", "0"));
         el.addAttribute(new Attribute("effort", String.valueOf(effort)));
         el.addAttribute(new Attribute("priority", String.valueOf(priority)));
-                
+        el.addAttribute(new Attribute("phase", String.valueOf(phase)));
+        
         Element txt = new Element("text");
         txt.appendChild(text);
         el.appendChild(txt);
@@ -123,15 +127,15 @@ public class TaskListImpl implements TaskList {
 
         if (parentTaskId == null) {
             _root.appendChild(el);
+            Util.debug("Created task without parent.");
         }
         else {
-            Element parent = getTaskElement(parentTaskId);
+            Element parent = CurrentProject.getPhaseList().getElementByID(parentTaskId);
+            Util.debug("Created task with parent " + parent.getFirstChildElement("text").getValue());
             parent.appendChild(el);
         }
         
 		elements.put(id, el);
-		
-        Util.debug("Created task with parent " + parentTaskId);
         
         return new TaskImpl(el, this);
     }
@@ -164,7 +168,6 @@ public class TaskListImpl implements TaskList {
     }
 
     public Task getTask(String id) {
-        Util.debug("Getting task " + id);          
         return new TaskImpl(getTaskElement(id), this);          
     }
     
@@ -184,13 +187,6 @@ public class TaskListImpl implements TaskList {
     	else {
     	    return false;
     	}
-    }
-
-    /**
-     * @see net.sf.memoranda.TaskList#getXMLContent()
-     */	 
-    public Document getXMLContent() {
-        return _doc;
     }
     
     /**
@@ -325,7 +321,7 @@ public class TaskListImpl implements TaskList {
         } */
 		Element el = (Element)elements.get(id);
 		if (el == null) {
-			Util.debug("Task " + id + " cannot be found in project " + _project.getTitle());
+			
 		}
 		return el;
     }
@@ -363,6 +359,10 @@ public class TaskListImpl implements TaskList {
     	else {
     		return false;
     	}
+    }
+    
+    public int size(){
+    	return elements.size();
     }
 
     /*

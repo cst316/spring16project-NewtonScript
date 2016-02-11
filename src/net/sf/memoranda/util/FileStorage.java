@@ -23,6 +23,7 @@ import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
 import net.sf.memoranda.NoteListImpl;
+import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
@@ -261,7 +262,7 @@ public class FileStorage implements Storage {
         f.delete();
     }
 
-    public TaskList openTaskList(Project prj) {
+    public PhaseList openPhaseList(Project prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".tasklist";
 
         if (documentExists(fn)) {
@@ -284,16 +285,16 @@ public class FileStorage implements Storage {
                 // reload from new file
                 tasklistDoc = openDocument(fn);
             }*/
-            return new TaskListImpl(tasklistDoc, prj);   
+            return new PhaseList(tasklistDoc, prj);   
         }
         else {
             /*DEBUG*/
             System.out.println("[DEBUG] New task list created");
-            return new TaskListImpl(prj);
+            return new PhaseList(prj);
         }
     }
 
-    public void storeTaskList(TaskList tasklist, Project prj) {
+    public void storePhaseList(PhaseList phaselist, Project prj) {
         /*DEBUG*/
         System.out.println(
             "[DEBUG] Save task list: "
@@ -301,7 +302,7 @@ public class FileStorage implements Storage {
                 + prj.getID()
                 + File.separator
                 + ".tasklist");
-        Document tasklistDoc = tasklist.getXMLContent();
+        Document tasklistDoc = phaselist.getXMLContent();
         //tasklistDoc.setDocType(TaskListVersioning.getCurrentDocType());
         saveDocument(tasklistDoc,JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
     }
@@ -469,5 +470,4 @@ public class FileStorage implements Storage {
                 "");
         }
     }
-
 }

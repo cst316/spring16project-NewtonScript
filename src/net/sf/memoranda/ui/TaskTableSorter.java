@@ -7,7 +7,6 @@ import javax.swing.event.*;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import java.util.*;
 
 import net.sf.memoranda.*;
@@ -57,12 +56,12 @@ public class TaskTableSorter extends TaskTableModel{
 		Collection c = null;
 		
 		if (parent instanceof Project){
-			if( activeOnly() ) c = CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get());
-			else c = CurrentProject.getTaskList().getTopLevelTasks();
+			if( activeOnly() ) c = CurrentProject.getPhaseList().getAllActiveTasks(null, CurrentDate.get());
+			else c = CurrentProject.getPhaseList().getPhases();
 		}
 		else{
 			Task t = (Task) parent;
-			if(activeOnly()) c = CurrentProject.getTaskList().getActiveSubTasks(t.getID(), CurrentDate.get());
+			if(activeOnly()) c = CurrentProject.getPhaseList().getAllActiveTasks(null, CurrentDate.get());
 			else c = t.getSubTasks();
 		}
 		

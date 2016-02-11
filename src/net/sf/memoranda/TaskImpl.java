@@ -14,6 +14,7 @@ import java.util.Calendar;
 
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
+import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -91,13 +92,24 @@ public class TaskImpl implements Task, Comparable {
 	 * @see net.sf.memoranda.Task#getParentTask()
 	 */
 	public Task getParentTask() {
-		Node parentNode = _element.getParent();
-    	if (parentNode instanceof Element) {
-    	    Element parent = (Element) parentNode;
-        	if (parent.getLocalName().equalsIgnoreCase("task")) 
-        	    return new TaskImpl(parent, _tl);
-    	}
+	    Element parent = getParentElem();
+	    if(parent != null)
+	    	if (parent.getLocalName().equalsIgnoreCase("task")){ 
+	    	    return new TaskImpl(parent, _tl);
+	    	}
     	return null;
+	}
+	
+	// Get parent element
+	public Element getParentElem() throws NullPointerException{
+		Node parentNode = _element.getParent();
+		Element res = null;
+		if (parentNode instanceof Element) {
+		    res = (Element) parentNode;
+		}
+		if(res == null)
+			throw new NullPointerException();
+		return res;
 	}
 	
 	public String getParentId() {
@@ -173,7 +185,7 @@ public class TaskImpl implements Task, Comparable {
         return check;
     }
 */
-    private boolean isFrozen() {
+    public boolean isFrozen() {
         return _element.getAttribute("frozen") != null;
     }
 
@@ -387,6 +399,51 @@ public class TaskImpl implements Task, Comparable {
 				return true;
 		return false;
 	}
-
 	
+	// Start phase implementation
+	@Override
+	public Phase getPhase(){
+		PhaseList list = CurrentProject.getPhaseList();
+		return list.getPhase(getPhaseTitle());
+	}
+	
+	// Set the parent of this element
+	public void setPhaseElem(Element e){
+		try{
+			Element parent = getParentElem();
+			// If parent is a phase
+			if(parent.getAttribute("phase").getValue().equals("")){
+				// if it is a phase, lets swap this elements child.
+				_element.detach();
+				e.appendChild(_element);
+				
+				_tl.removeElement(_element);
+				
+				// Set the tasks tasklist to the new phases tasklist
+				_tl = CurrentProject.getPhaseList().getPhase(e.getFirstChildElement("text").getValue()).getTaskList();
+				_tl.addElement(_element);
+				
+			}
+		}catch(NullPointerException ex){
+			Util.debug("This element has no parent!");
+			ex.printStackTrace();
+		}
+	}
+	
+	@Override
+	public String getPhaseTitle() {
+		return _element.getAttribute("phase").getValue();
+	}
+	
+	@Override
+	public void setPhaseTitle(String p) {
+		setAttr("phase", p);
+	}
+	
+	public boolean isPhase(){return false;}
+	
+	public boolean hasSubTasks(){
+		Elements subTasks = _element.getChildElements("task");
+		return subTasks.size() > 0;
+	}
 }
