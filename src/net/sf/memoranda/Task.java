@@ -81,6 +81,9 @@ public interface Task {
     Task getParentTask();
     String getParentId();
     
+    void setOwner(String owner);
+    String getOwner();
+    
     void freeze();
     void unfreeze();
 	long getRate();

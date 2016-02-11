@@ -456,6 +456,12 @@ public class TaskPanel extends JPanel {
         dlg.endDate.getModel().setValue(t.getEndDate().getDate());
         dlg.priorityCB.setSelectedIndex(t.getPriority());                
         dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
+        //Shows the current owner of task in Edit Task
+        dlg.ownerCB.setSelectedItem(t.getOwner());
+        if(!dlg.ownerCB.getSelectedItem().equals(t.getOwner())) {
+        	dlg.ownerCB.addItem(t.getOwner());
+        	dlg.ownerCB.setSelectedItem(t.getOwner());
+        }
 	if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
 		dlg.chkEndDate.setSelected(false);
 	else
@@ -479,6 +485,7 @@ public class TaskPanel extends JPanel {
         t.setPriority(dlg.priorityCB.getSelectedIndex());
         t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
         t.setProgress(((Integer)dlg.progress.getValue()).intValue());
+        t.setOwner(dlg.getSelectedOwner());
         
 //		CurrentProject.getTaskList().adjustParentTasks(t);
 
@@ -512,6 +519,7 @@ public class TaskPanel extends JPanel {
 		//XXX Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
 		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),null);
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
+		newTask.setOwner(dlg.getSelectedOwner());
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
         CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
         taskTable.tableChanged();
