@@ -1,440 +1,1258 @@
 package net.sf.memoranda.ui;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
+import javax.swing.table.DefaultTableModel;
+import net.sf.memoranda.DefectLog;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
+/**
+ *
+ * @author jebjohnson
+ */
+public class DefectLogPanel extends javax.swing.JPanel {
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+    /**
+     * Creates new form NewJPanel1
+     */
 
-import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Resource;
-import net.sf.memoranda.util.AppList;
-import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.Local;
-import net.sf.memoranda.util.MimeType;
-import net.sf.memoranda.util.MimeTypesList;
-import net.sf.memoranda.util.Util;
-
-import java.io.*;
-
-/*$Id ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
-public class DefectLogPanel extends JPanel {
-    BorderLayout borderLayout1 = new BorderLayout();
-    JToolBar toolBar = new JToolBar();
-    JButton newResB = new JButton();
-    ResourcesTable resourcesTable = new ResourcesTable();
-    JButton removeResB = new JButton();
-    JScrollPane scrollPane = new JScrollPane();
-    JButton refreshB = new JButton();
-  JPopupMenu resPPMenu = new JPopupMenu();
-  JMenuItem ppRun = new JMenuItem();
-  JMenuItem ppRemoveRes = new JMenuItem();
-  JMenuItem ppNewRes = new JMenuItem();
-  JMenuItem ppRefresh = new JMenuItem();
-
-    public DefectLogPanel() {
-        try {
-            jbInit();
-        }
-        catch (Exception ex) {
-           new ExceptionDialog(ex);
-        }
-    }
-    void jbInit() throws Exception {
-        toolBar.setFloatable(false);
-        this.setLayout(borderLayout1);
-        newResB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
-        newResB.setEnabled(true);
-        newResB.setMaximumSize(new Dimension(24, 24));
-        newResB.setMinimumSize(new Dimension(24, 24));
-        newResB.setToolTipText(Local.getString("New Defect Log"));
-        newResB.setRequestFocusEnabled(false);
-        newResB.setPreferredSize(new Dimension(24, 24));
-        newResB.setFocusable(false);
-        newResB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                newResB_actionPerformed(e);
-            }
-        });
-        newResB.setBorderPainted(false);
-        resourcesTable.setMaximumSize(new Dimension(32767, 32767));
-        resourcesTable.setRowHeight(24);
-        removeResB.setBorderPainted(false);
-        removeResB.setFocusable(false);
-        removeResB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                removeResB_actionPerformed(e);
-            }
-        });
-        removeResB.setPreferredSize(new Dimension(24, 24));
-        removeResB.setRequestFocusEnabled(false);
-        removeResB.setToolTipText(Local.getString("Remove Defect Log"));
-        removeResB.setMinimumSize(new Dimension(24, 24));
-        removeResB.setMaximumSize(new Dimension(24, 24));
-        removeResB.setIcon(
-            new ImageIcon(
-                net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/notify.png")));
-        removeResB.setEnabled(false);
-        scrollPane.getViewport().setBackground(Color.white);
-        toolBar.addSeparator(new Dimension(8, 24));
-        toolBar.addSeparator(new Dimension(8, 24));
-
-
-        PopupListener ppListener = new PopupListener();
-        scrollPane.addMouseListener(ppListener);
-        resourcesTable.addMouseListener(ppListener);
-
-        resourcesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                boolean enbl = (resourcesTable.getRowCount() > 0) && (resourcesTable.getSelectedRow() > -1);
-
-                removeResB.setEnabled(enbl); ppRemoveRes.setEnabled(enbl);
-                ppRun.setEnabled(enbl);
-            }
-        });
-        refreshB.setBorderPainted(false);
-        refreshB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                refreshB_actionPerformed(e);
-            }
-        });
-        refreshB.setFocusable(false);
-        refreshB.setPreferredSize(new Dimension(24, 24));
-        refreshB.setRequestFocusEnabled(false);
-        refreshB.setToolTipText(Local.getString("Refresh"));
-        refreshB.setMinimumSize(new Dimension(24, 24));
-        refreshB.setMaximumSize(new Dimension(24, 24));
-        refreshB.setEnabled(true);
-        refreshB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/ppopen.png")));
-        resPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
-    ppRun.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppRun.setText(Local.getString("Open resource")+"...");
-    ppRun.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppRun_actionPerformed(e);
-            }
-        });
-    ppRun.setEnabled(false);
-
-    ppRemoveRes.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppRemoveRes.setText(Local.getString("Remove resource"));
-    ppRemoveRes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppRemoveRes_actionPerformed(e);
-            }
-        });
-    ppRemoveRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
-    ppRemoveRes.setEnabled(false);
-    ppNewRes.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppNewRes.setText(Local.getString("New resource")+"...");
-    ppNewRes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppNewRes_actionPerformed(e);
-            }
-        });
-    ppNewRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/date.png")));
-
-    ppRefresh.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppRefresh.setText(Local.getString("Refresh"));
-    ppRefresh.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        ppRefresh_actionPerformed(e);
-      }
-    });
-    ppRefresh.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/error.png")));
-
-    toolBar.add(newResB, null);
-        toolBar.add(removeResB, null);
-        toolBar.addSeparator();
-        toolBar.add(refreshB, null);
-        this.add(scrollPane, BorderLayout.CENTER);
-        scrollPane.getViewport().add(resourcesTable, null);
-        this.add(toolBar, BorderLayout.NORTH);
-    resPPMenu.add(ppRun);
-    resPPMenu.addSeparator();
-    resPPMenu.add(ppNewRes);
-    resPPMenu.add(ppRemoveRes);
-    resPPMenu.addSeparator();
-    resPPMenu.add(ppRefresh);
 	
-		// remove resources using the DEL key
-		resourcesTable.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e){
-				if(resourcesTable.getSelectedRows().length>0 
-					&& e.getKeyCode()==KeyEvent.VK_DELETE)
-					ppRemoveRes_actionPerformed(null);
-			}
-			public void	keyReleased(KeyEvent e){}
-			public void keyTyped(KeyEvent e){} 
-		});
+    public DefectLogPanel() {
+        initComponents();
     }
+    DefectLog log = new DefectLog();
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
 
-    void newResB_actionPerformed(ActionEvent e) {
-        AddResourceDialog dlg = new AddResourceDialog(App.getFrame(), Local.getString("New Timesheet"));
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return;
-        if (dlg.localFileRB.isSelected()) {
-            String fpath = dlg.pathField.getText();
-            MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
-            if (mt.getMimeTypeId().equals("__UNKNOWN")) {
-                mt = addResourceType(fpath);
-                if (mt == null)
-                    return;
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        buildAdd = new javax.swing.JButton();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        buildInjection = new javax.swing.JTextPane();
+        jScrollPane17 = new javax.swing.JScrollPane();
+        buildRemoval = new javax.swing.JTextPane();
+        jScrollPane18 = new javax.swing.JScrollPane();
+        buildHours = new javax.swing.JTextPane();
+        jScrollPane19 = new javax.swing.JScrollPane();
+        buildDescription = new javax.swing.JTextPane();
+        jScrollPane20 = new javax.swing.JScrollPane();
+        buildTable = new javax.swing.JTable();
+        buildDelete = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        designAdd = new javax.swing.JButton();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        designTable = new javax.swing.JTable();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        designInjection = new javax.swing.JTextPane();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        designRemoval = new javax.swing.JTextPane();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        designHours = new javax.swing.JTextPane();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        designDescription = new javax.swing.JTextPane();
+        designDelete = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        syntaxAdd = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        syntaxTable = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        syntaxDescription = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        syntaxHours = new javax.swing.JTextPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        syntaxRemoval = new javax.swing.JTextPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        syntaxInjection = new javax.swing.JTextPane();
+        syntaxDelete = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        documentationAdd = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        documentationTable = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        documentationDescription = new javax.swing.JTextPane();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        documentationHours = new javax.swing.JTextPane();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        documentationRemoval = new javax.swing.JTextPane();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        documentationInjection = new javax.swing.JTextPane();
+        documentationDelete = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        assignmentAdd = new javax.swing.JButton();
+        jScrollPane21 = new javax.swing.JScrollPane();
+        assignmentTable = new javax.swing.JTable();
+        jScrollPane22 = new javax.swing.JScrollPane();
+        assignmentInjection = new javax.swing.JTextPane();
+        jScrollPane23 = new javax.swing.JScrollPane();
+        assignmentRemoval = new javax.swing.JTextPane();
+        jScrollPane24 = new javax.swing.JScrollPane();
+        assignmentHours = new javax.swing.JTextPane();
+        jScrollPane25 = new javax.swing.JScrollPane();
+        assignmentDescription = new javax.swing.JTextPane();
+        assignmentDelete = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane28 = new javax.swing.JScrollPane();
+        interfaceInjection = new javax.swing.JTextPane();
+        jScrollPane29 = new javax.swing.JScrollPane();
+        interfaceRemoval = new javax.swing.JTextPane();
+        jScrollPane30 = new javax.swing.JScrollPane();
+        interfaceDescription = new javax.swing.JTextPane();
+        jScrollPane31 = new javax.swing.JScrollPane();
+        interfaceHours = new javax.swing.JTextPane();
+        interfaceAdd = new javax.swing.JButton();
+        jScrollPane26 = new javax.swing.JScrollPane();
+        interfaceTable = new javax.swing.JTable();
+        deleteInterface = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        checkingDelete = new javax.swing.JButton();
+        jScrollPane32 = new javax.swing.JScrollPane();
+        checkingTable = new javax.swing.JTable();
+        jScrollPane33 = new javax.swing.JScrollPane();
+        checkingInjection = new javax.swing.JTextPane();
+        jScrollPane34 = new javax.swing.JScrollPane();
+        checkingRemoval = new javax.swing.JTextPane();
+        jScrollPane35 = new javax.swing.JScrollPane();
+        checkingHours = new javax.swing.JTextPane();
+        jScrollPane36 = new javax.swing.JScrollPane();
+        checkingDescription = new javax.swing.JTextPane();
+        deleteChecking = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        dataAdd = new javax.swing.JButton();
+        jScrollPane37 = new javax.swing.JScrollPane();
+        dataTable = new javax.swing.JTable();
+        jScrollPane38 = new javax.swing.JScrollPane();
+        dataInjection = new javax.swing.JTextPane();
+        jScrollPane39 = new javax.swing.JScrollPane();
+        dataDescription = new javax.swing.JTextPane();
+        jScrollPane40 = new javax.swing.JScrollPane();
+        dataRemoval = new javax.swing.JTextPane();
+        jScrollPane41 = new javax.swing.JScrollPane();
+        dataHours = new javax.swing.JTextPane();
+        dataDelete = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        systemAdd = new javax.swing.JButton();
+        jScrollPane42 = new javax.swing.JScrollPane();
+        systemTable = new javax.swing.JTable();
+        jScrollPane43 = new javax.swing.JScrollPane();
+        systemInjection = new javax.swing.JTextPane();
+        jScrollPane44 = new javax.swing.JScrollPane();
+        systemRemoval = new javax.swing.JTextPane();
+        jScrollPane45 = new javax.swing.JScrollPane();
+        systemHours = new javax.swing.JTextPane();
+        jScrollPane46 = new javax.swing.JScrollPane();
+        systemDescription = new javax.swing.JTextPane();
+        systemDelete = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        environmentAdd = new javax.swing.JButton();
+        jScrollPane47 = new javax.swing.JScrollPane();
+        environmentTable = new javax.swing.JTable();
+        jScrollPane48 = new javax.swing.JScrollPane();
+        environmentInjection = new javax.swing.JTextPane();
+        jScrollPane49 = new javax.swing.JScrollPane();
+        environmentRemoval = new javax.swing.JTextPane();
+        jScrollPane50 = new javax.swing.JScrollPane();
+        environmentHours = new javax.swing.JTextPane();
+        jScrollPane51 = new javax.swing.JScrollPane();
+        environmentDescription = new javax.swing.JTextPane();
+        environmentDelete = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+
+        buildAdd.setText("Add");
+        buildAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildAddActionPerformed(evt);
             }
-            if (!checkApp(mt))
-                return;
-            // if file if projectFile, than copy the file and change url.
-            if (dlg.projectFileCB.isSelected()) {
-            	fpath = copyFileToProjectDir(fpath);
-            	CurrentProject.getResourcesList().addResource(fpath, false, true);
+        });
+
+        jScrollPane16.setViewportView(buildInjection);
+
+        jScrollPane17.setViewportView(buildRemoval);
+
+        jScrollPane18.setViewportView(buildHours);
+
+        jScrollPane19.setViewportView(buildDescription);
+
+        buildTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
             }
-            else
-            	CurrentProject.getResourcesList().addResource(fpath);            	     	
-            
-            resourcesTable.tableChanged();
-        }
-        else {
-            if (!Util.checkBrowser())
-                return;
-            CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
-            resourcesTable.tableChanged();
-        }
-    }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
 
-    void removeResB_actionPerformed(ActionEvent e) {
-        int[] toRemove = resourcesTable.getSelectedRows();
-        String msg = "";
-        if (toRemove.length == 1)
-            msg =
-                Local.getString("Remove the shortcut to resource")
-                    + "\n'"
-                    + resourcesTable.getModel().getValueAt(toRemove[0], 0)
-                    + "'";
-
-        else
-            msg = Local.getString("Remove") + " " + toRemove.length + " " + Local.getString("shortcuts");
-        msg +=
-            "\n"
-            + Local.getString("Are you sure?");
-        int n =
-            JOptionPane.showConfirmDialog(
-                App.getFrame(),
-                msg,
-                Local.getString("Remove resource"),
-                JOptionPane.YES_NO_OPTION);
-        if (n != JOptionPane.YES_OPTION)
-            return;
-        for (int i = 0; i < toRemove.length; i++) {        	
-        		CurrentProject.getResourcesList().removeResource(
-                        ((Resource) resourcesTable.getModel().getValueAt(toRemove[i], ResourcesTable._RESOURCE)).getPath());
-        }
-        resourcesTable.tableChanged();
-    }
-
-    MimeType addResourceType(String fpath) {
-        ResourceTypeDialog dlg = new ResourceTypeDialog(App.getFrame(), Local.getString("Resource type"));
-        Dimension dlgSize = new Dimension(420, 300);
-        dlg.setSize(dlgSize);
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
-        dlg.ext = MimeTypesList.getExtension(fpath);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return null;
-        int ix = dlg.getTypesList().getSelectedIndex();
-        MimeType mt = (MimeType) MimeTypesList.getAllMimeTypes().toArray()[ix];
-        mt.addExtension(MimeTypesList.getExtension(fpath));
-        CurrentStorage.get().storeMimeTypesList();
-        return mt;
-    }
-
-    boolean checkApp(MimeType mt) {
-        String appId = mt.getAppId();
-        AppList appList = MimeTypesList.getAppList();
-        File d;
-        if (appId == null) {
-            appId = Util.generateId();
-            d = new File("/");
-        }
-        else {
-            File exe = new File(appList.getFindPath(appId) + "/" + appList.getExec(appId));
-            if (exe.isFile())
-                return true;
-            d = new File(exe.getParent());
-            while (!d.exists())
-                d = new File(d.getParent());
-        }
-        SetAppDialog dlg =
-            new SetAppDialog(
-                App.getFrame(),
-                Local.getString(Local.getString("Select the application to open files of type")+" '" + mt.getLabel() + "'"));
-        Dimension dlgSize = new Dimension(420, 300);
-        dlg.setSize(dlgSize);
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
-        dlg.setDirectory(d);
-        dlg.appPanel.argumentsField.setText("$1");
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return false;
-        File f = new File(dlg.appPanel.applicationField.getText());
-
-        appList.addOrReplaceApp(
-            appId,
-            f.getParent().replace('\\', '/'),
-            f.getName().replace('\\', '/'),
-            dlg.appPanel.argumentsField.getText());
-        mt.setApp(appId);
-        /*appList.setFindPath(appId, chooser.getSelectedFile().getParent().replace('\\','/'));
-        appList.setExec(appId, chooser.getSelectedFile().getName().replace('\\','/'));*/
-        CurrentStorage.get().storeMimeTypesList();
-        return true;
-    }
-    
-
-    void runApp(String fpath) {
-        MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
-        if (mt.getMimeTypeId().equals("__UNKNOWN")) {
-            mt = addResourceType(fpath);
-            if (mt == null)
-                return;
-        }
-        if (!checkApp(mt))
-            return;
-        String[] command = MimeTypesList.getAppList().getCommand(mt.getAppId(), fpath);
-        if (command == null)
-            return;
-        /*DEBUG*/
-        System.out.println("Run: " + command[0]);
-        try {
-            Runtime.getRuntime().exec(command);
-        }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to run an external application <br><code>"
-                    +command[0]+"</code>", "Check the application path and command line parameters for this resource type " +
-                    		"(File-&gt;Preferences-&gt;Resource types).");
-        }
-    }
-
-    void runBrowser(String url) {
-        Util.runBrowser(url);
-    }
-
-    class PopupListener extends MouseAdapter {
-
-        public void mouseClicked(MouseEvent e) {
-            if ((e.getClickCount() == 2) && (resourcesTable.getSelectedRow() > -1)) {
-                String path = (String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 3);
-                if (path.length() >0)
-                    runApp(path);
-                else
-                    runBrowser((String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 0));
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
-            //editTaskB_actionPerformed(null);
-        }
 
-                public void mousePressed(MouseEvent e) {
-                    maybeShowPopup(e);
-                }
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane20.setViewportView(buildTable);
 
-                public void mouseReleased(MouseEvent e) {
-                    maybeShowPopup(e);
-                }
+        buildDelete.setText("Delete");
+        buildDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildDeleteActionPerformed(evt);
+            }
+        });
 
-                private void maybeShowPopup(MouseEvent e) {
-                    if (e.isPopupTrigger()) {
-                        resPPMenu.show(e.getComponent(), e.getX(), e.getY());
-                    }
-                }
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buildAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buildDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(jScrollPane20)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buildAdd)
+                        .addComponent(buildDelete)))
+                .addContainerGap())
+        );
 
-    }
-    void refreshB_actionPerformed(ActionEvent e) {
-        resourcesTable.tableChanged();
-    }
+        jTabbedPane1.addTab("Build", jPanel2);
 
-  void ppRun_actionPerformed(ActionEvent e) {
-    String path = (String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 3);
-                if (path.length() >0)
-                    runApp(path);
-                else
-                    runBrowser((String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 0));
-  }
-  void ppRemoveRes_actionPerformed(ActionEvent e) {
-    removeResB_actionPerformed(e);
-  }
-  void ppNewRes_actionPerformed(ActionEvent e) {
-    newResB_actionPerformed(e);
-  }
+        designAdd.setText("Add");
+        designAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                designAddActionPerformed(evt);
+            }
+        });
 
-  void ppRefresh_actionPerformed(ActionEvent e) {
-     resourcesTable.tableChanged();
-  }
-  
-  /**
-   * Copy a file to the directory of the current project
-   * @param srcStr The path of the source file.
-   * @param destStr The destination path.
-   * @return The new path of the file.
-   */
-  String copyFileToProjectDir(String srcStr) {
-	  
-	  String JN_DOCPATH = Util.getEnvDir();	    
-	  
-	  String baseName;
-	  int i = srcStr.lastIndexOf( File.separator );
-		if ( i != -1 ) {
-			baseName = srcStr.substring(i+1);
-		} else
-			baseName = srcStr;
-		
-	  String destStr = JN_DOCPATH + CurrentProject.get().getID() 
-	  				   + File.separator + "_projectFiles" + File.separator + baseName;
-	  
-	  File f = new File(JN_DOCPATH + CurrentProject.get().getID() + File.separator + "_projectFiles");
-	  if (!f.exists()) {
-		  f.mkdirs();
-	  }	  
-	  System.out.println("[DEBUG] Copy file from: "+srcStr+" to: "+destStr);
-	  
-	  try {
-         FileInputStream in = new FileInputStream(srcStr);
-         FileOutputStream out = new FileOutputStream(destStr);
-         byte[] buf = new byte[4096];
-         int len;
-         while ((len = in.read(buf)) > 0) {
-           out.write(buf, 0, len);
-         }
-         out.close();
-         in.close();
-       } 
-	   catch (IOException e) {
-         System.err.println(e.toString());
-       }
-		     
-  return destStr;
-  }
+        designTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane11.setViewportView(designTable);
+
+        jScrollPane12.setViewportView(designInjection);
+
+        jScrollPane13.setViewportView(designRemoval);
+
+        jScrollPane14.setViewportView(designHours);
+
+        jScrollPane15.setViewportView(designDescription);
+
+        designDelete.setText("Delete");
+        designDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                designDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane11)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(designAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(designDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(designAdd)
+                        .addComponent(designDelete))
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Design", jPanel3);
+
+        syntaxAdd.setText("Add");
+        syntaxAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                syntaxAddActionPerformed(evt);
+            }
+        });
+
+        syntaxTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(syntaxTable);
+
+        jScrollPane2.setViewportView(syntaxDescription);
+
+        jScrollPane3.setViewportView(syntaxHours);
+
+        jScrollPane4.setViewportView(syntaxRemoval);
+
+        jScrollPane5.setViewportView(syntaxInjection);
+
+        syntaxDelete.setText("Delete");
+        syntaxDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                syntaxDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(syntaxAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(syntaxDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(syntaxAdd)
+                        .addComponent(syntaxDelete)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Syntax", jPanel4);
+
+        documentationAdd.setText("Add");
+        documentationAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                documentationAddActionPerformed(evt);
+            }
+        });
+
+        documentationTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(documentationTable);
+
+        jScrollPane7.setViewportView(documentationDescription);
+
+        jScrollPane8.setViewportView(documentationHours);
+
+        jScrollPane9.setViewportView(documentationRemoval);
+
+        jScrollPane10.setViewportView(documentationInjection);
+
+        documentationDelete.setText("Delete");
+        documentationDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                documentationDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane6)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(documentationAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(documentationDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(documentationAdd)
+                        .addComponent(documentationDelete)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Documentation", jPanel1);
+
+        assignmentAdd.setText("Add");
+        assignmentAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assignmentAddActionPerformed(evt);
+            }
+        });
+
+        assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane21.setViewportView(assignmentTable);
+
+        jScrollPane22.setViewportView(assignmentInjection);
+
+        jScrollPane23.setViewportView(assignmentRemoval);
+
+        jScrollPane24.setViewportView(assignmentHours);
+
+        jScrollPane25.setViewportView(assignmentDescription);
+
+        assignmentDelete.setText("Delete");
+        assignmentDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assignmentDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane21)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(assignmentAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(assignmentDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane21, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(assignmentAdd)
+                        .addComponent(assignmentDelete)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Assignment", jPanel5);
+
+        jScrollPane28.setViewportView(interfaceInjection);
+
+        jScrollPane29.setViewportView(interfaceRemoval);
+
+        jScrollPane30.setViewportView(interfaceDescription);
+
+        jScrollPane31.setViewportView(interfaceHours);
+
+        interfaceAdd.setText("Add");
+        interfaceAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                interfaceAddActionPerformed(evt);
+            }
+        });
+
+        interfaceTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane26.setViewportView(interfaceTable);
+
+        deleteInterface.setText("Delete");
+        deleteInterface.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteInterfaceActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(interfaceAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(deleteInterface, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(jScrollPane26, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(interfaceAdd)
+                        .addComponent(deleteInterface)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Interface", jPanel6);
+
+        checkingDelete.setText("Add");
+        checkingDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkingDeleteActionPerformed(evt);
+            }
+        });
+
+        checkingTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane32.setViewportView(checkingTable);
+
+        jScrollPane33.setViewportView(checkingInjection);
+
+        jScrollPane34.setViewportView(checkingRemoval);
+
+        jScrollPane35.setViewportView(checkingHours);
+
+        jScrollPane36.setViewportView(checkingDescription);
+
+        deleteChecking.setText("Delete");
+        deleteChecking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCheckingActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane32)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane33, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane36, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(checkingDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(deleteChecking, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 50, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jScrollPane32, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane33, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane35, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(checkingDelete)
+                        .addComponent(deleteChecking)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Checking", jPanel7);
+
+        dataAdd.setText("Add");
+        dataAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataAddActionPerformed(evt);
+            }
+        });
+
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane37.setViewportView(dataTable);
+
+        jScrollPane38.setViewportView(dataInjection);
+
+        jScrollPane39.setViewportView(dataDescription);
+
+        jScrollPane40.setViewportView(dataRemoval);
+
+        jScrollPane41.setViewportView(dataHours);
+
+        dataDelete.setText("Delete");
+        dataDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane38, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane40, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane41, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane39, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dataAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dataDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(jScrollPane37)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addComponent(jScrollPane37, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane40, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane38, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane41, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane39, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(dataAdd)
+                        .addComponent(dataDelete)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Data", jPanel8);
+
+        systemAdd.setText("Add");
+        systemAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                systemAddActionPerformed(evt);
+            }
+        });
+
+        systemTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane42.setViewportView(systemTable);
+
+        jScrollPane43.setViewportView(systemInjection);
+
+        jScrollPane44.setViewportView(systemRemoval);
+
+        jScrollPane45.setViewportView(systemHours);
+
+        jScrollPane46.setViewportView(systemDescription);
+
+        systemDelete.setText("Delete");
+        systemDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                systemDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane42)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane43, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane44, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane45, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane46, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(systemAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(systemDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jScrollPane42, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(systemAdd)
+                        .addComponent(systemDelete)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("System", jPanel9);
+
+        environmentAdd.setText("Add");
+        environmentAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                environmentAddActionPerformed(evt);
+            }
+        });
+
+        environmentTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Defect ID", "Injection", "Removal", "Hours", "Description", "Progress"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane47.setViewportView(environmentTable);
+
+        jScrollPane48.setViewportView(environmentInjection);
+
+        jScrollPane49.setViewportView(environmentRemoval);
+
+        jScrollPane50.setViewportView(environmentHours);
+
+        jScrollPane51.setViewportView(environmentDescription);
+
+        environmentDelete.setText("Delete");
+        environmentDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                environmentDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane48, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane49, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane50, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane51, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(environmentAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(environmentDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(jScrollPane47)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jScrollPane47, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane50, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane49, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane48, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane51, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(environmentAdd)
+                        .addComponent(environmentDelete)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Environment", jPanel10);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+    }// </editor-fold>                        
+
+    /*-------------------------
+     * 
+     * 
+     * delete and add button functions for defect log
+     * 
+     *------------------------*/
+    private void syntaxAddActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        log.addRow(syntaxInjection, syntaxRemoval, syntaxHours, syntaxDescription, syntaxTable);
+    }                                         
+
+    private void documentationAddActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        log.addRow(documentationInjection, documentationRemoval, documentationHours, documentationDescription, documentationTable);
+    }                                                
+
+    private void designAddActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        log.addRow(designInjection, designRemoval, designHours, designDescription, designTable);
+    }                                         
+
+    private void assignmentAddActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        log.addRow(assignmentInjection, assignmentRemoval, assignmentHours, assignmentDescription, assignmentTable);
+    }                                             
+
+    private void interfaceAddActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        log.addRow(interfaceInjection, interfaceRemoval, interfaceHours, interfaceDescription, interfaceTable);
+    }                                            
+
+    private void checkingDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        log.addRow(checkingInjection, checkingRemoval, checkingHours, checkingDescription, checkingTable);
+    }                                              
+
+    private void dataAddActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        log.addRow(dataInjection, dataRemoval, dataHours, dataDescription, dataTable);
+    }                                       
+
+    private void systemAddActionPerformed(java.awt.event.ActionEvent evt) {                                          
+       
+        log.addRow(systemInjection, systemRemoval, systemHours, systemDescription, systemTable);
+    }                                         
+
+    private void environmentAddActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        
+       log.addRow(environmentInjection, environmentRemoval, environmentHours, environmentDescription, environmentTable);   
+    }                                              
+
+    private void environmentDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        log.deleteRow(environmentTable);
+    }                                                 
+
+    private void systemDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        log.deleteRow(systemTable);
+    }                                            
+
+    private void dataDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        log.deleteRow(dataTable);
+    }                                          
+
+    private void deleteCheckingActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        log.deleteRow(checkingTable);
+    }                                              
+
+    private void deleteInterfaceActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        log.deleteRow(interfaceTable);
+    }                                               
+
+    private void assignmentDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        log.deleteRow(assignmentTable);
+    }                                                
+
+    private void documentationDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+        log.deleteRow(documentationTable);
+    }                                                   
+
+    private void syntaxDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        log.deleteRow(syntaxTable);
+    }                                            
+
+    private void designDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        log.deleteRow(designTable);
+    }                                            
+
+    private void buildAddActionPerformed(java.awt.event.ActionEvent evt) {                                         
+                log.addRow(buildInjection, buildRemoval, buildHours, buildDescription, buildTable);
+
+    }                                        
+
+    private void buildDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        log.deleteRow(buildTable);
+    }                                           
+
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton assignmentAdd;
+    private javax.swing.JButton assignmentDelete;
+    private javax.swing.JTextPane assignmentDescription;
+    private javax.swing.JTextPane assignmentHours;
+    private javax.swing.JTextPane assignmentInjection;
+    private javax.swing.JTextPane assignmentRemoval;
+    private javax.swing.JTable assignmentTable;
+    private javax.swing.JButton buildAdd;
+    private javax.swing.JButton buildDelete;
+    private javax.swing.JTextPane buildDescription;
+    private javax.swing.JTextPane buildHours;
+    private javax.swing.JTextPane buildInjection;
+    private javax.swing.JTextPane buildRemoval;
+    private javax.swing.JTable buildTable;
+    private javax.swing.JButton checkingDelete;
+    private javax.swing.JTextPane checkingDescription;
+    private javax.swing.JTextPane checkingHours;
+    private javax.swing.JTextPane checkingInjection;
+    private javax.swing.JTextPane checkingRemoval;
+    private javax.swing.JTable checkingTable;
+    private javax.swing.JButton dataAdd;
+    private javax.swing.JButton dataDelete;
+    private javax.swing.JTextPane dataDescription;
+    private javax.swing.JTextPane dataHours;
+    private javax.swing.JTextPane dataInjection;
+    private javax.swing.JTextPane dataRemoval;
+    private javax.swing.JTable dataTable;
+    private javax.swing.JButton deleteChecking;
+    private javax.swing.JButton deleteInterface;
+    private javax.swing.JButton designAdd;
+    private javax.swing.JButton designDelete;
+    private javax.swing.JTextPane designDescription;
+    private javax.swing.JTextPane designHours;
+    private javax.swing.JTextPane designInjection;
+    private javax.swing.JTextPane designRemoval;
+    private javax.swing.JTable designTable;
+    private javax.swing.JButton documentationAdd;
+    private javax.swing.JButton documentationDelete;
+    private javax.swing.JTextPane documentationDescription;
+    private javax.swing.JTextPane documentationHours;
+    private javax.swing.JTextPane documentationInjection;
+    private javax.swing.JTextPane documentationRemoval;
+    private javax.swing.JTable documentationTable;
+    private javax.swing.JButton environmentAdd;
+    private javax.swing.JButton environmentDelete;
+    private javax.swing.JTextPane environmentDescription;
+    private javax.swing.JTextPane environmentHours;
+    private javax.swing.JTextPane environmentInjection;
+    private javax.swing.JTextPane environmentRemoval;
+    private javax.swing.JTable environmentTable;
+    private javax.swing.JButton interfaceAdd;
+    private javax.swing.JTextPane interfaceDescription;
+    private javax.swing.JTextPane interfaceHours;
+    private javax.swing.JTextPane interfaceInjection;
+    private javax.swing.JTextPane interfaceRemoval;
+    private javax.swing.JTable interfaceTable;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
+    private javax.swing.JScrollPane jScrollPane17;
+    private javax.swing.JScrollPane jScrollPane18;
+    private javax.swing.JScrollPane jScrollPane19;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane20;
+    private javax.swing.JScrollPane jScrollPane21;
+    private javax.swing.JScrollPane jScrollPane22;
+    private javax.swing.JScrollPane jScrollPane23;
+    private javax.swing.JScrollPane jScrollPane24;
+    private javax.swing.JScrollPane jScrollPane25;
+    private javax.swing.JScrollPane jScrollPane26;
+    private javax.swing.JScrollPane jScrollPane28;
+    private javax.swing.JScrollPane jScrollPane29;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane30;
+    private javax.swing.JScrollPane jScrollPane31;
+    private javax.swing.JScrollPane jScrollPane32;
+    private javax.swing.JScrollPane jScrollPane33;
+    private javax.swing.JScrollPane jScrollPane34;
+    private javax.swing.JScrollPane jScrollPane35;
+    private javax.swing.JScrollPane jScrollPane36;
+    private javax.swing.JScrollPane jScrollPane37;
+    private javax.swing.JScrollPane jScrollPane38;
+    private javax.swing.JScrollPane jScrollPane39;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane40;
+    private javax.swing.JScrollPane jScrollPane41;
+    private javax.swing.JScrollPane jScrollPane42;
+    private javax.swing.JScrollPane jScrollPane43;
+    private javax.swing.JScrollPane jScrollPane44;
+    private javax.swing.JScrollPane jScrollPane45;
+    private javax.swing.JScrollPane jScrollPane46;
+    private javax.swing.JScrollPane jScrollPane47;
+    private javax.swing.JScrollPane jScrollPane48;
+    private javax.swing.JScrollPane jScrollPane49;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane50;
+    private javax.swing.JScrollPane jScrollPane51;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton syntaxAdd;
+    private javax.swing.JButton syntaxDelete;
+    private javax.swing.JTextPane syntaxDescription;
+    private javax.swing.JTextPane syntaxHours;
+    private javax.swing.JTextPane syntaxInjection;
+    private javax.swing.JTextPane syntaxRemoval;
+    private javax.swing.JTable syntaxTable;
+    private javax.swing.JButton systemAdd;
+    private javax.swing.JButton systemDelete;
+    private javax.swing.JTextPane systemDescription;
+    private javax.swing.JTextPane systemHours;
+    private javax.swing.JTextPane systemInjection;
+    private javax.swing.JTextPane systemRemoval;
+    private javax.swing.JTable systemTable;
+    // End of variables declaration                   
 }

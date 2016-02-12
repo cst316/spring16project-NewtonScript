@@ -32,12 +32,12 @@ public class WorkPanel extends JPanel {
 	CardLayout cardLayout1 = new CardLayout();
 
 	public JButton notesB = new JButton();
-	public DefectLogPanel defectLogPanel = new DefectLogPanel();
 	public TimeSheetPanel timeSheetPanel = new TimeSheetPanel();
 	public DailyItemsPanel dailyItemsPanel = new DailyItemsPanel(this);
 	public ResourcesPanel filesPanel = new ResourcesPanel();
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
+	public DefectLogPanel defectLogPanel = new DefectLogPanel();
 	public JButton eventsB = new JButton();
 	public JButton filesB = new JButton();
 	public JButton timesheetB = new JButton();
@@ -232,7 +232,7 @@ public class WorkPanel extends JPanel {
 		defectlogB.setIcon(
 			new ImageIcon(
 				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/files.png")));
+					"resources/icons/bug3.png")));
 		defectlogB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		defectlogB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -290,9 +290,9 @@ public class WorkPanel extends JPanel {
 			else if (pan.equals("FILES"))
 				filesB_actionPerformed(null);
 			else if (pan.equals("TIMESHEET"))
-				filesB_actionPerformed(null);
+				timesheetB_actionPerformed(null);
 			else if (pan.equals("DEFECTLOG"))
-				filesB_actionPerformed(null);
+				defectlogB_actionPerformed(null);
 		}
 	}
 
