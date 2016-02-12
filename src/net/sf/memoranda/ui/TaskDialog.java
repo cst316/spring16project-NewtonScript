@@ -40,6 +40,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JCheckBox;
+import java.util.Vector;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Phase;
@@ -115,10 +116,14 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
-	
-	JPanel phaseParent = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	JPanel phaseParent = new JPanel(new GridLayout(1, 2));
 	JComboBox<Phase> phaseOptions;
 	public static final String SELECT = "<Select>";
+	//Button to assign owner
+	UsersList myUsers = UsersList.getInstance();
+	Vector<String> systemUsers = myUsers.getUserList();
+	JComboBox ownerCB = new JComboBox(systemUsers);
+	String currentOwner;
     
     public TaskDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -334,6 +339,20 @@ public class TaskDialog extends JDialog {
                 setNotifB_actionPerformed(e);
             }
         });
+      //Adds listener to Owner Button
+        if(ownerCB.getItemCount() == 0) {
+        	ownerCB.insertItemAt(" ", 0);
+        }
+        else if(!ownerCB.getItemAt(0).equals(" ")) {
+        	ownerCB.insertItemAt(" ", 0);
+    	}
+        ownerCB.setSelectedIndex(0);
+        ownerCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ownerCB_actionPerformed(e);
+            }
+        });
+        
         jLabel7.setMaximumSize(new Dimension(100, 16));
         jLabel7.setMinimumSize(new Dimension(60, 16));
         //jLabel7.setPreferredSize(new Dimension(60, 16));
@@ -342,7 +361,9 @@ public class TaskDialog extends JDialog {
         // Start phase options here - Doug Carroll
         JPanel phasePanel = new JPanel();
         phasePanel.setLayout(new BoxLayout(phasePanel, BoxLayout.Y_AXIS));
+        JPanel ownerSubPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel phaseSubPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel ownerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         phaseSubPanel.setAlignmentX(LEFT_ALIGNMENT);
         phaseOptions = new JComboBox<Phase>();
         JLabel phaseLabel = new JLabel("Phase");
@@ -358,7 +379,12 @@ public class TaskDialog extends JDialog {
         phaseSubPanel.add(phaseOptions);
         phasePanel.add(phaseSubPanel);
         phasePanel.add(addPhase);
-        phaseParent.add(phasePanel);
+        JLabel ownerLabel = new JLabel("Owner");
+        ownerSubPanel.add(ownerLabel);
+        ownerSubPanel.add(ownerCB);
+        ownerPanel.add(ownerSubPanel);
+        phaseParent.add(phasePanel, 0, 0);
+        phaseParent.add(ownerPanel, 0, 1);
         
         // Button action listener
         addPhase.addActionListener(new ActionListener() {
@@ -455,10 +481,16 @@ public class TaskDialog extends JDialog {
 	
     void okB_actionPerformed(ActionEvent e) {
 	CANCELLED = false;
+        if(ownerCB.getItemAt(0).equals(" ")) {
+    		ownerCB.removeItemAt(0);
+    	}
         this.dispose();
     }
 
     void cancelB_actionPerformed(ActionEvent e) {
+        if(ownerCB.getItemAt(0).equals(" ")) {
+    		ownerCB.removeItemAt(0);
+    	}
         this.dispose();
     }
 	
@@ -568,6 +600,13 @@ public class TaskDialog extends JDialog {
     public void setSelectedPhase(String ph){
     	Phase phase = CurrentProject.getPhaseList().getPhase(ph);
     	phaseOptions.setSelectedItem(phase);
+    }
+    //ComboBox to assign an owner listener
+    void ownerCB_actionPerformed(ActionEvent e) {
+    	currentOwner = String.valueOf(ownerCB.getSelectedItem());
+    }
+    public String getSelectedOwner() {
+    	return currentOwner;
     }
 
 }

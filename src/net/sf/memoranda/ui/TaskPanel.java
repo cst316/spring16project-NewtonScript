@@ -490,7 +490,7 @@ public class TaskPanel extends JPanel {
     }
 
     void editTaskB_actionPerformed(ActionEvent e) {
-    	
+    
     	Task ph = CurrentProject.getPhaseList().getAllByID(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
     	// If a phase is highlighted, open the rename diabox instead
     	if(ph.isPhase()){
@@ -519,12 +519,18 @@ public class TaskPanel extends JPanel {
 	        dlg.endDate.getModel().setValue(t.getEndDate().getDate());
 	        dlg.priorityCB.setSelectedIndex(t.getPriority());                
 	        dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
-		if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
-			dlg.chkEndDate.setSelected(false);
-		else
-			dlg.chkEndDate.setSelected(true);
-			dlg.progress.setValue(new Integer(t.getProgress()));
-	 	dlg.chkEndDate_actionPerformed(null);	
+	      //Shows the current owner of task in Edit Task
+	        dlg.ownerCB.setSelectedItem(t.getOwner());
+	        if(!dlg.ownerCB.getSelectedItem().equals(t.getOwner())) {
+	        	dlg.ownerCB.addItem(t.getOwner());
+	        	dlg.ownerCB.setSelectedItem(t.getOwner());
+	        }
+			if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
+				dlg.chkEndDate.setSelected(false);
+			else
+				dlg.chkEndDate.setSelected(true);
+				dlg.progress.setValue(new Integer(t.getProgress()));
+		 	dlg.chkEndDate_actionPerformed(null);	
 	        dlg.setVisible(true);
 	        if (dlg.CANCELLED)
 	            return;
@@ -590,6 +596,7 @@ public class TaskPanel extends JPanel {
         Phase ph = dlg.getSelectedPhase();
 		Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(), ph.getID(), ph.toString());
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
+		newTask.setOwner(dlg.getSelectedOwner());
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
         CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();

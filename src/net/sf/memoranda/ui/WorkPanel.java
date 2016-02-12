@@ -42,6 +42,11 @@ public class WorkPanel extends JPanel {
 	public JButton filesB = new JButton();
 	public JButton timesheetB = new JButton();
 	public JButton defectlogB = new JButton();
+	
+	public JButton usersB = new JButton(); //Button for system users
+	SystemUsersDialog sysUser; // System Users dialog
+	UsersList userList = UsersList.getInstance(); //List of system users
+	
 	JButton currentB = null;
 	Border border1;
 
@@ -175,6 +180,32 @@ public class WorkPanel extends JPanel {
 		notesB.setMargin(new Insets(0, 0, 0, 0));
 		notesB.setSelected(true);
 		this.setPreferredSize(new Dimension(1073, 300));
+		
+		usersB.setBackground(Color.white);
+		usersB.setMaximumSize(new Dimension(60, 80));
+		usersB.setMinimumSize(new Dimension(30, 30));
+
+		usersB.setFont(new java.awt.Font("Dialog", 1, 10));
+		usersB.setPreferredSize(new Dimension(50, 50));
+		usersB.setBorderPainted(false);
+		usersB.setContentAreaFilled(false);
+		usersB.setFocusPainted(false);
+		usersB.setHorizontalTextPosition(SwingConstants.CENTER);
+		usersB.setText(Local.getString("Users"));
+		usersB.setVerticalAlignment(SwingConstants.TOP);
+		usersB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		usersB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				usersB_actionPerformed(e);
+			}
+		});
+		usersB.setIcon(
+			new ImageIcon(
+				net.sf.memoranda.ui.AppFrame.class.getResource(
+					"resources/icons/users.png")));
+		usersB.setOpaque(false);
+		usersB.setMargin(new Insets(0, 0, 0, 0));
+		usersB.setSelected(true);
 
 		filesB.setSelected(true);
 		filesB.setMargin(new Insets(0, 0, 0, 0));
@@ -267,6 +298,7 @@ public class WorkPanel extends JPanel {
 		toolBar.add(filesB, null);
 		toolBar.add(timesheetB, null);
 		toolBar.add(defectlogB, null);
+		toolBar.add(usersB, null);
 		currentB = agendaB;
 		// Default blue color
 		currentB.setBackground(new Color(215, 225, 250));
@@ -293,6 +325,8 @@ public class WorkPanel extends JPanel {
 				timesheetB_actionPerformed(null);
 			else if (pan.equals("DEFECTLOG"))
 				defectlogB_actionPerformed(null);
+			else if (pan.equals("USERS"))
+				usersB_actionPerformed(null);
 		}
 	}
 
@@ -338,6 +372,15 @@ public class WorkPanel extends JPanel {
 		cardLayout1.show(panel, "DEFECTLOG");
 		setCurrentButton(defectlogB);
 		Context.put("CURRENT_PANEL", "DEFECTLOG");
+	}
+	public void usersB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("USERS");
+		setCurrentButton(usersB);
+		Context.put("CURRENT_PANEL", "USERS");
+		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
+    	sysUser.requestFocus();
+    	userList.addArray(sysUser.getUsersArray());
 	}
 
 	void setCurrentButton(JButton cb) {

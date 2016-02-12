@@ -28,6 +28,7 @@ public class TaskImpl implements Task, Comparable {
 
     private Element _element = null;
     private TaskList _tl = null;
+    private String owner;
 
     /**
      * Constructor for DefaultTask.
@@ -304,6 +305,12 @@ public class TaskImpl implements Task, Comparable {
            _element.addAttribute(new Attribute(a, value));
         else
             attr.setValue(value);
+    }
+    public void setOwner(String owner) {
+    	setAttr("owner", owner);
+    }
+    public String getOwner() {
+    	return _element.getAttribute("owner").getValue().toString();
     }
 
 	/**

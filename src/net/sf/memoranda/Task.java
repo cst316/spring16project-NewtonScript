@@ -88,6 +88,9 @@ public interface Task {
     String getParentId();
     Element getParentElem();
     
+    void setOwner(String owner);
+    String getOwner();
+    
     void freeze();
     void unfreeze();
     public boolean isFrozen();

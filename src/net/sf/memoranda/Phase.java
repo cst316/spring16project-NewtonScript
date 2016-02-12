@@ -343,5 +343,17 @@ public class Phase implements Task{
 	// This should do nothing here because phases are not in phases
 	@Override
 	public void setPhaseElem(Element e) {}
+
+
+	@Override
+	public void setOwner(String owner) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getOwner() {
+		return "";
+	}
 	
 }
