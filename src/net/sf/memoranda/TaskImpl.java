@@ -185,7 +185,7 @@ public class TaskImpl implements Task, Comparable {
         return check;
     }
 */
-    private boolean isFrozen() {
+    public boolean isFrozen() {
         return _element.getAttribute("frozen") != null;
     }
 
@@ -441,4 +441,9 @@ public class TaskImpl implements Task, Comparable {
 	}
 	
 	public boolean isPhase(){return false;}
+	
+	public boolean hasSubTasks(){
+		Elements subTasks = _element.getChildElements("task");
+		return subTasks.size() > 0;
+	}
 }

@@ -131,7 +131,11 @@ public class TaskDialog extends JDialog {
         }
     }
     
-    void jbInit() throws Exception {
+    public JComboBox<Phase> getPhaseBox() {
+		return phaseOptions;
+	}
+
+	void jbInit() throws Exception {
 	this.setResizable(false);
 	this.setSize(new Dimension(430,300));
         border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);

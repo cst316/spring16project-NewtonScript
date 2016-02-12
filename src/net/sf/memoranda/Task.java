@@ -76,6 +76,7 @@ public interface Task {
     Task getSubTask(String id);
     
     boolean hasSubTasks(String id);
+    boolean hasSubTasks();
     
     void setEffort(long effort);
     long getEffort();
@@ -89,6 +90,7 @@ public interface Task {
     
     void freeze();
     void unfreeze();
+    public boolean isFrozen();
 	long getRate();
     
     nu.xom.Element getContent();
