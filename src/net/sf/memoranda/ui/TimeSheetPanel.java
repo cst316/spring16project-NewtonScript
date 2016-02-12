@@ -3,9 +3,11 @@ package net.sf.memoranda.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -38,6 +41,7 @@ import net.sf.memoranda.util.Util;
 import java.io.*;
 import java.awt.GridBagLayout;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -180,27 +184,34 @@ public class TimeSheetPanel extends JPanel {
                     removeResB.setEnabled(false);
                     toolBar.add(removeResB, null);
                 scrollPane.setViewportView(resourcesTable);
-                GroupLayout groupLayout = new GroupLayout(this);
-                groupLayout.setHorizontalGroup(
-                	groupLayout.createParallelGroup(Alignment.LEADING)
-                		.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)
-                		.addGroup(groupLayout.createSequentialGroup()
-                			.addContainerGap()
-                			.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                				.addComponent(table, GroupLayout.PREFERRED_SIZE, 710, GroupLayout.PREFERRED_SIZE)
-                				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)))
-                );
-                groupLayout.setVerticalGroup(
-                	groupLayout.createParallelGroup(Alignment.LEADING)
-                		.addGroup(groupLayout.createSequentialGroup()
-                			.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                			.addGap(5)
-                			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-                			.addPreferredGap(ComponentPlacement.RELATED)
-                			.addComponent(table, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-                			.addContainerGap(287, Short.MAX_VALUE))
-                );
-                setLayout(groupLayout);
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+//                GroupLayout groupLayout = new GroupLayout(this);
+//                groupLayout.setHorizontalGroup(
+//                	groupLayout.createParallelGroup(Alignment.LEADING)
+//                		.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)
+//                		.addGroup(groupLayout.createSequentialGroup()
+//                			.addContainerGap()
+//                			.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+//                				.addComponent(table, GroupLayout.PREFERRED_SIZE, 710, GroupLayout.PREFERRED_SIZE)
+//                				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)))
+//                );
+//                groupLayout.setVerticalGroup(
+//                	groupLayout.createParallelGroup(Alignment.LEADING)
+//                		.addGroup(groupLayout.createSequentialGroup()
+//                			.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+//                			.addGap(5)
+//                			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+//                			.addPreferredGap(ComponentPlacement.RELATED)
+//                			.addComponent(table, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+//                			.addContainerGap(287, Short.MAX_VALUE))
+//                );
+//                setLayout(groupLayout);
+                
+               
+        	    
+        	 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/                
+                
                 
                 	// remove resources using the DEL key
                 	resourcesTable.addKeyListener(new KeyListener() {
@@ -219,6 +230,271 @@ public class TimeSheetPanel extends JPanel {
     resPPMenu.addSeparator();
     resPPMenu.add(ppRefresh);
     }
+    
+    final String MONTH1 = "January";
+    final String MONTH2 = "February";
+	final String MONTH3 = "March";
+	final String MONTH4 = "April";
+	final String MONTH5 = "May";
+	final String MONTH6 = "June";
+	final String MONTH7 = "July";
+	final String MONTH8 = "August";
+	final String MONTH9 = "September";
+	final String MONTH10 = "October";
+	final String MONTH11 = "November";
+	final String MONTH12 = "December";
+ 
+    public void addComponentToPane(Container pane) {
+		
+        JTabbedPane tabbedPane = new JTabbedPane();
+ 
+        //Create the "cards".
+        JPanel card1 = new JPanel() {
+            public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card2 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        
+        JPanel card3 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card4 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card5 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card6 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card7 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card8 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card9 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card10 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card11 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        JPanel card12 = new JPanel(){
+        	public Dimension getPreferredSize() {
+            	Dimension size = super.getPreferredSize();
+            	size.setSize(935,600);
+            	return size;
+            }
+        };
+        
+        card1.add(new JLabel("Date                        "));
+        card1.add(new JLabel("Start                       "));
+        card1.add(new JLabel("       Stop                 "));
+        card1.add(new JLabel("   Interruption Time        "));
+        card1.add(new JLabel("       Phase                "));
+        card1.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card2.add(new JLabel("Date                        "));
+        card2.add(new JLabel("Start                       "));
+        card2.add(new JLabel("       Stop                 "));
+        card2.add(new JLabel("   Interruption Time        "));
+        card2.add(new JLabel("       Phase                "));
+        card2.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card3.add(new JLabel("Date                        "));
+        card3.add(new JLabel("Start                       "));
+        card3.add(new JLabel("       Stop                 "));
+        card3.add(new JLabel("   Interruption Time        "));
+        card3.add(new JLabel("       Phase                "));
+        card3.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card4.add(new JLabel("Date                        "));
+        card4.add(new JLabel("Start                       "));
+        card4.add(new JLabel("       Stop                 "));
+        card4.add(new JLabel("   Interruption Time        "));
+        card4.add(new JLabel("       Phase                "));
+        card4.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card5.add(new JLabel("Date                        "));
+        card5.add(new JLabel("Start                       "));
+        card5.add(new JLabel("       Stop                 "));
+        card5.add(new JLabel("   Interruption Time        "));
+        card5.add(new JLabel("       Phase                "));
+        card5.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card6.add(new JLabel("Date                        "));
+        card6.add(new JLabel("Start                       "));
+        card6.add(new JLabel("       Stop                 "));
+        card6.add(new JLabel("   Interruption Time        "));
+        card6.add(new JLabel("       Phase                "));
+        card6.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card7.add(new JLabel("Date                        "));
+        card7.add(new JLabel("Start                       "));
+        card7.add(new JLabel("       Stop                 "));
+        card7.add(new JLabel("   Interruption Time        "));
+        card7.add(new JLabel("       Phase                "));
+        card7.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card8.add(new JLabel("Date                        "));
+        card8.add(new JLabel("Start                       "));
+        card8.add(new JLabel("       Stop                 "));
+        card8.add(new JLabel("   Interruption Time        "));
+        card8.add(new JLabel("       Phase                "));
+        card8.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card9.add(new JLabel("Date                        "));
+        card9.add(new JLabel("Start                       "));
+        card9.add(new JLabel("       Stop                 "));
+        card9.add(new JLabel("   Interruption Time        "));
+        card9.add(new JLabel("       Phase                "));
+        card9.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card10.add(new JLabel("Date                        "));
+        card10.add(new JLabel("Start                       "));
+        card10.add(new JLabel("       Stop                 "));
+        card10.add(new JLabel("   Interruption Time        "));
+        card10.add(new JLabel("       Phase                "));
+        card10.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card11.add(new JLabel("Date                        "));
+        card11.add(new JLabel("Start                       "));
+        card11.add(new JLabel("       Stop                 "));
+        card11.add(new JLabel("   Interruption Time        "));
+        card11.add(new JLabel("       Phase                "));
+        card11.add(new JLabel("Comments                                                                       "));
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        card12.add(new JLabel("Date                        "));
+        card12.add(new JLabel("Start                       "));
+        card12.add(new JLabel("       Stop                 "));
+        card12.add(new JLabel("   Interruption Time        "));
+        card12.add(new JLabel("       Phase                "));
+        card12.add(new JLabel("Comments                                                                       "));
+        
+        tabbedPane.addTab(MONTH1, card1);
+        tabbedPane.addTab(MONTH2, card2);
+        tabbedPane.addTab(MONTH3, card3);
+        tabbedPane.addTab(MONTH4, card4);
+        tabbedPane.addTab(MONTH5, card5);
+        tabbedPane.addTab(MONTH6, card6);
+        tabbedPane.addTab(MONTH7, card7);
+        tabbedPane.addTab(MONTH8, card8);
+        tabbedPane.addTab(MONTH9, card9);
+        tabbedPane.addTab(MONTH10, card10);
+        tabbedPane.addTab(MONTH11, card10);
+        tabbedPane.addTab(MONTH12, card12);
+        
+        int count = 1;
+        int month= 0;
+        
+        while(count != 121 && month != 12){
+        	if (month != 12 && count == 121){
+        		month++;
+        		count = 1;
+        	}
+        	if (count%6 == 0){
+        		card1.add(new JTextField("", 30));
+        		card2.add(new JTextField("", 30));
+        		card3.add(new JTextField("", 30));
+        		card4.add(new JTextField("", 30));
+        		card5.add(new JTextField("", 30));
+        		card6.add(new JTextField("", 30));
+        		card7.add(new JTextField("", 30));
+        		card8.add(new JTextField("", 30));
+        		card9.add(new JTextField("", 30));
+        		card10.add(new JTextField("", 30));
+        		card11.add(new JTextField("", 30));
+        		card12.add(new JTextField("", 30));
+        	}
+        	else if(count %6 != 0){
+        		card1.add(new JTextField("", 10));
+        		card2.add(new JTextField("", 10));
+        		card3.add(new JTextField("", 10));
+        		card4.add(new JTextField("", 10));
+        		card5.add(new JTextField("", 10));
+        		card6.add(new JTextField("", 10));
+        		card7.add(new JTextField("", 10));
+        		card8.add(new JTextField("", 10));
+        		card9.add(new JTextField("", 10));
+        		card10.add(new JTextField("", 10));
+        		card11.add(new JTextField("", 10));
+        		card12.add(new JTextField("", 10));
+        			        		
+        	}
+        	count++;
+        	
+        }
+ 
+        pane.add(tabbedPane, BorderLayout.CENTER);
+    }
+    
+    private static void createAndShowGUI() {
+        JFrame frame = new JFrame("Time Table");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 
+        TimeSheetPanel demo = new TimeSheetPanel();
+        demo.addComponentToPane(frame.getContentPane());
+ 
+        frame.pack();
+        frame.setVisible(true);
+        
+    }
+    
+//    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//        public void run() {
+//            createAndShowGUI();
+//        }
+//    });
+    
+    
 
     void newResB_actionPerformed(ActionEvent e) {
         AddResourceDialog dlg = new AddResourceDialog(App.getFrame(), Local.getString("New Timesheet"));
