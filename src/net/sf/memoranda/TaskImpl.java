@@ -8,6 +8,7 @@
  */
 package net.sf.memoranda;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Calendar;
@@ -49,25 +50,63 @@ public class TaskImpl implements Task, Comparable {
     public void setStartDate(CalendarDate date) {
            setAttr("startDate", date.toString());
     }
-
+    
     public CalendarDate getEndDate() {
-		String ed = _element.getAttribute("endDate").getValue();
-		if (ed != "")
-			return new CalendarDate(_element.getAttribute("endDate").getValue());
-		Task parent = this.getParentTask();
-		if (parent != null)
-			return parent.getEndDate();
-		Project pr = this._tl.getProject();
-		if (pr.getEndDate() != null)
-			return pr.getEndDate();
-		return this.getStartDate();
+		return new CalendarDate(_element.getAttribute("endDate").getValue());
         
     }
-
+    
+    // Sets the default start/end date based on the old getters functionality
+    // This is how it should have been implemented.
+    public void setDefaultDates(){
+    	String ed = _element.getAttribute("endDate").getValue();
+    	Task parent = this.getParentTask();
+    	if(ed.isEmpty()){
+    		Project pr = _tl.getProject();
+    		if(parent != null)
+    			setEndDate(parent.getEndDate());
+    		else if(pr.getEndDate() != null)
+    			setEndDate(pr.getEndDate());
+    		else
+    			setEndDate(getStartDate());
+    	}
+    	// Make sure that the end date is not later than parents
+    	if(isSubTask()){
+    		checkEndDate(parent);
+    		checkStartDate(parent);
+    	}
+    }
+    
+    // Checks the end date of a sub task to make sure it is before or equal to the parent
+    // This is a double layer of protection in case end date goes above parents
+    private void checkEndDate(Task parent){
+    	CalendarDate parDate = parent.getEndDate();
+    	if(this.getEndDate().after(parDate)){
+    		this.setEndDate(parDate);
+    	}
+    }
+    
+    // Checks the start date of a sub task to make sure it is after or equal to the parent
+    private void checkStartDate(Task parent){
+    	CalendarDate parDate = parent.getStartDate();
+    	if(this.getStartDate().before(parDate)){
+    		this.setStartDate(parDate);
+    	}
+    }
+    
+    public boolean isSubTask(){
+    	Task parent = this.getParentTask();
+    	boolean result = false;
+    	if(!(parent.getPhaseTitle().isEmpty()))
+    		result = true;
+    	return result;
+    }
+    
     public void setEndDate(CalendarDate date) {
 		if (date == null)
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		else
+			setAttr("endDate", date.toString());
     }
 
     public long getEffort() {
@@ -371,13 +410,13 @@ public class TaskImpl implements Task, Comparable {
 	/* 
 	 * @see net.sf.memoranda.Task#getSubTasks()
 	 */
-	public Collection getSubTasks() {
+	public ArrayList<Task> getSubTasks() {
 		Elements subTasks = _element.getChildElements("task");
             return convertToTaskObjects(subTasks);
 	}
 
-	private Collection convertToTaskObjects(Elements tasks) {
-        Vector v = new Vector();
+	private ArrayList<Task> convertToTaskObjects(Elements tasks) {
+        ArrayList<Task> v = new ArrayList<Task>();
         for (int i = 0; i < tasks.size(); i++) {
             Task t = new TaskImpl(tasks.get(i), _tl);
             v.add(t);

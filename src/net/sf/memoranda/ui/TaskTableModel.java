@@ -88,6 +88,8 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
         case 1:
             return t;
         case 2:
+        	if (t.getStartDate() == null)
+        		return null;
             return t.getStartDate().getDate();
         case 3:
             if (t.getEndDate() == null)

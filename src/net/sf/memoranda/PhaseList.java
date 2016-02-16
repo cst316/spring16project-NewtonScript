@@ -217,7 +217,9 @@ public class PhaseList {
         TaskList list = new TaskListImpl(el, _project); // New task list for this element
         elements.put(id, el); // Add this phase to the list
         
-        return new Phase(el, list);
+        Phase phase = new Phase(el, list);
+        
+        return phase;
     }
 	
 	// Get XML document for this list

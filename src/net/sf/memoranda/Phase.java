@@ -79,62 +79,114 @@ public class Phase implements Task{
 	}
 
 	@Override
-	// Gets the earliest start date from the children task
 	public CalendarDate getStartDate() {
+		String str = phaseElement.getAttribute("startDate").getValue();
+		CalendarDate cal;
+		if(str.isEmpty())
+			cal = null;
+		else
+			cal = new CalendarDate(str);
+		return cal;
+	}
+	
+	// Sets the phase dates
+	public void setPhaseDates(){
+		setStartDate();
+		setEndDate();
+	}
+	
+	// Sets the earliest start date from the children tasks
+	private void setStartDate(){
 		Elements els = phaseElement.getChildElements("task");
 		Calendar cal = Calendar.getInstance(); // In case there are no tasks
-		CalendarDate date = null;
 		CalendarDate resDate = new CalendarDate(cal);
-		for(int i = 0; i < els.size() - 1; i++){
-			Element temp = els.get(i);
-			Element temp2 = els.get(i + 1);
-			date = new CalendarDate(temp.getAttribute("startDate").getValue());
-			CalendarDate nextDate = new CalendarDate(temp2.getAttribute("startDate").getValue());
-			if(date.after(nextDate) || date.equals(nextDate)){
-				 resDate = nextDate; 
+		// If there is only one task, set the start date to that tasks
+		if(els.size() > 0){
+			if(els.size() == 1){
+				resDate = new CalendarDate(els.get(0).getAttribute("startDate").getValue());
 			}
+			// Only search if there are multiple tasks in this phase
+			else {
+				CalendarDate date = null;
+				for(int i = 0; i < els.size() - 1; i++){
+					Element temp = els.get(i);
+					Element temp2 = els.get(i + 1);
+					date = new CalendarDate(temp.getAttribute("startDate").getValue());
+					CalendarDate nextDate = new CalendarDate(temp2.getAttribute("startDate").getValue());
+					if(date.after(nextDate) || date.equals(nextDate)){
+						 resDate = nextDate;
+					}
+					else{
+						resDate = date;
+					}
+				}
+			}
+			setStartDate(resDate);
 		}
-		setStartDate(resDate);
-		return resDate;
+		// If there are no tasks, make the start date empty
+		else
+			setStartDate(null);
 	}
-
+	
+	
 	@Override
 	public void setStartDate(CalendarDate date) {
 		if (date == null)
 			setAttr("startDate", "");
-		 setAttr("startDate", date.toString());
+		else
+			setAttr("startDate", date.toString());
 	}
 	
-	
-	// Fix this
-	@Override
-	public CalendarDate getEndDate() {
-		
-		return getStartDate();
-		/*
+	// Sets the end date based on the latest end date of its tasks
+	private void setEndDate() {
 		Elements els = phaseElement.getChildElements("task");
 		Calendar cal = Calendar.getInstance(); // In case there are no tasks
-		CalendarDate date = null;
-		CalendarDate resDate = new CalendarDate();
-		for(int i = 0; i < els.size() - 1; i++){
-			Element temp = els.get(i);
-			Element temp2 = els.get(i + 1);
-			date = new CalendarDate(temp.getAttribute("endDate").getValue());
-			CalendarDate nextDate = new CalendarDate(temp2.getAttribute("endDate").getValue());
-			if(date.before(nextDate) || date.equals(nextDate)){
-				 resDate = nextDate; 
+		CalendarDate resDate = new CalendarDate(cal);
+		// If there is only one task, set the start date to that tasks
+		if(els.size() > 0){
+			if(els.size() == 1){
+				resDate = new CalendarDate(els.get(0).getAttribute("endDate").getValue());
 			}
+			// Only search if there are multiple tasks in this phase
+			else {
+				CalendarDate date = null;
+				for(int i = 0; i < els.size() - 1; i++){
+					Element temp = els.get(i);
+					Element temp2 = els.get(i + 1);
+					date = new CalendarDate(temp.getAttribute("endDate").getValue());
+					CalendarDate nextDate = new CalendarDate(temp2.getAttribute("endDate").getValue());
+					if(date.before(nextDate) || date.equals(nextDate)){
+						 resDate = nextDate;
+					}
+					else{
+						resDate = date;
+					}
+				}
+			}
+			setEndDate(resDate);
 		}
-		setEndDate(resDate);
-		return resDate;
-		*/
+		// If there are no tasks, make the end date empty
+		else
+			setEndDate(null);
 	}
 
 	@Override
 	public void setEndDate(CalendarDate date) {
 		if (date == null)
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		else
+			setAttr("endDate", date.toString());
+	}
+	
+	@Override
+	public CalendarDate getEndDate() {
+		String str = phaseElement.getAttribute("endDate").getValue();
+		CalendarDate cal;
+		if(str.isEmpty())
+			cal = null;
+		else
+			cal = new CalendarDate(str);
+		return cal;
 	}
 
 	@Override
@@ -205,13 +257,13 @@ public class Phase implements Task{
 	}
 
 	@Override
-	public Collection getSubTasks() {
+	public ArrayList<Task> getSubTasks() {
 		Elements subTasks = phaseElement.getChildElements("task");
         return convertToTaskObjects(subTasks);
 	}
 	
-	private Collection convertToTaskObjects(Elements tasks) {
-        Vector v = new Vector();
+	private ArrayList<Task> convertToTaskObjects(Elements tasks) {
+		ArrayList<Task> v = new ArrayList<Task>();
         for (int i = 0; i < tasks.size(); i++) {
             Task t = new TaskImpl(tasks.get(i), taskList);
             v.add(t);
@@ -354,6 +406,18 @@ public class Phase implements Task{
 	@Override
 	public String getOwner() {
 		return "";
+	}
+
+	// Default should always be empty
+	@Override
+	public void setDefaultDates() {
+		setAttr("endDate", "");
+	}
+
+	// Always return false for phases
+	@Override
+	public boolean isSubTask() {
+		return false;
 	}
 	
 }
