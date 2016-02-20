@@ -33,6 +33,7 @@ import net.sf.memoranda.TaskListImpl;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
+import net.sf.memoranda.ui.UsersList;
 import nu.xom.Builder;
 import nu.xom.DocType;
 import nu.xom.Document;

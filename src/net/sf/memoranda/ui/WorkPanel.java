@@ -380,7 +380,6 @@ public class WorkPanel extends JPanel {
 		Context.put("CURRENT_PANEL", "USERS");
 		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
     	sysUser.requestFocus();
-    	userList.addArray(sysUser.getUsersArray());
 	}
 
 	void setCurrentButton(JButton cb) {
