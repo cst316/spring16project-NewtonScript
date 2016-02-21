@@ -137,6 +137,18 @@ public class PhaseList {
 		return list;
 	}
 	
+	// Method to return an arraylist of all the tasks in the phases, including phases
+	public ArrayList<Task> getAllTaskslist(){
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		for(Phase p : phases){
+			tasks.add(p);
+			if(p.hasSubTasks()){
+				tasks.addAll(p.getSubTasks());
+			}
+		}
+		return tasks;
+	}
+	
 	
 	// No generic type set as this is how it was done by the caller
 	public Collection getAllActiveTasks(String taskId, CalendarDate date){
@@ -185,7 +197,6 @@ public class PhaseList {
 			Phase ph = getPhase(phaseName);
 			TaskList tl = ph.getTaskList();
 			res = new TaskImpl(e, tl);
-			Util.debug("Getting task: " + res.getText());
 		}
 		return res;
 	}
@@ -200,7 +211,7 @@ public class PhaseList {
         el.addAttribute(new Attribute("progress", "0"));
         el.addAttribute(new Attribute("effort", "0"));
         el.addAttribute(new Attribute("priority","5"));
-        el.addAttribute(new Attribute("phase","")); // Phases have no name
+        el.addAttribute(new Attribute("phase","")); // Phases have no phase
         
         Element txt = new Element("text");
         txt.appendChild(text);

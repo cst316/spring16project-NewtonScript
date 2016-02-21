@@ -63,17 +63,15 @@ public class TaskImpl implements Task, Comparable {
     	Task parent = this.getParentTask();
     	if(ed.isEmpty()){
     		Project pr = _tl.getProject();
-    		if(parent != null)
+    		if(parent != null && isSubTask()){
     			setEndDate(parent.getEndDate());
+    			checkEndDate(parent);
+        		checkStartDate(parent);
+    		}
     		else if(pr.getEndDate() != null)
     			setEndDate(pr.getEndDate());
     		else
     			setEndDate(getStartDate());
-    	}
-    	// Make sure that the end date is not later than parents
-    	if(isSubTask()){
-    		checkEndDate(parent);
-    		checkStartDate(parent);
     	}
     }
     
@@ -133,11 +131,10 @@ public class TaskImpl implements Task, Comparable {
 	 */
 	public Task getParentTask() {
 	    Element parent = getParentElem();
-	    if(parent != null)
 	    	if (parent.getLocalName().equalsIgnoreCase("task")){ 
 	    	    return new TaskImpl(parent, _tl);
 	    	}
-    	return null;
+    	return new Phase(parent, _tl);
 	}
 	
 	// Get parent element

@@ -353,7 +353,6 @@ public class TaskPanel extends JPanel {
 		});
 	ppCalcTask.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/todo_complete.png")));
 	ppCalcTask.setEnabled(false);
-
     scrollPane.getViewport().add(taskTable, null);
         this.add(scrollPane, BorderLayout.CENTER);
         tasksToolBar.add(historyBackB, null);
@@ -429,7 +428,6 @@ public class TaskPanel extends JPanel {
                     parentPanel.calendar.jnCalendar.renderer.setTask(null);
                     parentPanel.calendar.jnCalendar.updateUI();
                 }
-                
             }
         });
         editTaskB.setEnabled(false);
@@ -565,6 +563,7 @@ public class TaskPanel extends JPanel {
 	        t.setPhaseTitle(phase.getText()); // Set the phase for this task
 	        t.setPhaseElem(phase.getContent());
 	        phase.setPhaseDates(); // Reset the dates
+	        phase.calculateProgress(); // Calculate progress based on the change
 	        oldPhase.setPhaseDates(); // Reset the dates of the old phase
 	        
 	        // Make sure all the sub task dates are still valid after a parent edit
@@ -618,6 +617,7 @@ public class TaskPanel extends JPanel {
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
 		newTask.setDefaultDates();
 		ph.setPhaseDates(); // Reset the start/end date for the new phase
+		ph.calculateProgress(); // Calculate progress based on the change
         CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
@@ -800,6 +800,7 @@ public class TaskPanel extends JPanel {
 	            CurrentProject.getPhaseList().removeTask((Task)toremove.get(i));
 	        }
 	        ph.setPhaseDates(); // Reset the dates based on this change
+	        ph.calculateProgress(); // Calculate progress based on the change
 	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
 	        taskTable.tableChanged();
 	        parentPanel.updateIndicators();
@@ -809,18 +810,21 @@ public class TaskPanel extends JPanel {
 
 	void ppCompleteTask_actionPerformed(ActionEvent e) {
 		String msg;
+		Task t = null;
 		Vector tocomplete = new Vector();
 		for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
-			Task t =
+			t =
 			CurrentProject.getPhaseList().getAllByID(
 				taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
 			if (t != null)
 				tocomplete.add(t);
 		}
 		for (int i = 0; i < tocomplete.size(); i++) {
-			Task t = (Task)tocomplete.get(i);
+			t = (Task)tocomplete.get(i);
 			t.setProgress(100);
 		}
+		Phase phase = t.getPhase();
+		phase.calculateProgress(); // Calculate progress based on the change
 		taskTable.tableChanged();
 		 CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
 		parentPanel.updateIndicators();
@@ -838,12 +842,12 @@ public class TaskPanel extends JPanel {
     class PopupListener extends MouseAdapter {
 
         public void mouseClicked(MouseEvent e) {
-		if ((e.getClickCount() == 2) && (taskTable.getSelectedRow() > -1)){
-			// ignore "tree" column
-			//if(taskTable.getSelectedColumn() == 1) return;
-			
-			editTaskB_actionPerformed(null);
-		}
+			if ((e.getClickCount() == 2) && (taskTable.getSelectedRow() > -1)){
+				// ignore "tree" column
+				//if(taskTable.getSelectedColumn() == 1) return;
+				
+				editTaskB_actionPerformed(null);
+			}
         }
 
                 public void mousePressed(MouseEvent e) {
@@ -859,7 +863,6 @@ public class TaskPanel extends JPanel {
                         taskPPMenu.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
-
     }
     
     // Open the phase window - Doug Carroll

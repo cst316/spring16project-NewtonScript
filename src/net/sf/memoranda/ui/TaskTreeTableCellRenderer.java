@@ -158,7 +158,7 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
     /**
      * Component showing task progress
      */
-    private Component getProgressCellRenderer(Task t, boolean selected, boolean hasFocus, int column) {
+    public Component getProgressCellRenderer(Task t, boolean selected, boolean hasFocus, int column) {
         progressLabel.setTask(t);
         progressLabel.setColumn(column);
         applyFocus(hasFocus, progressLabel);

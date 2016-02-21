@@ -119,7 +119,7 @@ public class TaskTable extends JTable {
 				tableChanged();
             }
         });
-	
+  
     }
 
     private void initTable() {

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Attribute;
 import nu.xom.Element;
-
+import net.sf.memoranda.util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,8 +41,7 @@ public class PhaseTest {
 	/**
 	 * Test method for {@link net.sf.memoranda.Phase#getStartDate()}.
 	 * 
-	 * This method checks if the correct date from subtasks is returned
-	 * -- SAVED FOR LATER USE WITH FUTURE STORY
+	 * This method checks if the correct start date is returned.
 	 */
 	@Test
 	public void getStartDateTest(){
@@ -60,6 +59,77 @@ public class PhaseTest {
 		
 		
 		assertEquals(id, testID);
+	}
+	
+	
+	/**
+	 * Test method for {@link net.sf.memoranda.Phase#getEndDate()}.
+	 * 
+	 * This method checks if the correct end date is returned.
+	 */
+	@Test
+	public void getEndDateTest(){
+		Element e = new Element("task");
+		e.addAttribute(new Attribute("id", "test-e"));
+		e.addAttribute(new Attribute("endDate", "9/1/2016"));
+		list.addElement(e);
+		String id = "9/1/2016";
+		
+		Element testElem = new Element("teste");
+		testElem.addAttribute(new Attribute("endDate", "9/1/2016"));
+		
+		Phase ph = new Phase(testElem, list);
+		String testID = ph.getEndDate().toString();
+		
+		
+		assertEquals(id, testID);
+	}
+	
+	
+	/**
+	 * Test method for {@link net.sf.memoranda.Phase#setPhaseDates()}.
+	 * 
+	 * This method checks if the correct start/end dates were set based on this phases contained tasks
+	 */
+	@Test
+	public void setPhaseDatesTest(){
+		String endDate = "9/1/2016";
+		String startDate = "8/5/2016";
+		String testEnd;
+		String testStart;
+		
+		Phase ph;
+		Element phaseElem;
+		Element taskElem;
+		
+		// Phase build
+		phaseElem = new Element("teste");
+		phaseElem.addAttribute(new Attribute("endDate", ""));
+		phaseElem.addAttribute(new Attribute("startDate", ""));
+		phaseElem.addAttribute(new Attribute("id", "123456"));
+		Element txt = new Element("text");
+        txt.appendChild("testPhase");
+        phaseElem.appendChild(txt);
+		ph = new Phase(phaseElem, list);
+		
+		
+		// Task build
+		taskElem = new Element("task");
+		taskElem.addAttribute(new Attribute("endDate", endDate));
+		taskElem.addAttribute(new Attribute("startDate", startDate));
+		taskElem.addAttribute(new Attribute("phase", ph.getText()));
+		taskElem.addAttribute(new Attribute("id", "123456task"));
+		list.addElement(taskElem);
+		ph.toElement().appendChild(taskElem);
+		
+		ph.setPhaseDates();
+		// Grab values from the phases
+		testEnd = phaseElem.getAttributeValue("endDate");
+		testStart = phaseElem.getAttributeValue("startDate");
+		
+		assertEquals(endDate, testEnd);
+		assertEquals(startDate, testStart);
+		
 	}
 	
 

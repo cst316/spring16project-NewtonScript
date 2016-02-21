@@ -215,12 +215,11 @@ public class Phase implements Task{
         return Task.FAILED;
 	}
 	
-	// TODO Add functionality to check if all tasks are completed
+	// If progress of all tasks is 100
 	private boolean isCompleted() {
-		return false;
+		return getProgress() == 100;
 	}
 
-	// TODO Add functionality to get progress of ALL tasks
 	public int getProgress() {
 		return new Integer(phaseElement.getAttribute("progress").getValue());
 	}
@@ -229,6 +228,19 @@ public class Phase implements Task{
 	public void setProgress(int p) {
 		if ((p >= 0) && (p <= 100))
             setAttr("progress", new Integer(p).toString());
+	}
+	
+	// Calculate current progress and then set it.
+	// Round the progress to the nearest int
+	public void calculateProgress(){
+		float sum = 0;
+		float result = 0;
+		ArrayList<Task> tasks = getSubTasks();
+		for(Task t : tasks){
+			sum += t.getProgress();
+		}
+		result = sum / (tasks.size() * 100); // actual / total
+		setProgress(Math.round(result * 100));
 	}
 	
 	// Return phase priority

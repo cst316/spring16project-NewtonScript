@@ -66,7 +66,14 @@ class TaskProgressLabel extends JLabel{
         g.setColor(Color.LIGHT_GRAY);
         g.drawRect(1, 1, width, height - 2);
         
-        setText(val + "%");
+        if (task.isPhase()){
+        	setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        	setText("  Total: " + val + "%");
+        }
+        else{
+        	setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        	setText(val + "%");
+        }
         setBounds(0, 0, width, height);
         
         super.paintComponent(g);
