@@ -164,73 +164,7 @@ public class TimeSheetPanel extends JPanel {
   private final JPanel panel_10 = new JPanel();
   private final JPanel panel_11 = new JPanel();
   private final JTextField textField = new JTextField();
-  private final JTextField textField_1 = new JTextField();
-  private final JTextField textField_2 = new JTextField();
-  private final JTextField textField_3 = new JTextField();
-  private final JTextField textField_4 = new JTextField();
-  private final JTextField textField_5 = new JTextField();
-  private final JTextField textField_6 = new JTextField();
-  private final JTextField textField_7 = new JTextField();
-  private final JTextField textField_8 = new JTextField();
-  private final JTextField textField_9 = new JTextField();
-  private final JTextField textField_10 = new JTextField();
-  private final JTextField textField_11 = new JTextField();
-  private final JTextField textField_12 = new JTextField();
-  private final JTextField textField_13 = new JTextField();
-  private final JTextField textField_14 = new JTextField();
-  private final JTextField textField_15 = new JTextField();
-  private final JTextField textField_16 = new JTextField();
-  private final JTextField textField_17 = new JTextField();
-  private final JTextField textField_18 = new JTextField();
-  private final JTextField textField_19 = new JTextField();
-  private final JTextField textField_20 = new JTextField();
-  private final JTextField textField_21 = new JTextField();
-  private final JTextField textField_22 = new JTextField();
-  private final JTextField textField_23 = new JTextField();
-  private final JTextField textField_24 = new JTextField();
-  private final JTextField textField_25 = new JTextField();
-  private final JTextField textField_26 = new JTextField();
-  private final JTextField textField_27 = new JTextField();
-  private final JTextField textField_28 = new JTextField();
-  private final JTextField textField_29 = new JTextField();
-  private final JTextField textField_60 = new JTextField();
-  private final JTextField textField_61 = new JTextField();
-  private final JTextField textField_62 = new JTextField();
-  private final JTextField textField_63 = new JTextField();
-  private final JTextField textField_64 = new JTextField();
-  private final JTextField textField_65 = new JTextField();
-  private final JTextField textField_66 = new JTextField();
-  private final JTextField textField_67 = new JTextField();
-  private final JTextField textField_68 = new JTextField();
-  private final JTextField textField_69 = new JTextField();
-  private final JTextField textField_70 = new JTextField();
-  private final JTextField textField_71 = new JTextField();
-  private final JTextField textField_72 = new JTextField();
-  private final JTextField textField_73 = new JTextField();
-  private final JTextField textField_74 = new JTextField();
-  private final JTextField textField_75 = new JTextField();
-  private final JTextField textField_76 = new JTextField();
-  private final JTextField textField_77 = new JTextField();
-  private final JTextField textField_78 = new JTextField();
-  private final JTextField textField_79 = new JTextField();
-  private final JTextField textField_80 = new JTextField();
-  private final JTextField textField_81 = new JTextField();
-  private final JTextField textField_82 = new JTextField();
-  private final JTextField textField_83 = new JTextField();
-  private final JTextField textField_84 = new JTextField();
-  private final JTextField textField_85 = new JTextField();
-  private final JTextField textField_86 = new JTextField();
-  private final JTextField textField_87 = new JTextField();
-  private final JTextField textField_88 = new JTextField();
-  private final JTextField textField_89 = new JTextField();
-  private final JTextField textField_90 = new JTextField();
-  private final JTextField textField_91 = new JTextField();
-  private final JTextField textField_92 = new JTextField();
-  private final JTextField textField_93 = new JTextField();
-  private final JTextField textField_94 = new JTextField();
-  private final JTextField textField_30 = new JTextField();
-
-
+ 
     public TimeSheetPanel() {
 
         try {
@@ -375,13 +309,14 @@ public class TimeSheetPanel extends JPanel {
                 			.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
                 			.addContainerGap())
                 );
+                int i, j;
                 
                 tabbedPane.addTab("January", null, panel, null);
                 GridBagLayout gbl_panel = new GridBagLayout();
                 gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel.rowWeights = new double[]{ 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+                gbl_panel.rowWeights = new double[]{ 0.0, 0.0, 0.0, 0.0};
                 panel.setLayout(gbl_panel);
                 
                 GridBagConstraints gbc_lblDate = new GridBagConstraints();
@@ -419,952 +354,742 @@ public class TimeSheetPanel extends JPanel {
                 gbc_lblComment_1.gridx = 5;
                 gbc_lblComment_1.gridy = 0;
                 panel.add(lblComment_1, gbc_lblComment_1);
-
-                GridBagConstraints gbc_textField = new GridBagConstraints();
-                gbc_textField.insets = new Insets(0, 0, 5, 5);
-                gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField.gridx = 0;
-                gbc_textField.gridy = 1;
-                panel.add(textField, gbc_textField);
                 
-                GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-                gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_1.gridx = 1;
-                gbc_textField_1.gridy = 1;
-                panel.add(textField_1, gbc_textField_1);
-                
-                GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-                gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_2.gridx = 2;
-                gbc_textField_2.gridy = 1;
-                panel.add(textField_2, gbc_textField_2);
-                
-                GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-                gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_3.gridx = 3;
-                gbc_textField_3.gridy = 1;
-                panel.add(textField_3, gbc_textField_3);
-                
-                GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-                gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_4.gridx = 4;
-                gbc_textField_4.gridy = 1;
-                panel.add(textField_4, gbc_textField_4);
-                
-                GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-                gbc_textField_5.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_5.gridx = 5;
-                gbc_textField_5.gridy = 1;
-                panel.add(textField_5, gbc_textField_5);
-                
-                GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-                gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_6.gridx = 0;
-                gbc_textField_6.gridy = 2;
-                panel.add(textField_6, gbc_textField_6);
-                
-                GridBagConstraints gbc_textField_7 = new GridBagConstraints();
-                gbc_textField_7.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_7.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_7.gridx = 1;
-                gbc_textField_7.gridy = 2;
-                panel.add(textField_7, gbc_textField_7);
-                
-                GridBagConstraints gbc_textField_8 = new GridBagConstraints();
-                gbc_textField_8.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_8.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_8.gridx = 2;
-                gbc_textField_8.gridy = 2;
-                panel.add(textField_8, gbc_textField_8);
-                
-                GridBagConstraints gbc_textField_9 = new GridBagConstraints();
-                gbc_textField_9.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_9.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_9.gridx = 3;
-                gbc_textField_9.gridy = 2;
-                panel.add(textField_9, gbc_textField_9);
-                
-                GridBagConstraints gbc_textField_10 = new GridBagConstraints();
-                gbc_textField_10.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_10.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_10.gridx = 4;
-                gbc_textField_10.gridy = 2;
-                panel.add(textField_10, gbc_textField_10);
-                
-                GridBagConstraints gbc_textField_11 = new GridBagConstraints();
-                gbc_textField_11.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_11.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_11.gridx = 5;
-                gbc_textField_11.gridy = 2;
-                panel.add(textField_11, gbc_textField_11);
-                
-                GridBagConstraints gbc_textField_12 = new GridBagConstraints();
-                gbc_textField_12.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_12.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_12.gridx = 0;
-                gbc_textField_12.gridy = 3;
-                panel.add(textField_12, gbc_textField_12);
-                
-                GridBagConstraints gbc_textField_13 = new GridBagConstraints();
-                gbc_textField_13.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_13.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_13.gridx = 1;
-                gbc_textField_13.gridy = 3;
-                panel.add(textField_13, gbc_textField_13);
-                
-                GridBagConstraints gbc_textField_14 = new GridBagConstraints();
-                gbc_textField_14.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_14.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_14.gridx = 2;
-                gbc_textField_14.gridy = 3;
-                panel.add(textField_14, gbc_textField_14);
-                
-                GridBagConstraints gbc_textField_15 = new GridBagConstraints();
-                gbc_textField_15.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_15.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_15.gridx = 3;
-                gbc_textField_15.gridy = 3;
-                panel.add(textField_15, gbc_textField_15);
-                
-                GridBagConstraints gbc_textField_16 = new GridBagConstraints();
-                gbc_textField_16.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_16.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_16.gridx = 4;
-                gbc_textField_16.gridy = 3;
-                panel.add(textField_16, gbc_textField_16);
-                
-                GridBagConstraints gbc_textField_17 = new GridBagConstraints();
-                gbc_textField_17.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_17.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_17.gridx = 5;
-                gbc_textField_17.gridy = 3;
-                panel.add(textField_17, gbc_textField_17);
-                
-                GridBagConstraints gbc_textField_18 = new GridBagConstraints();
-                gbc_textField_18.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_18.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_18.gridx = 0;
-                gbc_textField_18.gridy = 4;
-                panel.add(textField_18, gbc_textField_18);
-                
-                GridBagConstraints gbc_textField_19 = new GridBagConstraints();
-                gbc_textField_19.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_19.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_19.gridx = 1;
-                gbc_textField_19.gridy = 4;
-                panel.add(textField_19, gbc_textField_19);
-                
-                GridBagConstraints gbc_textField_20 = new GridBagConstraints();
-                gbc_textField_20.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_20.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_20.gridx = 2;
-                gbc_textField_20.gridy = 4;
-                panel.add(textField_20, gbc_textField_20);
-                
-                GridBagConstraints gbc_textField_21 = new GridBagConstraints();
-                gbc_textField_21.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_21.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_21.gridx = 3;
-                gbc_textField_21.gridy = 4;
-                panel.add(textField_21, gbc_textField_21);
-                
-                GridBagConstraints gbc_textField_22 = new GridBagConstraints();
-                gbc_textField_22.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_22.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_22.gridx = 4;
-                gbc_textField_22.gridy = 4;
-                panel.add(textField_22, gbc_textField_22);
-                
-                GridBagConstraints gbc_textField_23 = new GridBagConstraints();
-                gbc_textField_23.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_23.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_23.gridx = 5;
-                gbc_textField_23.gridy = 4;
-                panel.add(textField_23, gbc_textField_23);
-                
-                GridBagConstraints gbc_textField_24 = new GridBagConstraints();
-                gbc_textField_24.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_24.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_24.gridx = 0;
-                gbc_textField_24.gridy = 5;
-                panel.add(textField_24, gbc_textField_24);
-                
-                GridBagConstraints gbc_textField_25 = new GridBagConstraints();
-                gbc_textField_25.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_25.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_25.gridx = 1;
-                gbc_textField_25.gridy = 5;
-                panel.add(textField_25, gbc_textField_25);
-                
-                GridBagConstraints gbc_textField_26 = new GridBagConstraints();
-                gbc_textField_26.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_26.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_26.gridx = 2;
-                gbc_textField_26.gridy = 5;
-                panel.add(textField_26, gbc_textField_26);
-                
-                GridBagConstraints gbc_textField_27 = new GridBagConstraints();
-                gbc_textField_27.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_27.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_27.gridx = 3;
-                gbc_textField_27.gridy = 5;
-                panel.add(textField_27, gbc_textField_27);
-                
-                GridBagConstraints gbc_textField_28 = new GridBagConstraints();
-                gbc_textField_28.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_28.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_28.gridx = 4;
-                gbc_textField_28.gridy = 5;
-                panel.add(textField_28, gbc_textField_28);
-                
-                GridBagConstraints gbc_textField_29 = new GridBagConstraints();
-                gbc_textField_29.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_29.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_29.gridx = 5;
-                gbc_textField_29.gridy = 5;
-                panel.add(textField_29, gbc_textField_29);
-                
-                GridBagConstraints gbc_textField_60 = new GridBagConstraints();
-                gbc_textField_60.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_60.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_60.gridx = 0;
-                gbc_textField_60.gridy = 6;
-                panel.add(textField_60, gbc_textField_60);
-                
-                GridBagConstraints gbc_textField_61 = new GridBagConstraints();
-                gbc_textField_61.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_61.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_61.gridx = 1;
-                gbc_textField_61.gridy = 6;
-                panel.add(textField_61, gbc_textField_61);
-                
-                GridBagConstraints gbc_textField_62 = new GridBagConstraints();
-                gbc_textField_62.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_62.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_62.gridx = 2;
-                gbc_textField_62.gridy = 6;
-                panel.add(textField_62, gbc_textField_62);
-                
-                GridBagConstraints gbc_textField_63 = new GridBagConstraints();
-                gbc_textField_63.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_63.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_63.gridx = 3;
-                gbc_textField_63.gridy = 6;
-                panel.add(textField_63, gbc_textField_63);
-                
-                GridBagConstraints gbc_textField_64 = new GridBagConstraints();
-                gbc_textField_64.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_64.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_64.gridx = 4;
-                gbc_textField_64.gridy = 6;
-                panel.add(textField_64, gbc_textField_64);
-                
-                GridBagConstraints gbc_textField_65 = new GridBagConstraints();
-                gbc_textField_65.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_65.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_65.gridx = 5;
-                gbc_textField_65.gridy = 6;
-                panel.add(textField_65, gbc_textField_65);
-                
-                GridBagConstraints gbc_textField_66 = new GridBagConstraints();
-                gbc_textField_66.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_66.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_66.gridx = 0;
-                gbc_textField_66.gridy = 7;
-                panel.add(textField_66, gbc_textField_66);
-                
-                GridBagConstraints gbc_textField_67 = new GridBagConstraints();
-                gbc_textField_67.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_67.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_67.gridx = 1;
-                gbc_textField_67.gridy = 7;
-                panel.add(textField_67, gbc_textField_67);
-                
-                GridBagConstraints gbc_textField_68 = new GridBagConstraints();
-                gbc_textField_68.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_68.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_68.gridx = 2;
-                gbc_textField_68.gridy = 7;
-                panel.add(textField_68, gbc_textField_68);
-                
-                GridBagConstraints gbc_textField_69 = new GridBagConstraints();
-                gbc_textField_69.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_69.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_69.gridx = 3;
-                gbc_textField_69.gridy = 7;
-                panel.add(textField_69, gbc_textField_69);
-                
-                GridBagConstraints gbc_textField_70 = new GridBagConstraints();
-                gbc_textField_70.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_70.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_70.gridx = 4;
-                gbc_textField_70.gridy = 7;
-                panel.add(textField_70, gbc_textField_70);
-                
-                GridBagConstraints gbc_textField_71 = new GridBagConstraints();
-                gbc_textField_71.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_71.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_71.gridx = 5;
-                gbc_textField_71.gridy = 7;
-                panel.add(textField_71, gbc_textField_71);
-                
-                GridBagConstraints gbc_textField_72 = new GridBagConstraints();
-                gbc_textField_72.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_72.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_72.gridx = 0;
-                gbc_textField_72.gridy = 8;
-                panel.add(textField_72, gbc_textField_72);
-                
-                GridBagConstraints gbc_textField_73 = new GridBagConstraints();
-                gbc_textField_73.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_73.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_73.gridx = 1;
-                gbc_textField_73.gridy = 8;
-                panel.add(textField_73, gbc_textField_73);
-                
-                GridBagConstraints gbc_textField_74 = new GridBagConstraints();
-                gbc_textField_74.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_74.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_74.gridx = 2;
-                gbc_textField_74.gridy = 8;
-                panel.add(textField_74, gbc_textField_74);
-                
-                GridBagConstraints gbc_textField_75 = new GridBagConstraints();
-                gbc_textField_75.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_75.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_75.gridx = 3;
-                gbc_textField_75.gridy = 8;
-                panel.add(textField_75, gbc_textField_75);
-                
-                GridBagConstraints gbc_textField_76 = new GridBagConstraints();
-                gbc_textField_76.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_76.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_76.gridx = 4;
-                gbc_textField_76.gridy = 8;
-                panel.add(textField_76, gbc_textField_76);
-                
-                GridBagConstraints gbc_textField_77 = new GridBagConstraints();
-                gbc_textField_77.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_77.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_77.gridx = 5;
-                gbc_textField_77.gridy = 8;
-                panel.add(textField_77, gbc_textField_77);
-                
-                GridBagConstraints gbc_textField_78 = new GridBagConstraints();
-                gbc_textField_78.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_78.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_78.gridx = 0;
-                gbc_textField_78.gridy = 9;
-                panel.add(textField_78, gbc_textField_78);
-                
-                GridBagConstraints gbc_textField_79 = new GridBagConstraints();
-                gbc_textField_79.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_79.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_79.gridx = 1;
-                gbc_textField_79.gridy = 9;
-                panel.add(textField_79, gbc_textField_79);
-                
-                GridBagConstraints gbc_textField_80 = new GridBagConstraints();
-                gbc_textField_80.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_80.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_80.gridx = 2;
-                gbc_textField_80.gridy = 9;
-                panel.add(textField_80, gbc_textField_80);
-                
-                GridBagConstraints gbc_textField_81 = new GridBagConstraints();
-                gbc_textField_81.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_81.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_81.gridx = 3;
-                gbc_textField_81.gridy = 9;
-                panel.add(textField_81, gbc_textField_81);
-                
-                GridBagConstraints gbc_textField_82 = new GridBagConstraints();
-                gbc_textField_82.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_82.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_82.gridx = 4;
-                gbc_textField_82.gridy = 9;
-                panel.add(textField_82, gbc_textField_82);
-                
-                GridBagConstraints gbc_textField_83 = new GridBagConstraints();
-                gbc_textField_83.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_83.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_83.gridx = 5;
-                gbc_textField_83.gridy = 9;
-                panel.add(textField_83, gbc_textField_83);
-                
-                GridBagConstraints gbc_textField_84 = new GridBagConstraints();
-                gbc_textField_84.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_84.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_84.gridx = 0;
-                gbc_textField_84.gridy = 10;
-                panel.add(textField_84, gbc_textField_84);
-                
-                GridBagConstraints gbc_textField_85 = new GridBagConstraints();
-                gbc_textField_85.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_85.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_85.gridx = 1;
-                gbc_textField_85.gridy = 10;
-                panel.add(textField_85, gbc_textField_85);
-                
-                GridBagConstraints gbc_textField_86 = new GridBagConstraints();
-                gbc_textField_86.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_86.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_86.gridx = 2;
-                gbc_textField_86.gridy = 10;
-                panel.add(textField_86, gbc_textField_86);
-                
-                GridBagConstraints gbc_textField_87 = new GridBagConstraints();
-                gbc_textField_87.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_87.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_87.gridx = 3;
-                gbc_textField_87.gridy = 10;
-                panel.add(textField_87, gbc_textField_87);
-                
-                GridBagConstraints gbc_textField_88 = new GridBagConstraints();
-                gbc_textField_88.insets = new Insets(0, 0, 5, 5);
-                gbc_textField_88.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_88.gridx = 4;
-                gbc_textField_88.gridy = 10;
-                panel.add(textField_88, gbc_textField_88);
-                
-                GridBagConstraints gbc_textField_89 = new GridBagConstraints();
-                gbc_textField_89.insets = new Insets(0, 0, 5, 0);
-                gbc_textField_89.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_89.gridx = 5;
-                gbc_textField_89.gridy = 10;
-                panel.add(textField_89, gbc_textField_89);
-                
-                GridBagConstraints gbc_textField_90 = new GridBagConstraints();
-                gbc_textField_90.insets = new Insets(0, 0, 0, 5);
-                gbc_textField_90.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_90.gridx = 0;
-                gbc_textField_90.gridy = 11;
-                panel.add(textField_90, gbc_textField_90);
-                
-                GridBagConstraints gbc_textField_91 = new GridBagConstraints();
-                gbc_textField_91.insets = new Insets(0, 0, 0, 5);
-                gbc_textField_91.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_91.gridx = 1;
-                gbc_textField_91.gridy = 11;
-                panel.add(textField_91, gbc_textField_91);
-                
-                GridBagConstraints gbc_textField_92 = new GridBagConstraints();
-                gbc_textField_92.insets = new Insets(0, 0, 0, 5);
-                gbc_textField_92.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_92.gridx = 2;
-                gbc_textField_92.gridy = 11;
-                panel.add(textField_92, gbc_textField_92);
-                
-                GridBagConstraints gbc_textField_93 = new GridBagConstraints();
-                gbc_textField_93.insets = new Insets(0, 0, 0, 5);
-                gbc_textField_93.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_93.gridx = 3;
-                gbc_textField_93.gridy = 11;
-                panel.add(textField_93, gbc_textField_93);
-                
-                GridBagConstraints gbc_textField_94 = new GridBagConstraints();
-                gbc_textField_94.insets = new Insets(0, 0, 0, 5);
-                gbc_textField_94.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_94.gridx = 4;
-                gbc_textField_94.gridy = 11;
-                panel.add(textField_94, gbc_textField_94);
-                
-                GridBagConstraints gbc_textField_30 = new GridBagConstraints();
-                gbc_textField_30.fill = GridBagConstraints.HORIZONTAL;
-                gbc_textField_30.gridx = 5;
-                gbc_textField_30.gridy = 11;
-                panel.add(textField_30, gbc_textField_30);
-                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel.add(textField, gbc_textField);
+                }   
               
                 tabbedPane.addTab("February", null, panel_1, null);
                 GridBagLayout gbl_panel_1 = new GridBagLayout();
                 gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_1.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0};
                 panel_1.setLayout(gbl_panel_1);
                 
                 GridBagConstraints gbc_lblDate_1 = new GridBagConstraints();
                 gbc_lblDate_1.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_1.gridx = 0;
-                gbc_lblDate_1.gridy = 1;
+                gbc_lblDate_1.gridy = 0;
                 panel_1.add(lblDate_2, gbc_lblDate_1);
                 
                 GridBagConstraints gbc_lblStart_1 = new GridBagConstraints();
                 gbc_lblStart_1.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_1.gridx = 1;
-                gbc_lblStart_1.gridy = 1;
+                gbc_lblStart_1.gridy = 0;
                 panel_1.add(lblStart_2, gbc_lblStart_1);
                 
                 GridBagConstraints gbc_lblStop_1 = new GridBagConstraints();
                 gbc_lblStop_1.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_1.gridx = 2;
-                gbc_lblStop_1.gridy = 1;
+                gbc_lblStop_1.gridy = 0;
                 panel_1.add(lblStop_2, gbc_lblStop_1);
                 
                 GridBagConstraints gbc_lblInterruptTime_1 = new GridBagConstraints();
                 gbc_lblInterruptTime_1.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_1.gridx = 3;
-                gbc_lblInterruptTime_1.gridy = 1;
+                gbc_lblInterruptTime_1.gridy = 0;
                 panel_1.add(lblInterruptTime_2, gbc_lblInterruptTime_1);
                 
                 GridBagConstraints gbc_lblPhase_1 = new GridBagConstraints();
                 gbc_lblPhase_1.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_1.gridx = 4;
-                gbc_lblPhase_1.gridy = 1;
+                gbc_lblPhase_1.gridy = 0;
                 panel_1.add(lblPhase_2, gbc_lblPhase_1);
                 
                 GridBagConstraints gbc_lblComment = new GridBagConstraints();
                 gbc_lblComment.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment.gridx = 5;
-                gbc_lblComment.gridy = 1;
+                gbc_lblComment.gridy = 0;
                 panel_1.add(lblComment_2, gbc_lblComment);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_1.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_1.add(textField, gbc_textField);
+                }
                 
                 tabbedPane.addTab("March", null, panel_2, null);
                 GridBagLayout gbl_panel_2 = new GridBagLayout();
                 gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_2.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_2.setLayout(gbl_panel_2);
                 
                 GridBagConstraints gbc_lblDate_2 = new GridBagConstraints();
                 gbc_lblDate_2.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_2.gridx = 0;
-                gbc_lblDate_2.gridy = 1;
+                gbc_lblDate_2.gridy = 0;
                 panel_2.add(lblDate_3, gbc_lblDate_2);
                 
                 GridBagConstraints gbc_lblStart_2 = new GridBagConstraints();
                 gbc_lblStart_2.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_2.gridx = 1;
-                gbc_lblStart_2.gridy = 1;
+                gbc_lblStart_2.gridy = 0;
                 panel_2.add(lblStart_3, gbc_lblStart_2);
                 
                 GridBagConstraints gbc_lblStop_2 = new GridBagConstraints();
                 gbc_lblStop_2.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_2.gridx = 2;
-                gbc_lblStop_2.gridy = 1;
+                gbc_lblStop_2.gridy = 0;
                 panel_2.add(lblStop_3, gbc_lblStop_2);
                 
                 GridBagConstraints gbc_lblInterruptTime_2 = new GridBagConstraints();
                 gbc_lblInterruptTime_2.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_2.gridx = 3;
-                gbc_lblInterruptTime_2.gridy = 1;
+                gbc_lblInterruptTime_2.gridy = 0;
                 panel_2.add(lblInterruptTime_3, gbc_lblInterruptTime_2);
                 
                 GridBagConstraints gbc_lblPhase_2 = new GridBagConstraints();
                 gbc_lblPhase_2.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_2.gridx = 4;
-                gbc_lblPhase_2.gridy = 1;
+                gbc_lblPhase_2.gridy = 0;
                 panel_2.add(lblPhase_3, gbc_lblPhase_2);
                 
                 GridBagConstraints gbc_lblComment_2 = new GridBagConstraints();
                 gbc_lblComment_2.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_2.gridx = 5;
-                gbc_lblComment_2.gridy = 1;
+                gbc_lblComment_2.gridy = 0;
                 panel_2.add(lblComment_3, gbc_lblComment_2);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_2.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_2.add(textField, gbc_textField);
+                }
                 
                 tabbedPane.addTab("April", null, panel_3, null);
                 GridBagLayout gbl_panel_3 = new GridBagLayout();
                 gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_3.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_3.setLayout(gbl_panel_3);
                 
                 GridBagConstraints gbc_lblDate_3 = new GridBagConstraints();
                 gbc_lblDate_3.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_3.gridx = 0;
-                gbc_lblDate_3.gridy = 1;
+                gbc_lblDate_3.gridy = 0;
                 panel_3.add(lblDate_4, gbc_lblDate_3);
                 
                 GridBagConstraints gbc_lblStart_3 = new GridBagConstraints();
                 gbc_lblStart_3.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_3.gridx = 1;
-                gbc_lblStart_3.gridy = 1;
+                gbc_lblStart_3.gridy = 0;
                 panel_3.add(lblStart_4, gbc_lblStart_3);
                 
                 GridBagConstraints gbc_lblStop_3 = new GridBagConstraints();
                 gbc_lblStop_3.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_3.gridx = 2;
-                gbc_lblStop_3.gridy = 1;
+                gbc_lblStop_3.gridy = 0;
                 panel_3.add(lblStop_4, gbc_lblStop_3);
                 
                 GridBagConstraints gbc_lblInterruptTime_3 = new GridBagConstraints();
                 gbc_lblInterruptTime_3.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_3.gridx = 3;
-                gbc_lblInterruptTime_3.gridy = 1;
+                gbc_lblInterruptTime_3.gridy = 0;
                 panel_3.add(lblInterruptTime_4, gbc_lblInterruptTime_3);
                 
                 GridBagConstraints gbc_lblPhase_3 = new GridBagConstraints();
                 gbc_lblPhase_3.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_3.gridx = 4;
-                gbc_lblPhase_3.gridy = 1;
+                gbc_lblPhase_3.gridy = 0;
                 panel_3.add(lblPhase_4, gbc_lblPhase_3);
                 
                 GridBagConstraints gbc_lblComment_3 = new GridBagConstraints();
                 gbc_lblComment_3.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_3.gridx = 5;
-                gbc_lblComment_3.gridy = 1;
+                gbc_lblComment_3.gridy = 0;
                 panel_3.add(lblComment_4, gbc_lblComment_3);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_3.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_3.add(textField, gbc_textField);
+                }
                 
                 tabbedPane.addTab("May", null, panel_4, null);
                 GridBagLayout gbl_panel_4 = new GridBagLayout();
                 gbl_panel_4.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_4.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_4.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_4.setLayout(gbl_panel_4);
                 
                 GridBagConstraints gbc_lblDate_4 = new GridBagConstraints();
                 gbc_lblDate_4.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_4.gridx = 0;
-                gbc_lblDate_4.gridy = 1;
+                gbc_lblDate_4.gridy = 0;
                 panel_4.add(lblDate_5, gbc_lblDate_4);
                 
                 GridBagConstraints gbc_lblStart_4 = new GridBagConstraints();
                 gbc_lblStart_4.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_4.gridx = 1;
-                gbc_lblStart_4.gridy = 1;
+                gbc_lblStart_4.gridy = 0;
                 panel_4.add(lblStart_5, gbc_lblStart_4);
                 
                 GridBagConstraints gbc_lblStop_4 = new GridBagConstraints();
                 gbc_lblStop_4.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_4.gridx = 2;
-                gbc_lblStop_4.gridy = 1;
+                gbc_lblStop_4.gridy = 0;
                 panel_4.add(lblStop_5, gbc_lblStop_4);
                 
                 GridBagConstraints gbc_lblInterruptTime_4 = new GridBagConstraints();
                 gbc_lblInterruptTime_4.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_4.gridx = 3;
-                gbc_lblInterruptTime_4.gridy = 1;
+                gbc_lblInterruptTime_4.gridy = 0;
                 panel_4.add(lblInterruptTime_5, gbc_lblInterruptTime_4);
                 
                 GridBagConstraints gbc_lblPhase_4 = new GridBagConstraints();
                 gbc_lblPhase_4.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_4.gridx = 4;
-                gbc_lblPhase_4.gridy = 1;
+                gbc_lblPhase_4.gridy = 0;
                 panel_4.add(lblPhase_5, gbc_lblPhase_4);
                 
                 GridBagConstraints gbc_lblComment_4 = new GridBagConstraints();
                 gbc_lblComment_4.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_4.gridx = 5;
-                gbc_lblComment_4.gridy = 1;
+                gbc_lblComment_4.gridy = 0;
                 panel_4.add(lblComment_5, gbc_lblComment_4);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_4.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_4.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("June", null, panel_5, null);
                 GridBagLayout gbl_panel_5 = new GridBagLayout();
                 gbl_panel_5.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_5.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_5.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_5.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_5.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_5.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_5.setLayout(gbl_panel_5);
                 
                 GridBagConstraints gbc_lblDate_5 = new GridBagConstraints();
                 gbc_lblDate_5.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_5.gridx = 0;
-                gbc_lblDate_5.gridy = 1;
+                gbc_lblDate_5.gridy = 0;
                 panel_5.add(lblDate_6, gbc_lblDate_5);
                 
                 GridBagConstraints gbc_lblStart_5 = new GridBagConstraints();
                 gbc_lblStart_5.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_5.gridx = 1;
-                gbc_lblStart_5.gridy = 1;
+                gbc_lblStart_5.gridy = 0;
                 panel_5.add(lblStart_6, gbc_lblStart_5);
                 
                 GridBagConstraints gbc_lblStop_5 = new GridBagConstraints();
                 gbc_lblStop_5.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_5.gridx = 2;
-                gbc_lblStop_5.gridy = 1;
+                gbc_lblStop_5.gridy = 0;
                 panel_5.add(lblStop_6, gbc_lblStop_5);
                 
                 GridBagConstraints gbc_lblInterruptTime_5 = new GridBagConstraints();
                 gbc_lblInterruptTime_5.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_5.gridx = 3;
-                gbc_lblInterruptTime_5.gridy = 1;
+                gbc_lblInterruptTime_5.gridy = 0;
                 panel_5.add(lblInterruptTime_6, gbc_lblInterruptTime_5);
                 
                 GridBagConstraints gbc_lblPhase_5 = new GridBagConstraints();
                 gbc_lblPhase_5.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_5.gridx = 4;
-                gbc_lblPhase_5.gridy = 1;
+                gbc_lblPhase_5.gridy = 0;
                 panel_5.add(lblPhase_6, gbc_lblPhase_5);
                 
                 GridBagConstraints gbc_lblComment_5 = new GridBagConstraints();
                 gbc_lblComment_5.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_5.gridx = 5;
-                gbc_lblComment_5.gridy = 1;
+                gbc_lblComment_5.gridy = 0;
                 panel_5.add(lblComment_6, gbc_lblComment_5);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_5.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_5.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("July", null, panel_6, null);
                 GridBagLayout gbl_panel_6 = new GridBagLayout();
                 gbl_panel_6.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_6.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_6.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_6.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_6.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_6.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_6.setLayout(gbl_panel_6);
                 
                 GridBagConstraints gbc_lblDate_6 = new GridBagConstraints();
                 gbc_lblDate_6.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_6.gridx = 0;
-                gbc_lblDate_6.gridy = 1;
+                gbc_lblDate_6.gridy = 0;
                 panel_6.add(lblDate_7, gbc_lblDate_6);
                 
                 GridBagConstraints gbc_lblStart_6 = new GridBagConstraints();
                 gbc_lblStart_6.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_6.gridx = 1;
-                gbc_lblStart_6.gridy = 1;
+                gbc_lblStart_6.gridy = 0;
                 panel_6.add(lblStart_7, gbc_lblStart_6);
                 
                 GridBagConstraints gbc_lblStop_6 = new GridBagConstraints();
                 gbc_lblStop_6.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_6.gridx = 2;
-                gbc_lblStop_6.gridy = 1;
+                gbc_lblStop_6.gridy = 0;
                 panel_6.add(lblStop_7, gbc_lblStop_6);
                 
                 GridBagConstraints gbc_lblInterruptTime_6 = new GridBagConstraints();
                 gbc_lblInterruptTime_6.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_6.gridx = 3;
-                gbc_lblInterruptTime_6.gridy = 1;
+                gbc_lblInterruptTime_6.gridy = 0;
                 panel_6.add(lblInterruptTime_7, gbc_lblInterruptTime_6);
                 
                 GridBagConstraints gbc_lblPhase_6 = new GridBagConstraints();
                 gbc_lblPhase_6.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_6.gridx = 4;
-                gbc_lblPhase_6.gridy = 1;
+                gbc_lblPhase_6.gridy = 0;
                 panel_6.add(lblPhase_7, gbc_lblPhase_6);
                 
                 GridBagConstraints gbc_lblComment_6 = new GridBagConstraints();
                 gbc_lblComment_6.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_6.gridx = 5;
-                gbc_lblComment_6.gridy = 1;
+                gbc_lblComment_6.gridy = 0;
                 panel_6.add(lblComment_7, gbc_lblComment_6);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_6.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_6.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("August", null, panel_7, null);
                 GridBagLayout gbl_panel_7 = new GridBagLayout();
                 gbl_panel_7.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_7.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_7.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_7.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_7.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_7.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_7.setLayout(gbl_panel_7);
                 
                 GridBagConstraints gbc_lblDate_7 = new GridBagConstraints();
                 gbc_lblDate_7.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_7.gridx = 0;
-                gbc_lblDate_7.gridy = 1;
+                gbc_lblDate_7.gridy = 0;
                 panel_7.add(lblDate_8, gbc_lblDate_7);
                 
                 GridBagConstraints gbc_lblStart_7 = new GridBagConstraints();
                 gbc_lblStart_7.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_7.gridx = 1;
-                gbc_lblStart_7.gridy = 1;
+                gbc_lblStart_7.gridy = 0;
                 panel_7.add(lblStart_8, gbc_lblStart_7);
                 
                 GridBagConstraints gbc_lblStop_7 = new GridBagConstraints();
                 gbc_lblStop_7.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_7.gridx = 2;
-                gbc_lblStop_7.gridy = 1;
+                gbc_lblStop_7.gridy = 0;
                 panel_7.add(lblStop_8, gbc_lblStop_7);
                 
                 GridBagConstraints gbc_lblInterruptTime_7 = new GridBagConstraints();
                 gbc_lblInterruptTime_7.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_7.gridx = 3;
-                gbc_lblInterruptTime_7.gridy = 1;
+                gbc_lblInterruptTime_7.gridy = 0;
                 panel_7.add(lblInterruptTime_8, gbc_lblInterruptTime_7);
                 
                 GridBagConstraints gbc_lblPhase_7 = new GridBagConstraints();
                 gbc_lblPhase_7.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_7.gridx = 4;
-                gbc_lblPhase_7.gridy = 1;
+                gbc_lblPhase_7.gridy = 0;
                 panel_7.add(lblPhase_8, gbc_lblPhase_7);
                 
                 GridBagConstraints gbc_lblComment_7 = new GridBagConstraints();
                 gbc_lblComment_7.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_7.gridx = 5;
-                gbc_lblComment_7.gridy = 1;
+                gbc_lblComment_7.gridy = 0;
                 panel_7.add(lblComment_8, gbc_lblComment_7);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_7.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_7.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("September", null, panel_8, null);
                 GridBagLayout gbl_panel_8 = new GridBagLayout();
                 gbl_panel_8.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_8.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_8.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_8.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_8.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_8.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_8.setLayout(gbl_panel_8);
                 
                 GridBagConstraints gbc_lblDate_8 = new GridBagConstraints();
                 gbc_lblDate_8.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_8.gridx = 0;
-                gbc_lblDate_8.gridy = 1;
+                gbc_lblDate_8.gridy = 0;
                 panel_8.add(lblDate_9, gbc_lblDate_8);
                 
                 GridBagConstraints gbc_lblStart_8 = new GridBagConstraints();
                 gbc_lblStart_8.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_8.gridx = 1;
-                gbc_lblStart_8.gridy = 1;
+                gbc_lblStart_8.gridy = 0;
                 panel_8.add(lblStart_9, gbc_lblStart_8);
                 
                 GridBagConstraints gbc_lblStop_8 = new GridBagConstraints();
                 gbc_lblStop_8.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_8.gridx = 2;
-                gbc_lblStop_8.gridy = 1;
+                gbc_lblStop_8.gridy = 0;
                 panel_8.add(lblStop_9, gbc_lblStop_8);
                 
                 GridBagConstraints gbc_lblInterruptTime_8 = new GridBagConstraints();
                 gbc_lblInterruptTime_8.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_8.gridx = 3;
-                gbc_lblInterruptTime_8.gridy = 1;
+                gbc_lblInterruptTime_8.gridy = 0;
                 panel_8.add(lblInterruptTime_9, gbc_lblInterruptTime_8);
                 
                 GridBagConstraints gbc_lblPhase_8 = new GridBagConstraints();
                 gbc_lblPhase_8.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_8.gridx = 4;
-                gbc_lblPhase_8.gridy = 1;
+                gbc_lblPhase_8.gridy = 0;
                 panel_8.add(lblPhase_9, gbc_lblPhase_8);
                 
                 GridBagConstraints gbc_lblComment_8 = new GridBagConstraints();
                 gbc_lblComment_8.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_8.gridx = 5;
-                gbc_lblComment_8.gridy = 1;
+                gbc_lblComment_8.gridy = 0;
                 panel_8.add(lblComment_9, gbc_lblComment_8);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_8.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_8.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("October", null, panel_9, null);
                 GridBagLayout gbl_panel_9 = new GridBagLayout();
                 gbl_panel_9.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_9.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_9.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_9.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_9.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_9.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_9.setLayout(gbl_panel_9);
                 
                 GridBagConstraints gbc_lblDate_9 = new GridBagConstraints();
                 gbc_lblDate_9.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_9.gridx = 0;
-                gbc_lblDate_9.gridy = 1;
+                gbc_lblDate_9.gridy = 0;
                 panel_9.add(lblDate_10, gbc_lblDate_9);
                 
                 GridBagConstraints gbc_lblStart_9 = new GridBagConstraints();
                 gbc_lblStart_9.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_9.gridx = 1;
-                gbc_lblStart_9.gridy = 1;
+                gbc_lblStart_9.gridy = 0;
                 panel_9.add(lblStart_10, gbc_lblStart_9);
                 
                 GridBagConstraints gbc_lblStop_9 = new GridBagConstraints();
                 gbc_lblStop_9.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_9.gridx = 2;
-                gbc_lblStop_9.gridy = 1;
+                gbc_lblStop_9.gridy = 0;
                 panel_9.add(lblStop_10, gbc_lblStop_9);
                 
                 GridBagConstraints gbc_lblInterruptTime_9 = new GridBagConstraints();
                 gbc_lblInterruptTime_9.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_9.gridx = 3;
-                gbc_lblInterruptTime_9.gridy = 1;
+                gbc_lblInterruptTime_9.gridy = 0;
                 panel_9.add(lblInterruptTime_10, gbc_lblInterruptTime_9);
                 
                 GridBagConstraints gbc_lblPhase_9 = new GridBagConstraints();
                 gbc_lblPhase_9.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_9.gridx = 4;
-                gbc_lblPhase_9.gridy = 1;
+                gbc_lblPhase_9.gridy = 0;
                 panel_9.add(lblPhase_10, gbc_lblPhase_9);
                 
                 GridBagConstraints gbc_lblComment_9 = new GridBagConstraints();
                 gbc_lblComment_9.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_9.gridx = 5;
-                gbc_lblComment_9.gridy = 1;
+                gbc_lblComment_9.gridy = 0;
                 panel_9.add(lblComment_10, gbc_lblComment_9);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_9.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_9.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("November", null, panel_10, null);
                 GridBagLayout gbl_panel_10 = new GridBagLayout();
                 gbl_panel_10.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_10.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_10.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_10.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_10.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_10.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_10.setLayout(gbl_panel_10);
                 
                 GridBagConstraints gbc_lblDate_10 = new GridBagConstraints();
                 gbc_lblDate_10.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_10.gridx = 0;
-                gbc_lblDate_10.gridy = 1;
+                gbc_lblDate_10.gridy = 0;
                 panel_10.add(lblDate_11, gbc_lblDate_10);
                 
                 GridBagConstraints gbc_lblStart_10 = new GridBagConstraints();
                 gbc_lblStart_10.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_10.gridx = 1;
-                gbc_lblStart_10.gridy = 1;
+                gbc_lblStart_10.gridy = 0;
                 panel_10.add(lblStart_11, gbc_lblStart_10);
                 
                 GridBagConstraints gbc_lblStop_10 = new GridBagConstraints();
                 gbc_lblStop_10.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_10.gridx = 2;
-                gbc_lblStop_10.gridy = 1;
+                gbc_lblStop_10.gridy = 0;
                 panel_10.add(lblStop_11, gbc_lblStop_10);
                 
                 GridBagConstraints gbc_lblInterruptTime_10 = new GridBagConstraints();
                 gbc_lblInterruptTime_10.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_10.gridx = 3;
-                gbc_lblInterruptTime_10.gridy = 1;
+                gbc_lblInterruptTime_10.gridy = 0;
                 panel_10.add(lblInterruptTime_11, gbc_lblInterruptTime_10);
                 
                 GridBagConstraints gbc_lblPhase_10 = new GridBagConstraints();
                 gbc_lblPhase_10.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_10.gridx = 4;
-                gbc_lblPhase_10.gridy = 1;
+                gbc_lblPhase_10.gridy = 0;
                 panel_10.add(lblPhase_11, gbc_lblPhase_10);
                 
                 GridBagConstraints gbc_lblComment_10 = new GridBagConstraints();
                 gbc_lblComment_10.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_10.gridx = 5;
-                gbc_lblComment_10.gridy = 1;
+                gbc_lblComment_10.gridy = 0;
                 panel_10.add(lblComment_11, gbc_lblComment_10);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_10.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_10.add(textField, gbc_textField);
+                }
 
                 tabbedPane.addTab("December", null, panel_11, null);
                 GridBagLayout gbl_panel_11 = new GridBagLayout();
                 gbl_panel_11.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                gbl_panel_11.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                gbl_panel_11.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
                 gbl_panel_11.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-                gbl_panel_11.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_panel_11.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
                 panel_11.setLayout(gbl_panel_11);
                 
                 GridBagConstraints gbc_lblDate_11 = new GridBagConstraints();
                 gbc_lblDate_11.insets = new Insets(0, 0, 5, 5);
                 gbc_lblDate_11.gridx = 0;
-                gbc_lblDate_11.gridy = 1;
+                gbc_lblDate_11.gridy = 0;
                 panel_11.add(lblDate_12, gbc_lblDate_11);
                 
                 GridBagConstraints gbc_lblStart_11 = new GridBagConstraints();
                 gbc_lblStart_11.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStart_11.gridx = 1;
-                gbc_lblStart_11.gridy = 1;
+                gbc_lblStart_11.gridy = 0;
                 panel_11.add(lblStart_12, gbc_lblStart_11);
                 
                 GridBagConstraints gbc_lblStop_11 = new GridBagConstraints();
                 gbc_lblStop_11.insets = new Insets(0, 0, 5, 5);
                 gbc_lblStop_11.gridx = 2;
-                gbc_lblStop_11.gridy = 1;
+                gbc_lblStop_11.gridy = 0;
                 panel_11.add(lblStop_12, gbc_lblStop_11);
                 
                 GridBagConstraints gbc_lblInterruptTime_11 = new GridBagConstraints();
                 gbc_lblInterruptTime_11.insets = new Insets(0, 0, 5, 5);
                 gbc_lblInterruptTime_11.gridx = 3;
-                gbc_lblInterruptTime_11.gridy = 1;
+                gbc_lblInterruptTime_11.gridy = 0;
                 panel_11.add(lblInterruptTime_12, gbc_lblInterruptTime_11);
                 
                 GridBagConstraints gbc_lblPhase_11 = new GridBagConstraints();
                 gbc_lblPhase_11.insets = new Insets(0, 0, 5, 5);
                 gbc_lblPhase_11.gridx = 4;
-                gbc_lblPhase_11.gridy = 1;
+                gbc_lblPhase_11.gridy = 0;
                 panel_11.add(lblPhase_12, gbc_lblPhase_11);
                 
                 GridBagConstraints gbc_lblComment_11 = new GridBagConstraints();
                 gbc_lblComment_11.insets = new Insets(0, 0, 5, 0);
                 gbc_lblComment_11.gridx = 5;
-                gbc_lblComment_11.gridy = 1;
+                gbc_lblComment_11.gridy = 0;
                 panel_11.add(lblComment_12, gbc_lblComment_11);
+                
+                for (i = 1; i < 31; i++){
+                	for (j = 0; j < 5; j++){
+                        GridBagConstraints gbc_textField = new GridBagConstraints();
+                        gbc_textField.insets = new Insets(0, 0, 5, 5);
+                        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                        gbc_textField.gridx = j;
+                        gbc_textField.gridy = i;
+                        JTextField textField = new JTextField();
+                        panel_11.add(textField, gbc_textField);
+                	}
+                }    
+                for (i = 1; i < 31; i++){
+                	GridBagConstraints gbc_textField = new GridBagConstraints();
+                    gbc_textField.insets = new Insets(0, 0, 5, 0);
+                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+                    gbc_textField.gridx = 5;
+                    gbc_textField.gridy = i;
+                    JTextField textField = new JTextField();
+                    panel_11.add(textField, gbc_textField);
+                }
 
                 setLayout(groupLayout);
                 
