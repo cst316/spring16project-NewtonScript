@@ -92,8 +92,10 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
         setToolTipText(t.getDescription());
         setIcon(getStatusIcon(t));
         applyFont(t, this);
-        //return getTaskTreeCellRenderer(t, selected, hasFocus);
-        return this;
+        if(t.isPhase()){
+        	this.setBackground(TaskPanel.PHASECOLOR);
+       	}
+        return getTaskTreeCellRenderer(t, selected, hasFocus);
     }
 
     public Component getTableCellRendererComponent(JTable ignore, Object value, boolean selected,
@@ -112,7 +114,13 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
         label.setIcon(null);
        // label.setToolTipText(t.getDescription()); //XXX Disabled because of bug 1596966
         applyFont(t, label);
-        applySelectionStyle(selected, label);
+        applySelectionStyle(selected, label, value);
+        
+        // Distinguish phase from tasks
+        if(t.isPhase() && !selected){
+        	label.setBackground(TaskPanel.PHASECOLOR);
+        }
+        
         applyFocus(hasFocus, label);
         if (value == null) {
             label.setText("");
@@ -149,9 +157,13 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
         JLabel tree_label = new JLabel();       
         tree_label.setText(t.getText());
         // XXX [alexeya] Disabled coz a bug with tooltips in TreeTables:
-        //tree_label.setToolTipText(t.getDescription());
+        // Bug should be fixed since 2003 - Using this method again
+        tree_label.setToolTipText(t.getDescription());
         tree_label.setIcon(getStatusIcon(t));
         applyFont(t, tree_label);
+        if(t.isPhase()){
+        	tree_label.setBackground(TaskPanel.PHASECOLOR);
+        }
         return tree_label;        
     }
 
@@ -169,15 +181,25 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
         applyFocus(false, label); // disable focus borders
         label.setIcon(getPriorityIcon(t));
         label.setToolTipText(t.getDescription());
+     // Distinguish phase from tasks
+        if(t.isPhase() && !selected){
+        	label.setBackground(TaskPanel.PHASECOLOR);
+        }
         return label;
     }
 
     // some convenience methods
-    private void applySelectionStyle(boolean selected, JComponent c) {
-        if (selected)
+    private void applySelectionStyle(boolean selected, JComponent c, Object value) {
+        if (selected){
             c.setBackground(table.getSelectionBackground());
-        else
-            c.setBackground(table.getBackground());
+        }
+        else {
+        	c.setBackground(table.getBackground());
+            // If the task is a phase, lets do some special operations
+            if(value instanceof Task && ((Task)value).isPhase()){
+        			c.setBackground(TaskPanel.PHASECOLOR);
+        		}
+        }
     }
 
     private void applyFocus(boolean hasFocus, JComponent c) {

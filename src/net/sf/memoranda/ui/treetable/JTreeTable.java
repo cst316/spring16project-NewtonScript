@@ -20,15 +20,14 @@ import javax.swing.tree.*;
 import javax.swing.table.*;
 
 import net.sf.memoranda.Task;
+import net.sf.memoranda.ui.TaskPanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 import java.awt.event.MouseEvent;
-
 import java.util.EventObject;
 
 /**
@@ -209,10 +208,12 @@ public class JTreeTable extends JTable {
 				int column) {
 			if (isSelected)
 				setBackground(table.getSelectionBackground());
-			else
+			else{
 				setBackground(table.getBackground());
-			if (value instanceof Task) {
-				
+				// If the task is a phase, lets do some special operations
+	            if(value instanceof Task && ((Task)value).isPhase()){
+	        		setBackground(TaskPanel.PHASECOLOR);
+	        	}
 			}
 			visibleRow = row;
 			return this;

@@ -46,6 +46,9 @@ import net.sf.memoranda.util.Util;
 
 /*$Id: TaskPanel.java,v 1.27 2007/01/17 20:49:12 killerjoe Exp $*/
 public class TaskPanel extends JPanel {
+	
+	public static final Color PHASECOLOR = new Color(245, 245, 245);
+	
     BorderLayout borderLayout1 = new BorderLayout();
     JButton historyBackB = new JButton();
     JToolBar tasksToolBar = new JToolBar();

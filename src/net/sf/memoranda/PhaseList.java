@@ -191,7 +191,6 @@ public class PhaseList {
 		String phaseName = e.getAttribute("phase").getValue();
 		if(phaseName.equals("")){
 			res = getPhase(e.getFirstChildElement("text").getValue());
-			Util.debug("Getting Phase: " + res.getText());
 		}
 		else{
 			Phase ph = getPhase(phaseName);
