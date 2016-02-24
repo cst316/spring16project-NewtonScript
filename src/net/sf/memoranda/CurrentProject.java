@@ -29,6 +29,7 @@ public class CurrentProject {
     private static NoteList _notelist = null;
     private static PhaseList _phaseList = null;
     private static ResourcesList _resources = null;
+    private static DefectList _defectList = null;
     private static Vector projectListeners = new Vector();
 
         
@@ -78,6 +79,10 @@ public class CurrentProject {
     public static PhaseList getPhaseList(){
     	return _phaseList;
     }
+    
+    public static DefectList getDefectList(){
+    	return _defectList;
+    }
 
     public static void set(Project project) {
         if (project.getID().equals(_project.getID())) return;
@@ -85,12 +90,14 @@ public class CurrentProject {
         ResourcesList newresources = CurrentStorage.get().openResourcesList(project);
         PhaseList newPhases = CurrentStorage.get().openPhaseList(project);
         TaskList newtasklist = newPhases.getAllTasks();
-        notifyListenersBefore(project, newnotelist, newtasklist, newresources, newPhases);
+        DefectList newDefects = CurrentStorage.get().openDefectList(project);
+        notifyListenersBefore(project, newnotelist, newtasklist, newresources, newPhases, newDefects);
         _project = project;
         _tasklist = newtasklist;
         _notelist = newnotelist;
         _resources = newresources;
         _phaseList = newPhases;
+        _defectList = newDefects;
         notifyListenersAfter();
         Context.put("LAST_OPENED_PROJECT_ID", project.getID());
     }
@@ -103,9 +110,9 @@ public class CurrentProject {
         return projectListeners;
     }
 
-    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph) {
+    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, DefectList dl) {
         for (int i = 0; i < projectListeners.size(); i++) {
-            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph);
+            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, dl);
             /*DEBUGSystem.out.println(projectListeners.get(i));*/
         }
     }
