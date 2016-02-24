@@ -1,6 +1,8 @@
 package net.sf.memoranda.ui;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -184,7 +186,10 @@ public class DefectTable extends javax.swing.JPanel {
         addDefect.setText("Add Defect");
         addDefect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefectActionPerformed(evt);
+            	addDefectActionPerformed(evt);
+            	
+            	
+            	
             }
         });
 
@@ -301,7 +306,8 @@ public class DefectTable extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     private void addDefectActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+         DefectAddDialog addDefect = new DefectAddDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+         addDefect.setVisible(true);
     }                                         
 
     private void inspectDefectActionPerformed(java.awt.event.ActionEvent evt) {                                              

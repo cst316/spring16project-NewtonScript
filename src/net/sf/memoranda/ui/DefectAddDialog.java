@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
@@ -20,8 +21,8 @@ public class DefectAddDialog extends javax.swing.JDialog {
    /**
     * Creates new form NewJDialog
     */
-   public DefectAddDialog(java.awt.Frame parent, boolean modal) {
-       super(parent, modal);
+   public DefectAddDialog(JFrame jFrame, boolean modal) {
+       super(jFrame, modal);
        initComponents();
    }
 
