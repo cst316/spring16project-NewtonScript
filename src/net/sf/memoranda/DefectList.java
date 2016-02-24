@@ -1,6 +1,8 @@
 package net.sf.memoranda;
 import java.util.ArrayList;
 
+import net.sf.memoranda.Defect.*;
+import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Document;
 import nu.xom.Element;
 
@@ -21,19 +23,6 @@ public interface DefectList {
 	public Project getProject();
 	
 	/**
-	 * Create a new defect
-	 * 
-	 * @param id ID
-	 * @param inj Injection 
-	 * @param rem Removal
-	 * @param hours Hours
-	 * @param desc Description
-	 * @param prog Progress
-	 */
-	public void createDefect(String id, String inj, String rem, double hours, 
-			String desc, int prog, String section);
-	
-	/**
 	 * Get a defect by ID
 	 * 
 	 * @param id defect ID
@@ -48,6 +37,48 @@ public interface DefectList {
 	 * @return Element
 	 */
 	public Element getDefectElem(String id);
+	
+	/**
+	 * Create a defect with an element
+	 * 
+	 * @param e Pre-made element
+	 * @return Defect
+	 */
+	public Defect createDefect(Element e);
+	
+	/**
+	 * Create a new defect
+	 * 
+	 * @param id
+	 * @param rem
+	 * @param hours
+	 * @param desc
+	 * @param inj
+	 * @param dis
+	 * @param sev
+	 * @param type
+	 * @return Defect
+	 */
+	public Defect createDefect(String id, int hours, String desc, 
+			INJECTION inj, DISCOVERY dis, SEVERITY sev, 
+			TYPE type, CalendarDate date);
+	
+	/**
+	 * Close a defect by ID
+	 * 
+	 * @param id
+	 * @param remDate The removal date for the defect
+	 * @param notes Removal notes
+	 * @return Defect The defect that was closed
+	 */
+	public Defect closeDefect(String id, CalendarDate remDate, String notes);
+	
+	/**
+	 * Remove defect by ID
+	 * 
+	 * @param id
+	 */
+	public void removeDefect(String id);
 	
 	/**
 	 * Get an ArrayList of all the defects

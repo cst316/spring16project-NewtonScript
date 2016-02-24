@@ -1,5 +1,6 @@
 package net.sf.memoranda;
 
+import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
@@ -12,23 +13,111 @@ public class DefectImpl implements Defect {
 	}
 	
 	@Override
-	public String getSection() {
-		return getAttr(SEC);
+	public String getNote() {
+		return getAttr(NOTES);
 	}
 
 	@Override
-	public void setSection(String sec) {
-		setAttr(SEC, sec);
+	public void setNote(String note) {
+		setAttr(NOTES, note);
 	}
 	
 	@Override
-	public int getProgress() {
-		return Integer.parseInt(getAttr(PROG));
+	public CalendarDate getRemDate() {
+		String str = getAttr(REMDATE);
+		CalendarDate date = null;
+		
+		// If date is not empty
+		if(!(str.equals(""))){
+			date = new CalendarDate(str);
+		}
+		
+		return date;
 	}
 
 	@Override
-	public void setProgress(int p) {
-		setAttr(PROG, Integer.toString(p));
+	public void setRemDate(CalendarDate rd) {
+		if(!(rd == null)){
+			setAttr(REMDATE, rd.toString());
+		}
+		else {
+			setAttr(REMDATE, "");
+		}
+	}
+	
+	@Override
+	public void open() {
+		setRemDate(null); // Nullify the removal date
+		setAttr(OPEN, "true");
+	}
+
+	@Override
+	public void close(CalendarDate date) {
+		setRemDate(date); // Get the current date
+		setAttr(OPEN, "false");
+	}
+
+	@Override
+	public boolean isOpen() {
+		String str = getAttr(OPEN);
+		boolean res = false;
+		
+		if(str.equals("true"))
+			res = true;
+		
+		return res;
+	}
+
+	@Override
+	public CalendarDate getDate() {
+		return new CalendarDate(getAttr(DATE));
+	}
+
+	@Override
+	public void setDate(CalendarDate date) {
+		setAttr(DATE, date.toString());
+	}
+	
+	// Translates to the enum value
+	@Override
+	public SEVERITY getSeverity() {
+		String name = getAttr(SEV);
+		SEVERITY s = SEVERITY.valueOf(SEVERITY.class, name);
+		return s;
+	}
+
+
+	@Override
+	public void setSeverity(SEVERITY s) {
+		setAttr(SEV, s.toString());
+	}
+
+
+	@Override
+	public TYPE getType() {
+		String name = getAttr(TP);
+		TYPE t = TYPE.valueOf(TYPE.class, name);
+		return t;
+	}
+
+
+	@Override
+	public void setType(TYPE tp) {
+		setAttr(TP, tp.name());
+	}
+
+
+	@Override
+	public DISCOVERY getDiscovery() {
+		String name = getAttr(DIS);
+		DISCOVERY d = DISCOVERY.valueOf(DISCOVERY.class, name);
+		return d;
+	}
+
+
+	@Override
+	public void setDiscovery(DISCOVERY d) {
+		setAttr(DIS, d.name());
 	}
 
 	@Override
@@ -42,33 +131,25 @@ public class DefectImpl implements Defect {
 	}
 
 	@Override
-	public double getHours() {
-		return Double.parseDouble(getAttr(HOURS));
+	public int getHours() {
+		return Integer.parseInt(getAttr(HOURS));
 	}
 
 	@Override
-	public void setHours(double hours) {
-		setAttr(HOURS, Double.toString(hours));
+	public void setHours(int hours) {
+		setAttr(HOURS, Integer.toString(hours));
 	}
 
 	@Override
-	public String getRemoval() {
-		return getAttr(REM);
+	public INJECTION getInj() {
+		String name = getAttr(INJ);
+		INJECTION i = INJECTION.valueOf(INJECTION.class, name);
+		return i;
 	}
 
 	@Override
-	public void setRemoval(String rem) {
-		setAttr(REM, rem);
-	}
-
-	@Override
-	public String getInj() {
-		return getAttr(INJ);
-	}
-
-	@Override
-	public void setInj(String inj) {
-		setAttr(INJ, inj);
+	public void setInj(INJECTION inj) {
+		setAttr(INJ, inj.name());
 	}
 
 	@Override
@@ -99,5 +180,4 @@ public class DefectImpl implements Defect {
     private String getAttr(String key){
     	return element.getAttribute(key).getValue();
     }
-
 }

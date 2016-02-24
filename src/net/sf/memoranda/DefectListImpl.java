@@ -3,6 +3,11 @@ package net.sf.memoranda;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import net.sf.memoranda.Defect.DISCOVERY;
+import net.sf.memoranda.Defect.INJECTION;
+import net.sf.memoranda.Defect.SEVERITY;
+import net.sf.memoranda.Defect.TYPE;
+import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
 import nu.xom.Document;
@@ -46,23 +51,7 @@ public class DefectListImpl implements DefectList{
 	public Project getProject() {
 		return project;
 	}
-
-	@Override
-	public void createDefect(String id, String inj, String rem, double hours,
-			String desc, int prog, String sec) {
-		
-		Element elem = new Element("defect");
-		elem.addAttribute(new Attribute(Defect.ID, id));
-		elem.addAttribute(new Attribute(Defect.INJ, inj));
-		elem.addAttribute(new Attribute(Defect.REM, rem));
-		elem.addAttribute(new Attribute(Defect.HOURS, Double.toString(hours)));
-		elem.addAttribute(new Attribute(Defect.DESC, desc));
-		elem.addAttribute(new Attribute(Defect.PROG, Integer.toString(prog)));
-		elem.addAttribute(new Attribute(Defect.SEC, sec));
-		
-		elements.put(id, elem);
-	}
-
+	
 	@Override
 	public Defect getDefect(String id) {
 		return new DefectImpl(elements.get(id));
@@ -71,6 +60,48 @@ public class DefectListImpl implements DefectList{
 	@Override
 	public Element getDefectElem(String id) {
 		return elements.get(id);
+	}
+	
+	@Override
+	public Defect createDefect(Element e) {
+		return new DefectImpl(e);
+	}
+	
+	@Override
+	public Defect createDefect(String id, int hours, String desc, 
+			INJECTION inj, DISCOVERY dis, SEVERITY sev, TYPE type, 
+			CalendarDate date) {
+		
+		Element elem = new Element("defect");
+		elem.addAttribute(new Attribute(Defect.ID, id));
+		elem.addAttribute(new Attribute(Defect.HOURS, Integer.toString(hours)));
+		elem.addAttribute(new Attribute(Defect.DESC, desc));
+		elem.addAttribute(new Attribute(Defect.INJ, inj.name()));
+		elem.addAttribute(new Attribute(Defect.DIS, dis.name()));
+		elem.addAttribute(new Attribute(Defect.SEV, sev.name()));
+		elem.addAttribute(new Attribute(Defect.TP, type.name()));
+		elem.addAttribute(new Attribute(Defect.DATE, date.toString()));
+		elem.addAttribute(new Attribute(Defect.REMDATE, ""));
+		elem.addAttribute(new Attribute(Defect.OPEN, "true"));
+		
+		elements.put(id, elem);
+		
+		return new DefectImpl(elem);
+	}
+	
+	@Override
+	public Defect closeDefect(String id, CalendarDate remDate, String notes) {
+		Defect defect = getDefect(id);
+		defect.setRemDate(remDate);
+		defect.close(remDate);
+		defect.setNote(notes);
+		
+		return defect;
+	}
+	
+	@Override
+	public void removeDefect(String id){
+		elements.remove(id);
 	}
 
 	@Override
