@@ -474,7 +474,7 @@ public class FileStorage implements Storage {
     }
     
     public DefectList openDefectList(Project prj) {
-        String fn = JN_DOCPATH + prj.getID() + File.separator + ".tasklist";
+        String fn = JN_DOCPATH + prj.getID() + File.separator + ".defectlist";
 
         if (documentExists(fn)) {
             /*DEBUG*/

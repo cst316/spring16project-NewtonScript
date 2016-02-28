@@ -56,6 +56,7 @@ public class CurrentProject {
         _resources = CurrentStorage.get().openResourcesList(_project);
         _phaseList = CurrentStorage.get().openPhaseList(_project);
         _tasklist = _phaseList.getAllTasks();
+        _defectList = CurrentStorage.get().openDefectList(_project);
         AppFrame.addExitListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();                                               
@@ -129,6 +130,7 @@ public class CurrentProject {
         storage.storeNoteList(_notelist, _project);
         storage.storeResourcesList(_resources, _project);
         storage.storePhaseList(_phaseList, _project); // Save the phase list to a file
+        storage.storeDefectList(_defectList, _project); // Save the defect list to a file
         storage.storeProjectManager();
     }
     
