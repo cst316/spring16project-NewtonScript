@@ -28,7 +28,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-
 import java.util.EventObject;
 import java.util.Collection;
 import java.util.Vector;
@@ -111,7 +110,7 @@ public class TaskTable extends JTable {
         });
         CurrentProject.addProjectListener(new ProjectListener() {
             public void projectChange(Project p, NoteList nl, TaskList tl,
-                    ResourcesList rl, PhaseList ph) {
+                    ResourcesList rl, PhaseList ph, TestCaseList tc) {
             }
 
             public void projectWasChanged() {
