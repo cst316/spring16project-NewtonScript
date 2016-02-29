@@ -317,11 +317,13 @@ public class DefectTable extends javax.swing.JPanel {
     }                                         
 
     private void inspectDefectActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        // TODO add your handling code here:
+        DefectInspectDialog inspectDefect = new DefectInspectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        inspectDefect.setVisible(true);
     }                                             
 
     private void editDefectActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        DefectEditDialog editDefect = new DefectEditDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        editDefect.setVisible(true);
     }                                          
 
     private void completeDefectActionPerformed(java.awt.event.ActionEvent evt) {                                               
