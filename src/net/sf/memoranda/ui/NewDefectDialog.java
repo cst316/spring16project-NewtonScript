@@ -21,6 +21,8 @@ public class NewDefectDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    
+    DefectFunctionality func = new DefectFunctionality();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,8 +46,7 @@ public class NewDefectDialog extends javax.swing.JDialog {
         newDefectDescription = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
         newDefectDate = new javax.swing.JSpinner();
-        addDefect = new javax.swing.JButton();
-        addDefect.setToolTipText("Click to add defect");
+        addNewDefect = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -94,56 +95,65 @@ public class NewDefectDialog extends javax.swing.JDialog {
 
         newDefectDate.setModel(new javax.swing.SpinnerDateModel());
 
-        addDefect.setBackground(new java.awt.Color(204, 255, 255));
-        addDefect.setText("Add Defect");
+        addNewDefect.setBackground(new java.awt.Color(204, 255, 255));
+        addNewDefect.setText("Add Defect");
+        addNewDefect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	System.out.println("workiong at top");
+                addNewDefectActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(newDefectDiscovery, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(newDefectInjection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(newDefectDate, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(newDefectSeverity, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addDefect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(newDefectType, 0, 122, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        	jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel3Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.TRAILING, false)
+        				.addComponent(newDefectDiscovery, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(newDefectInjection, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(newDefectDate, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+        					.addComponent(newDefectSeverity, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+        					.addGap(18))
+        				.addGroup(Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.TRAILING, false)
+        						.addGroup(Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addComponent(addNewDefect, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        						.addGroup(Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+        							.addGap(18)
+        							.addComponent(newDefectType, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)))
+        					.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)))
+        			.addComponent(jLabel2)
+        			.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+        			.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newDefectDiscovery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(newDefectSeverity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newDefectInjection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newDefectType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newDefectDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addDefect)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel3Layout.createSequentialGroup()
+        			.addGap(37)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(newDefectDiscovery, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel2)
+        						.addComponent(newDefectSeverity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        					.addGap(18)
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(newDefectInjection, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(newDefectType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        					.addGap(18)
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(newDefectDate, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(addNewDefect)))
+        				.addComponent(jScrollPane1, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        jPanel3.setLayout(jPanel3Layout);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
@@ -180,6 +190,12 @@ public class NewDefectDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>                        
 
+    private void addNewDefectActionPerformed(java.awt.event.ActionEvent evt) {    
+    	
+    	System.out.println("workiong again");
+    	func.addRow(newDefectDiscovery, newDefectInjection, newDefectDate, newDefectSeverity, newDefectType, newDefectDescription, DefectTable.openDefectTable);
+    }                                            
+
     /**
      * @param args the command line arguments
      */
@@ -206,6 +222,7 @@ public class NewDefectDialog extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(NewDefectDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -223,12 +240,8 @@ public class NewDefectDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify                     
+    private javax.swing.JButton addNewDefect;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton addDefect;
-    private javax.swing.JComboBox newDefectType;
-    private javax.swing.JComboBox newDefectSeverity;
-    private javax.swing.JComboBox newDefectDiscovery;
-    private javax.swing.JComboBox newDefectInjection;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -237,5 +250,9 @@ public class NewDefectDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner newDefectDate;
     private javax.swing.JTextPane newDefectDescription;
+    private javax.swing.JComboBox newDefectDiscovery;
+    private javax.swing.JComboBox newDefectInjection;
+    private javax.swing.JComboBox newDefectSeverity;
+    private javax.swing.JComboBox newDefectType;
     // End of variables declaration                   
 }

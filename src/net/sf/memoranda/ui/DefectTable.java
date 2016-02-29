@@ -42,11 +42,11 @@ public class DefectTable extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        openDefectTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        closedDefectTable = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         addDefect = new javax.swing.JButton();
         inspectDefect = new javax.swing.JButton();
@@ -85,7 +85,7 @@ public class DefectTable extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        openDefectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -108,7 +108,7 @@ public class DefectTable extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(openDefectTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3Layout.setHorizontalGroup(
@@ -128,7 +128,7 @@ public class DefectTable extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Open Defects", jPanel3);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        closedDefectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -151,7 +151,7 @@ public class DefectTable extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(closedDefectTable);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -311,8 +311,11 @@ public class DefectTable extends javax.swing.JPanel {
         this.setLayout(layout);
     }// </editor-fold>                        
 
-    private void addDefectActionPerformed(java.awt.event.ActionEvent evt) {                                          
-         DefectAddDialog addDefect = new DefectAddDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+    private void addDefectActionPerformed(java.awt.event.ActionEvent evt) {   
+    	
+    	System.out.println("wokign");
+    	//openDefectTable.addRowSelectionInterval(0, 1);
+         NewDefectDialog addDefect = new NewDefectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
          addDefect.setVisible(true);
     }                                         
 
@@ -353,9 +356,9 @@ public class DefectTable extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    public static javax.swing.JTable openDefectTable;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
+    public static javax.swing.JTable closedDefectTable;
     // End of variables declaration                   
 }
