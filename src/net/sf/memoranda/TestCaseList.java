@@ -1,6 +1,7 @@
 package net.sf.memoranda;
 
 import java.util.ArrayList;
+
 import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -67,6 +68,14 @@ public interface TestCaseList {
 	 * @return ArrayList List of TestCases
 	 */
 	public ArrayList<TestCase> getAllTestCases();
+	
+	/**
+	 * See if a test case with the same ID is in the list
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean hasTestCase(String id);
 	
 	/**
 	 * Get the XML content for this list

@@ -80,6 +80,10 @@ public class CurrentProject {
     public static PhaseList getPhaseList(){
     	return _phaseList;
     }
+    
+    public static TestCaseList getTestCaseList(){
+    	return _testCaseList;
+    }
 
     public static void set(Project project) {
         if (project.getID().equals(_project.getID())) return;

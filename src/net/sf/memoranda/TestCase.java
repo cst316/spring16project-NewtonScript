@@ -1,5 +1,7 @@
 package net.sf.memoranda;
 
+import nu.xom.Element;
+
 /**
  * Interface for test cases
  * 
@@ -15,6 +17,11 @@ public interface TestCase {
 	public static final String ER = "expectedResults";
 	public static final String AR = "actualResults";
 	public static final String PASS = "pass";
+	
+	// Constants for display names
+	public static final String INPROG = "In Progress";
+	public static final String PASSED = "Passed";
+	public static final String FAILED = "Failed";
 	
 	// Options for test case result
 	public static enum STATUS { 
@@ -71,6 +78,13 @@ public interface TestCase {
 	 * @return STATUS
 	 */
 	public STATUS getStatus();
+	
+	/**
+	 * Get the status as a readable string
+	 * 
+	 * @return String
+	 */
+	public String getStatusString();
 	
 	/**
 	 * Sets the id.
@@ -130,5 +144,12 @@ public interface TestCase {
 	 * Change test case status to passed
 	 */
 	public void pass();
+	
+	/**
+	 * Get the element for this test case
+	 * 
+	 * @return Element
+	 */
+	public Element getElement();
 	
 }

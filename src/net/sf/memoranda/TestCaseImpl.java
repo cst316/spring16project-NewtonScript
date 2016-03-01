@@ -107,4 +107,31 @@ public class TestCaseImpl implements TestCase{
     	return element.getAttribute(key).getValue();
     }
 
+	@Override
+	public String getStatusString() {
+		
+		String str = getAttr(TestCase.PASS);
+		String res;
+		
+		if(str.equals(STATUS.PASSED.name())){
+			res = TestCase.PASSED;
+		}
+		else if(str.equals(STATUS.FAILED.name())){
+			res = TestCase.FAILED;
+		}
+		else{
+			res = TestCase.INPROG;
+		}
+		
+		return res;
+		
+	}
+
+	@Override
+	public Element getElement() {
+		return element;
+	}
+	
+	
+
 }

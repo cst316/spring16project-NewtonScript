@@ -10,6 +10,7 @@ import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
+import nu.xom.Node;
 
 public class TestCaseListImpl implements TestCaseList {
 	private Project project;
@@ -60,7 +61,12 @@ public class TestCaseListImpl implements TestCaseList {
 	
 	@Override
 	public TestCase createTestCase(Element e) {
-		return new TestCaseImpl(e);
+		TestCase tc = new TestCaseImpl(e);
+		
+		rootElem.appendChild(e);
+		elements.put(tc.getID(), e);
+		
+		return tc;
 	}
 	
 	@Override
@@ -78,6 +84,7 @@ public class TestCaseListImpl implements TestCaseList {
 		elem.addAttribute(new Attribute(TestCase.PASS, 
 				STATUS.INPROGRESS.name()));
 		
+		rootElem.appendChild(elem);
 		elements.put(id, elem);
 		
 		return new TestCaseImpl(elem);
@@ -85,7 +92,11 @@ public class TestCaseListImpl implements TestCaseList {
 	
 	@Override
 	public void removeTestCase(String id){
+		
+		Node node = getTestCase(id).getElement();
+		
 		elements.remove(id);
+		rootElem.removeChild(node);
 	}
 
 	@Override
@@ -99,6 +110,11 @@ public class TestCaseListImpl implements TestCaseList {
 		}
 		
 		return list;
+	}
+	
+	public boolean hasTestCase(String id){
+		System.out.println(elements.containsKey(id));
+		return elements.containsKey(id);
 	}
 
 	@Override

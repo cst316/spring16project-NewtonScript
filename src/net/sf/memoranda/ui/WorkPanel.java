@@ -38,6 +38,7 @@ public class WorkPanel extends JPanel {
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
 	public DefectLogPanel defectLogPanel = new DefectLogPanel();
+	public TestCasePanel testCasePanel = new TestCasePanel();
 	public JButton eventsB = new JButton();
 	public JButton filesB = new JButton();
 	public JButton timesheetB = new JButton();
@@ -318,6 +319,7 @@ public class WorkPanel extends JPanel {
 		panel.add(defectLogPanel, "DEFECTLOG");
 		panel.add(timeSheetPanel, "TIMESHEET");
 		panel.add(dailyItemsPanel, "DAILYITEMS");
+		panel.add(testCasePanel, "TESTCASES");
 		panel.add(filesPanel, "FILES");
 		toolBar.add(agendaB, null);
 		toolBar.add(eventsB, null);
@@ -354,7 +356,7 @@ public class WorkPanel extends JPanel {
 				timesheetB_actionPerformed(null);
 			else if (pan.equals("DEFECTLOG"))
 				defectlogB_actionPerformed(null);
-			else if (pan.equals("TESTCASEs"))
+			else if (pan.equals("TESTCASES"))
 				testcaseB_actionPerformed(null);
 			else if (pan.equals("USERS"))
 				usersB_actionPerformed(null);
