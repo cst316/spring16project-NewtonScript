@@ -128,28 +128,6 @@ public class TestCaseDialog extends JDialog {
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(new java.awt.event.ActionListener() {
 		            public void actionPerformed(ActionEvent e) {
-		            	//Saves the selected items into variables
-		            	if(idTextField.getText() != null) {
-		            		selectedID = idTextField.getText();
-		            	}
-		            	if(methodTextField.getText() != null) {
-		            		selectedMethod = methodTextField.getText();
-		            	}
-		            	if(expectedTF.getText() != null) {
-		            		selectedExpected = expectedTF.getText();
-		            	}
-		            	if(actualTextField.getText() != null) {
-		            		selectedActual = actualTextField.getText();
-		            	}
-		            	if(testCaseTextField.getText() != null) {
-		            		selectedTestCase = testCaseTextField.getText();
-		            	}
-		            	if(textArea.getText() != null) {
-		            		selectedDescription = textArea.getText();
-		            	}
-		            	if(statusCB.getSelectedItem() != null) {
-		            		selectedStatus = String.valueOf(statusCB.getSelectedItem());
-		            	}
 		            	dispose();
 		            }
 		        });
@@ -167,26 +145,5 @@ public class TestCaseDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-	}
-	public String getSelectedID() {
-		return selectedID;
-	}
-	public String getSelectedMethod() {
-		return selectedMethod;
-	}
-	public String getSelectedExpected() {
-		return selectedExpected;
-	}
-	public String getSelectedActual() {
-		return selectedActual;
-	}
-	public String getSelectedDescription() {
-		return selectedDescription;
-	}
-	public String getSelectedTestCase() {
-		return selectedTestCase;
-	}
-	public String getSelectedStatus() {
-		return selectedStatus;
 	}
 }
