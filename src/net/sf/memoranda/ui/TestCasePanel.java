@@ -261,7 +261,7 @@ int row = table.getSelectedRow();
 		if(row < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case");
 		}
-		// Else, lets pass the test case
+		// Else, lets fail the test case
 		else{
 			
 			String id = (String) table.getModel().getValueAt(row, TestCaseTable.ID);
@@ -283,7 +283,7 @@ int row = table.getSelectedRow();
 		if(row < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case");
 		}
-		// Else, lets pass the test case
+		// Else, lets reset the test case status
 		else{
 			
 			String id = (String) table.getModel().getValueAt(row, TestCaseTable.ID);
