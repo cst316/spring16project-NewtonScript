@@ -21,36 +21,38 @@ public class PhaseList {
 	
 	// List of phases
 	private ArrayList<Phase> phases;
-	private Document _doc = null;
-	private Project _project = null;
-	private Element _root = null;
+	private Document doc = null;
+	private Project project = null;
+	private Element root = null;
 	private Hashtable<String, Element> elements = new Hashtable<String, Element>();
 	
-	public PhaseList(){phases = new ArrayList<Phase>();}
+	public PhaseList(){
+		phases = new ArrayList<Phase>();
+	}
 	
-	public PhaseList(Project _prj){
-		_project = _prj;
-		_root = new Element("tasklist");
-        _doc = new Document(_root);
+	public PhaseList(Project prj){
+		project = prj;
+		root = new Element("tasklist");
+        doc = new Document(root);
         phases = new ArrayList<Phase>();
         addNewPhase("Default");
 	}
 	
 
-	public PhaseList(Document _d, Project _prj){
-		_project = _prj;
-		_doc = _d;
-		_root = _doc.getRootElement();
+	public PhaseList(Document d, Project prj){
+		project = prj;
+		doc = d;
+		root = doc.getRootElement();
 		phases = new ArrayList<Phase>();
 		buildElements();
 	}
 	
 	// Build the list from file
 	private void buildElements(){
-		Elements els = _root.getChildElements("task");
+		Elements els = root.getChildElements("task");
 		for(int i = 0; i < els.size(); i++){
 			Element e = els.get(i);
-			TaskList list = new TaskListImpl(e, _project);
+			TaskList list = new TaskListImpl(e, project);
 			Util.debug("Adding phase:" + e.getFirstChildElement("text").getValue());
 			elements.put(e.getAttribute("id").getValue(), e);
 			addPhase(new Phase(e, list));
@@ -91,8 +93,9 @@ public class PhaseList {
 		Phase ph = null;
 		
 		for(Phase p : phases){
-			if(p.getTitle().equals(title))
+			if(p.getTitle().equals(title)){
 				ph = p;	
+			}
 		}
 		return ph;
 	}
@@ -107,8 +110,9 @@ public class PhaseList {
 		Phase ph = null;
 		
 		try{
-			if(phases.size() == 0)
+			if(phases.size() == 0){
 				throw new NullPointerException();
+			}
 			ph = phases.get(0);
 			
 		}catch(NullPointerException e){
@@ -123,7 +127,7 @@ public class PhaseList {
 	// Careful that this does not save anywhere
 	public TaskList getAllTasks(){
 		Element root = new Element("tasklist");
-		TaskList list = new TaskListImpl(root, _project);
+		TaskList list = new TaskListImpl(root, project);
 		for(Phase p : phases){
 			if(p.hasSubTasks()){
 				TaskList tempList = p.getTaskList();
@@ -164,20 +168,21 @@ public class PhaseList {
 	}
 	
 	// Get Phase element by ID
-	private Element getPhaseByID(String ID){
+	private Element getPhaseByID(String id){
 		Element res = null;
-		res = elements.get(ID);
+		res = elements.get(id);
 		return res;
 	}
 	
 	// Get any task element by ID (Including phases)
-	public Element getElementByID(String ID){
-		Element res = getPhaseByID(ID);
+	public Element getElementByID(String id){
+		Element res = getPhaseByID(id);
 		if(res == null){
 			for(Phase ph : phases){
-				Element temp = ph.getSubTask(ID).getContent();
-				if(temp != null)
-					res = ph.getSubTask(ID).getContent();
+				Element temp = ph.getSubTask(id).getContent();
+				if(temp != null){
+					res = ph.getSubTask(id).getContent();
+				}
 			}
 		}
 		return res;
@@ -185,14 +190,13 @@ public class PhaseList {
 	
 	
 	// Get any task by ID (Including phases)
-	public Task getAllByID(String ID){
+	public Task getAllByID(String id){
 		Task res;
-		Element e = getElementByID(ID);
+		Element e = getElementByID(id);
 		String phaseName = e.getAttribute("phase").getValue();
 		if(phaseName.equals("")){
 			res = getPhase(e.getFirstChildElement("text").getValue());
-		}
-		else{
+		} else {
 			Phase ph = getPhase(phaseName);
 			TaskList tl = ph.getTaskList();
 			res = new TaskImpl(e, tl);
@@ -220,11 +224,11 @@ public class PhaseList {
         desc.appendChild("");
         el.appendChild(desc);
        
-        _root.appendChild(el);
+        root.appendChild(el);
        
         Util.debug("Created phase " + text);
         
-        TaskList list = new TaskListImpl(el, _project); // New task list for this element
+        TaskList list = new TaskListImpl(el, project); // New task list for this element
         elements.put(id, el); // Add this phase to the list
         
         Phase phase = new Phase(el, list);
@@ -234,27 +238,27 @@ public class PhaseList {
 	
 	// Get XML document for this list
 	public Document getXMLContent() {
-		return _doc;
+		return doc;
 	}
 	
 	// Remove task or phase
 	public void removeTask(Task task) {
         String parentTaskId = task.getParentId();
         if (parentTaskId == null) {
-            _root.removeChild(task.getContent());            
-        }
-        else {
+            root.removeChild(task.getContent());            
+        } else {
             Element parentNode = getElementByID(parentTaskId);
             parentNode.removeChild(task.getContent());
         }
 		elements.remove(task.getID());
-		if(task.isPhase())
+		if(task.isPhase()) {
 			phases.remove(getPhase(task.getText()));
+		}
     }
 	
 	// Returns if the element exists for not
-	public boolean contains(String ID){
-		Element e = getElementByID(ID);
+	public boolean contains(String id){
+		Element e = getElementByID(id);
 		boolean res = false;
 		if(e != null){
 			res = true;
