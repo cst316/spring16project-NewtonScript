@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 
 public class TestCaseDialog extends JDialog {
 
@@ -23,6 +24,8 @@ public class TestCaseDialog extends JDialog {
 	private JTextField expectedTF;
 	private JTextField actualTextField;
 	private JTextField testCaseTextField;
+	private JComboBox statusCB;
+	private JTextArea textArea;
 	private String selectedID, selectedMethod, selectedDescription, 
 		selectedExpected, selectedActual, selectedTestCase, selectedStatus;
 
@@ -31,11 +34,29 @@ public class TestCaseDialog extends JDialog {
 	 */
 	public TestCaseDialog(Frame appFrame) { 
 		super(appFrame);
+		display();
+		run();
+	}
+	public TestCaseDialog(Frame appFrame, String testID, String testMethod,
+			String testDescription, String testExpected, String testActual,
+			String testTestCase, String testStatus) { 
+		super(appFrame);
+		display();
+		//Sets the text fields as the test case info
+		//so the user can see
+		setSelectedID(testID);
+		setSelectedMethod(testMethod);
+		setSelectedDescription(testDescription);
+		setSelectedTestCase(testTestCase);
+		setSelectedExpected(testExpected);
+		setSelectedActual(testActual);
+		setSelectedStatus(testStatus);
+		idTextField.setEditable(false);
 		run();
 	}
 	public void run() {
-		display();
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModal(true);
 		setVisible(true);
 		setResizable(false);
 	}
@@ -79,7 +100,7 @@ public class TestCaseDialog extends JDialog {
 		statusLabel.setBounds(250, 65, 56, 16);
 		contentPanel.add(statusLabel);
 		
-	    JComboBox statusCB = new JComboBox();
+	    statusCB = new JComboBox();
 		statusCB.setModel(new DefaultComboBoxModel(new String[] {"In Progress", "Passed", "Failed"}));
 		statusCB.setMaximumRowCount(3);
 		statusCB.setBounds(303, 62, 92, 22);
@@ -114,7 +135,7 @@ public class TestCaseDialog extends JDialog {
 			testCaseTextField.setColumns(10);
 		}
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		textArea.setBounds(12, 132, 175, 145);
@@ -128,7 +149,16 @@ public class TestCaseDialog extends JDialog {
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(new java.awt.event.ActionListener() {
 		            public void actionPerformed(ActionEvent e) {
-		            	dispose();
+		            	//Save the information in variables
+		            	okButtonPressed();
+		            	//If one of the boxes is empty, warn the user.
+		            	if(checkForNull()) {
+		            		setAlwaysOnTop(false);
+		            		JOptionPane.showMessageDialog(App.getFrame(), "Please enter information in all the boxes.");
+		            		setAlwaysOnTop(true);
+		            	} else {
+		            		dispose();
+		            	}
 		            }
 		        });
 				buttonPane.add(okButton);
@@ -145,5 +175,88 @@ public class TestCaseDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	private void okButtonPressed() {
+		//Saves the selected items into variables
+    	if(!idTextField.getText().isEmpty()) {
+    		selectedID = idTextField.getText();
+    	}
+    	if(!methodTextField.getText().isEmpty()) {
+    		selectedMethod = methodTextField.getText();
+    	}
+    	if(!expectedTF.getText().isEmpty()) {
+    		selectedExpected = expectedTF.getText();
+    	}
+    	if(!actualTextField.getText().isEmpty()) {
+    		selectedActual = actualTextField.getText();
+    	}
+    	if(!testCaseTextField.getText().isEmpty()) {
+    		selectedTestCase = testCaseTextField.getText();
+    	}
+    	if(!textArea.getText().isEmpty()) {
+    		selectedDescription = textArea.getText();
+    	}
+    	selectedStatus = String.valueOf(statusCB.getSelectedItem());
+	}
+	public String getSelectedID() {
+		return selectedID;
+	}
+	public String getSelectedMethod() {
+		return selectedMethod;
+	}
+	public String getSelectedExpected() {
+		return selectedExpected;
+	}
+	public String getSelectedActual() {
+		return selectedActual;
+	}
+	public String getSelectedDescription() {
+		return textArea.getText();
+	}
+	public String getSelectedTestCase() {
+		return selectedTestCase;
+	}
+	public String getSelectedStatus() {
+		return selectedStatus;
+	}
+	public void setSelectedID(String testID) {
+		idTextField.setText(testID);
+	}
+	public void setSelectedMethod(String testMethod) {
+		methodTextField.setText(testMethod);
+	}
+	public void setSelectedExpected(String testExpected) {
+		expectedTF.setText(testExpected);
+	}
+	public void setSelectedActual(String testActual) {
+		actualTextField.setText(testActual);
+	}
+	public void setSelectedDescription(String testDescription) {
+		textArea.setText(testDescription);
+	}
+	public void setSelectedTestCase(String testTestCase) {
+		testCaseTextField.setText(testTestCase);
+	}
+	public void setSelectedStatus(String testStatus) {
+		statusCB.setSelectedItem(testStatus);
+	}
+	public boolean checkForNull() {
+		boolean nullCheck;
+		if(idTextField.getText().isEmpty()) {
+			nullCheck = true;
+		} else if (methodTextField.getText().isEmpty()) {
+			nullCheck = true;
+		} else if (textArea.getText().isEmpty()) {
+			nullCheck = true;
+		} else if (actualTextField.getText().isEmpty()) {
+			nullCheck = true;
+		} else if (expectedTF.getText().isEmpty()) {
+			nullCheck = true;
+		} else if (testCaseTextField.getText().isEmpty()) {
+			nullCheck = true;
+		} else {
+			nullCheck = false;
+		}
+		return nullCheck;
 	}
 }

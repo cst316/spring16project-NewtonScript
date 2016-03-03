@@ -175,19 +175,26 @@ public class TestCasePanel extends JPanel {
 		TestCase tc = null;
 		String id;
 		
-		// TODO new test case dialog opens here
-		
-		// BELOW IS FOR TESTING ONLY - DELETE/MODIFY WHEN DIALOG IS MADE
-		id = "testID";
+		//Test case dialog opens here
+		TestCaseDialog dlg = new TestCaseDialog(App.getFrame());
+		id = dlg.getSelectedID();
 		Element elem = new Element("testcase");
 		elem.addAttribute(new Attribute(TestCase.ID, id));
-		elem.addAttribute(new Attribute(TestCase.METHOD, "testMethod(String hello)"));
-		elem.addAttribute(new Attribute(TestCase.DES, "Test desscription"));
-		elem.addAttribute(new Attribute(TestCase.TC, "Test = 1, Test2 = 2"));
-		elem.addAttribute(new Attribute(TestCase.ER, "Test = 1, Test = 2"));
-		elem.addAttribute(new Attribute(TestCase.AR, ""));
-		elem.addAttribute(new Attribute(TestCase.PASS, 
-				STATUS.INPROGRESS.toString()));
+		elem.addAttribute(new Attribute(TestCase.METHOD, dlg.getSelectedMethod()));
+		elem.addAttribute(new Attribute(TestCase.DES, dlg.getSelectedDescription()));
+		elem.addAttribute(new Attribute(TestCase.TC, dlg.getSelectedTestCase()));
+		elem.addAttribute(new Attribute(TestCase.ER, dlg.getSelectedExpected()));
+		elem.addAttribute(new Attribute(TestCase.AR, dlg.getSelectedActual()));
+		if(dlg.getSelectedStatus().equals("In Progress")) {
+			elem.addAttribute(new Attribute(TestCase.PASS, 
+					STATUS.INPROGRESS.toString()));
+		} else if(dlg.getSelectedStatus().equals("Passed")) {
+			elem.addAttribute(new Attribute(TestCase.PASS, 
+					STATUS.PASSED.toString()));
+		} else if(dlg.getSelectedStatus().equals("Failed")) {
+			elem.addAttribute(new Attribute(TestCase.PASS, 
+					STATUS.FAILED.toString()));
+		}
 		//---------------------------------------------
 		
 		
@@ -207,8 +214,37 @@ public class TestCasePanel extends JPanel {
 		
 	}
 	
-	private void editAction(){
-		// TODO edit test case dialog opens here
+	private void editAction() {
+		String id;
+		
+		// If nothing is highlighted, warn the user.
+		if(table.getSelectedRow() < 0){
+			JOptionPane.showMessageDialog(this, "Please select a test case");
+		} else{
+			id = (String) table.getModel().getValueAt(table.getSelectedRow(), TestCaseTable.ID);
+			TestCase tc = CurrentProject.getTestCaseList().getTestCase(id);
+			//Creates dialog with test case info
+			TestCaseDialog dlg = new TestCaseDialog(App.getFrame(), tc.getID(), tc.getMethod(), 
+					tc.getDescription(), tc.getExpectedRes(), tc.getActualRes(), tc.getTestCase(),
+					tc.getStatusString());
+			
+			//Sets new dialog info to test case
+			tc.setMethod(dlg.getSelectedMethod());
+			tc.setDescription(dlg.getSelectedDescription());
+			tc.setExpectedRes(dlg.getSelectedExpected());
+			tc.setActualRes(dlg.getSelectedActual());
+			tc.setTestCase(dlg.getSelectedTestCase());
+			if(dlg.getSelectedStatus().equals("In Progress")) {
+				tc.setStatus(STATUS.INPROGRESS);
+			} else if(dlg.getSelectedStatus().equals("Passed")) {
+				tc.setStatus(STATUS.PASSED);
+			} else if(dlg.getSelectedStatus().equals("Failed")) {
+				tc.setStatus(STATUS.FAILED);
+			}
+			
+			save();
+			updateTable();
+		}
 	}
 	
 	private void removeAction(){
