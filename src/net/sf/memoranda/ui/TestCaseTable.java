@@ -15,15 +15,12 @@ import net.sf.memoranda.TestCase;
 import net.sf.memoranda.util.Local;
 
 /**
- * Table for the test cases
+ * Table for the test cases.
  * 
  * @author Doug Carroll
  */
 public class TestCaseTable extends JTable {
 	
-	
-	private DefaultTableModel model;
-	private TableCellRenderer renderer;
 	public static final int COLUMNS = 7;
 	
 	// Constants for column nums
@@ -34,6 +31,9 @@ public class TestCaseTable extends JTable {
 	public static final int EXPRES = 4;
 	public static final int ACTRES = 5;
 	public static final int STATUS = 6;
+	
+	private DefaultTableModel model;
+	private TableCellRenderer renderer;
 	
 	private String[] columnNames = {"ID", "Method Name",
 			"Description", "Test Case",
@@ -47,7 +47,7 @@ public class TestCaseTable extends JTable {
 	}
 	
 	/**
-	 * Get the model for this table
+	 * Get the model for this table.
 	 * 
 	 * @return DefaultTableModel
 	 */
@@ -80,19 +80,17 @@ public class TestCaseTable extends JTable {
 			// Make last and first column smaller
 			if(i == STATUS || i == ID){
 				column.setPreferredWidth(10);
-			}
-			// Make method and description column biggest
-			else if(i == METHOD || i == DESCRIPTION){
+			} else if(i == METHOD || i == DESCRIPTION){
+				 // Make method and description column biggest
 				 column.setPreferredWidth(250);
-			}
-			else{
+			} else {
 				column.setPreferredWidth(100);
 			}
 		}
 	}
 	
 	/**
-	 * Add a test case to the table
+	 * Add a test case to the table.
 	 * 
 	 * @param tc
 	 */
@@ -109,7 +107,7 @@ public class TestCaseTable extends JTable {
 	}
 	
 	/**
-	 * Remove the selected test case from the table
+	 * Remove the selected test case from the table.
 	 * 
 	 */
 	public void remTestCase(){
@@ -132,16 +130,18 @@ public class TestCaseTable extends JTable {
 	class TableCellRenderer extends DefaultTableCellRenderer{
 	
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+		public Component getTableCellRendererComponent(
+				JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column){
 			
-			JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			JLabel label = (JLabel) super.getTableCellRendererComponent(
+					table, value, isSelected, hasFocus, row, column);
 			
 			setHorizontalAlignment(SwingConstants.CENTER);
 			
 			if(label.getText().equals(TestCase.PASSED)){
 				label.setBackground(Color.green);
-			}
-			else if(label.getText().equals(TestCase.FAILED)){
+			} else if(label.getText().equals(TestCase.FAILED)){
 				label.setBackground(Color.red);
 			}
 			
