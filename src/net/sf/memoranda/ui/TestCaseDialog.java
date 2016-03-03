@@ -69,32 +69,28 @@ public class TestCaseDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
-			JLabel idLabel = new JLabel("ID: ");
-			idLabel.setBounds(29, 30, 30, 16);
-			contentPanel.add(idLabel);
-		}
+		
+		JLabel idLabel = new JLabel("ID: ");
+		idLabel.setBounds(29, 30, 30, 16);
+		contentPanel.add(idLabel);
 		
 		idTextField = new JTextField();
 		idTextField.setBounds(71, 27, 116, 22);
 		contentPanel.add(idTextField);
 		idTextField.setColumns(10);
-		{
-			JLabel methodLabel = new JLabel("Method:");
-			methodLabel.setBounds(12, 65, 47, 16);
-			contentPanel.add(methodLabel);
-		}
-		{
-			methodTextField = new JTextField();
-			methodTextField.setBounds(71, 62, 116, 22);
-			contentPanel.add(methodTextField);
-			methodTextField.setColumns(10);
-		}
-		{
-			JLabel descriptionLabel = new JLabel("Description");
-			descriptionLabel.setBounds(61, 103, 70, 16);
-			contentPanel.add(descriptionLabel);
-		}
+		
+		JLabel methodLabel = new JLabel("Method:");
+		methodLabel.setBounds(12, 65, 47, 16);
+		contentPanel.add(methodLabel);
+		
+		methodTextField = new JTextField();
+		methodTextField.setBounds(71, 62, 116, 22);
+		contentPanel.add(methodTextField);
+		methodTextField.setColumns(10);
+
+		JLabel descriptionLabel = new JLabel("Description");
+		descriptionLabel.setBounds(61, 103, 70, 16);
+		contentPanel.add(descriptionLabel);
 		
 		JLabel statusLabel = new JLabel("Status:");
 		statusLabel.setBounds(250, 65, 56, 16);
@@ -123,58 +119,53 @@ public class TestCaseDialog extends JDialog {
 		actualTextField.setBounds(304, 179, 116, 22);
 		contentPanel.add(actualTextField);
 		actualTextField.setColumns(10);
-		{
-			JLabel testCaseLabel = new JLabel("Test Case:");
-			testCaseLabel.setBounds(228, 30, 63, 16);
-			contentPanel.add(testCaseLabel);
-		}
-		{
-			testCaseTextField = new JTextField();
-			testCaseTextField.setBounds(304, 27, 116, 22);
-			contentPanel.add(testCaseTextField);
-			testCaseTextField.setColumns(10);
-		}
+		
+		JLabel testCaseLabel = new JLabel("Test Case:");
+		testCaseLabel.setBounds(228, 30, 63, 16);
+		contentPanel.add(testCaseLabel);
+		
+		testCaseTextField = new JTextField();
+		testCaseTextField.setBounds(304, 27, 116, 22);
+		contentPanel.add(testCaseTextField);
+		testCaseTextField.setColumns(10);
 		
 		textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		textArea.setBounds(12, 132, 175, 145);
 		contentPanel.add(textArea);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				okButton.addActionListener(new java.awt.event.ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		            	//Save the information in variables
-		            	okButtonPressed();
-		            	//If one of the boxes is empty, warn the user.
-		            	if(checkForNull()) {
-		            		setAlwaysOnTop(false);
-		            		JOptionPane.showMessageDialog(App.getFrame(), "Please enter information in all the boxes.");
-		            		setAlwaysOnTop(true);
-		            	} else {
-		            		dispose();
-		            	}
-		            }
-		        });
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("OK");
+		okButton.setActionCommand("OK");
+		okButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Save the information in variables
+				okButtonPressed();
+				//If one of the boxes is empty, warn the user.
+				if(checkForNull()) {
+					setAlwaysOnTop(false);
+					JOptionPane.showMessageDialog(App.getFrame(), "Please enter information in all the boxes.");
+					setAlwaysOnTop(true);
+				} else {
+					dispose();
+				}
 			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				cancelButton.addActionListener(new java.awt.event.ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		            	dispose();
-		            }
-		        });
-				buttonPane.add(cancelButton);
+		});
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setActionCommand("Cancel");
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
-		}
+		});
+		buttonPane.add(cancelButton);
 	}
 	private void okButtonPressed() {
 		//Saves the selected items into variables
