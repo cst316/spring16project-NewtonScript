@@ -27,7 +27,7 @@ import nu.xom.Element;
  */
 
 /**
- * Outer panel for the Test Case Page
+ * Outer panel for the Test Case Page.
  * 
  * @author Doug Carroll
  */
@@ -200,11 +200,11 @@ public class TestCasePanel extends JPanel {
 		
 		// If a test case with this id exists, warn the user and don't add the test case
 		if(tcl.hasTestCase(id)){
-			JOptionPane.showMessageDialog(this, "Test case with the same ID already exists!");
-		}
-		// Else, do everything to add the test case
-		else{
-			// Create a new test case based on the above elements and add it to the table
+			JOptionPane.showMessageDialog(this, 
+					"Test case with the same ID already exists!");
+		} else {
+			// Else, do everything to add the test case
+			// Create a test case based on the above elements and add it to the table
 			tc = tcl.createTestCase(elem);
 			table.addTestCase(tc);
 			
@@ -252,10 +252,8 @@ public class TestCasePanel extends JPanel {
 		// If nothing is highlighted, warn user.
 		if(table.getSelectedRow() < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case to delete");
-		}
-		// Else, lets get that test case removed
-		else{
-			
+		} else {
+			// Else, lets get that test case removed
 			String id = (String) table.getModel().getValueAt(
 					table.getSelectedRow(), table.ID
 					);
@@ -275,10 +273,8 @@ int row = table.getSelectedRow();
 		// If nothing is highlighted, warn user
 		if(row < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case");
-		}
-		// Else, lets pass the test case
-		else{
-			
+		} else {
+			// Else, lets pass the test case
 			String id = (String) table.getModel().getValueAt(row, TestCaseTable.ID);
 			TestCase tc = CurrentProject.getTestCaseList().getTestCase(id);
 			tc.pass();
@@ -296,10 +292,8 @@ int row = table.getSelectedRow();
 		// If nothing is highlighted, warn user
 		if(row < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case");
-		}
-		// Else, lets fail the test case
-		else{
-			
+		} else {
+			// Else, lets fail the test case
 			String id = (String) table.getModel().getValueAt(row, TestCaseTable.ID);
 			TestCase tc = CurrentProject.getTestCaseList().getTestCase(id);
 			tc.fail();
@@ -318,10 +312,8 @@ int row = table.getSelectedRow();
 		// If nothing is highlighted, warn user
 		if(row < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case");
-		}
-		// Else, lets reset the test case status
-		else{
-			
+		} else {
+			// Else, lets reset the test case status
 			String id = (String) table.getModel().getValueAt(row, TestCaseTable.ID);
 			TestCase tc = CurrentProject.getTestCaseList().getTestCase(id);
 			tc.setStatus(STATUS.INPROGRESS);
