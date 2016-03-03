@@ -356,7 +356,7 @@ public class TimeSheetPanel extends JPanel {
                 panel.add(lblComment_1, gbc_lblComment_1);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -366,15 +366,6 @@ public class TimeSheetPanel extends JPanel {
                         panel.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel.add(textField, gbc_textField);
-                }   
               
                 tabbedPane.addTab("February", null, panel_1, null);
                 GridBagLayout gbl_panel_1 = new GridBagLayout();
@@ -421,7 +412,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_1.add(lblComment_2, gbc_lblComment);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -431,15 +422,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_1.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_1.add(textField, gbc_textField);
-                }
                 
                 tabbedPane.addTab("March", null, panel_2, null);
                 GridBagLayout gbl_panel_2 = new GridBagLayout();
@@ -486,7 +468,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_2.add(lblComment_3, gbc_lblComment_2);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -496,15 +478,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_2.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_2.add(textField, gbc_textField);
-                }
                 
                 tabbedPane.addTab("April", null, panel_3, null);
                 GridBagLayout gbl_panel_3 = new GridBagLayout();
@@ -551,7 +524,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_3.add(lblComment_4, gbc_lblComment_3);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -561,15 +534,7 @@ public class TimeSheetPanel extends JPanel {
                         panel_3.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_3.add(textField, gbc_textField);
-                }
+
                 
                 tabbedPane.addTab("May", null, panel_4, null);
                 GridBagLayout gbl_panel_4 = new GridBagLayout();
@@ -616,7 +581,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_4.add(lblComment_5, gbc_lblComment_4);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -626,15 +591,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_4.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_4.add(textField, gbc_textField);
-                }
 
                 tabbedPane.addTab("June", null, panel_5, null);
                 GridBagLayout gbl_panel_5 = new GridBagLayout();
@@ -681,7 +637,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_5.add(lblComment_6, gbc_lblComment_5);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -691,15 +647,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_5.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_5.add(textField, gbc_textField);
-                }
 
                 tabbedPane.addTab("July", null, panel_6, null);
                 GridBagLayout gbl_panel_6 = new GridBagLayout();
@@ -746,7 +693,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_6.add(lblComment_7, gbc_lblComment_6);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -756,15 +703,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_6.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_6.add(textField, gbc_textField);
-                }
 
                 tabbedPane.addTab("August", null, panel_7, null);
                 GridBagLayout gbl_panel_7 = new GridBagLayout();
@@ -811,7 +749,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_7.add(lblComment_8, gbc_lblComment_7);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -821,15 +759,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_7.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_7.add(textField, gbc_textField);
-                }
 
                 tabbedPane.addTab("September", null, panel_8, null);
                 GridBagLayout gbl_panel_8 = new GridBagLayout();
@@ -876,7 +805,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_8.add(lblComment_9, gbc_lblComment_8);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -886,15 +815,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_8.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_8.add(textField, gbc_textField);
-                }
 
                 tabbedPane.addTab("October", null, panel_9, null);
                 GridBagLayout gbl_panel_9 = new GridBagLayout();
@@ -941,7 +861,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_9.add(lblComment_10, gbc_lblComment_9);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -951,15 +871,7 @@ public class TimeSheetPanel extends JPanel {
                         panel_9.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_9.add(textField, gbc_textField);
-                }
+
 
                 tabbedPane.addTab("November", null, panel_10, null);
                 GridBagLayout gbl_panel_10 = new GridBagLayout();
@@ -1006,7 +918,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_10.add(lblComment_11, gbc_lblComment_10);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -1016,15 +928,6 @@ public class TimeSheetPanel extends JPanel {
                         panel_10.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_10.add(textField, gbc_textField);
-                }
 
                 tabbedPane.addTab("December", null, panel_11, null);
                 GridBagLayout gbl_panel_11 = new GridBagLayout();
@@ -1071,7 +974,7 @@ public class TimeSheetPanel extends JPanel {
                 panel_11.add(lblComment_12, gbc_lblComment_11);
                 
                 for (i = 1; i < 31; i++){
-                	for (j = 0; j < 5; j++){
+                	for (j = 0; j < 6; j++){
                         GridBagConstraints gbc_textField = new GridBagConstraints();
                         gbc_textField.insets = new Insets(0, 0, 5, 5);
                         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -1081,15 +984,7 @@ public class TimeSheetPanel extends JPanel {
                         panel_11.add(textField, gbc_textField);
                 	}
                 }    
-                for (i = 1; i < 31; i++){
-                	GridBagConstraints gbc_textField = new GridBagConstraints();
-                    gbc_textField.insets = new Insets(0, 0, 5, 0);
-                    gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-                    gbc_textField.gridx = 5;
-                    gbc_textField.gridy = i;
-                    JTextField textField = new JTextField();
-                    panel_11.add(textField, gbc_textField);
-                }
+
 
                 setLayout(groupLayout);
                 
