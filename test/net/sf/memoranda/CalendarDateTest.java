@@ -1,4 +1,4 @@
-package net.sf.memoranda.tests;
+package net.sf.memoranda;
 
 import static org.junit.Assert.*;
 

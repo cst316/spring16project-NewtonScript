@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sf.memoranda.server;
+package net.sf.memoranda.tests.server;
 
 import static org.junit.Assert.*;
 
