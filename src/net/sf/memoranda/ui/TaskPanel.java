@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Vector;
 
@@ -44,6 +46,9 @@ import net.sf.memoranda.util.Util;
 
 /*$Id: TaskPanel.java,v 1.27 2007/01/17 20:49:12 killerjoe Exp $*/
 public class TaskPanel extends JPanel {
+	
+	public static final Color PHASECOLOR = new Color(245, 245, 245);
+	
     BorderLayout borderLayout1 = new BorderLayout();
     JButton historyBackB = new JButton();
     JToolBar tasksToolBar = new JToolBar();
@@ -351,7 +356,6 @@ public class TaskPanel extends JPanel {
 		});
 	ppCalcTask.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/todo_complete.png")));
 	ppCalcTask.setEnabled(false);
-
     scrollPane.getViewport().add(taskTable, null);
         this.add(scrollPane, BorderLayout.CENTER);
         tasksToolBar.add(historyBackB, null);
@@ -427,7 +431,6 @@ public class TaskPanel extends JPanel {
                     parentPanel.calendar.jnCalendar.renderer.setTask(null);
                     parentPanel.calendar.jnCalendar.updateUI();
                 }
-                
             }
         });
         editTaskB.setEnabled(false);
@@ -509,6 +512,7 @@ public class TaskPanel extends JPanel {
 	                    taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
 	        
 	        dlg.setSelectedPhase(t); // Set the tasks phase to be pre-selected
+	        Phase oldPhase = dlg.getSelectedPhase();
 	        
 	        Dimension frmSize = App.getFrame().getSize();
 	        Point loc = App.getFrame().getLocation();
@@ -530,7 +534,16 @@ public class TaskPanel extends JPanel {
 			else
 				dlg.chkEndDate.setSelected(true);
 				dlg.progress.setValue(new Integer(t.getProgress()));
-		 	dlg.chkEndDate_actionPerformed(null);	
+		 	dlg.chkEndDate_actionPerformed(null);
+		 	
+		 	// If this is a sub task, restrict the max start/end date while editing
+		 	if(t.isSubTask()){
+		 		Task parent = t.getParentTask();
+		 		dlg.setStartDateLimit(parent.getStartDate(), parent.getEndDate());
+		 		dlg.setEndDateLimit(parent.getStartDate(), parent.getEndDate());
+		 		dlg.getPhaseBox().setEnabled(false); // If this is a sub task, do not allow a phase change
+		 	}
+		 	
 	        dlg.setVisible(true);
 	        if (dlg.CANCELLED)
 	            return;
@@ -543,14 +556,21 @@ public class TaskPanel extends JPanel {
 	 			ed = null;
 	        t.setStartDate(sd);
 	        t.setEndDate(ed);
+	        t.setDefaultDates(); // Verify the end date
 	        t.setText(dlg.todoField.getText());
 	        t.setDescription(dlg.descriptionField.getText());
 	        t.setPriority(dlg.priorityCB.getSelectedIndex());
 	        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
 	        t.setProgress(((Integer)dlg.progress.getValue()).intValue());
-	     
-	        t.setPhaseTitle(dlg.getSelectedPhase().getText()); // Set the phase for this task
-	        t.setPhaseElem(CurrentProject.getPhaseList().getPhaseElem(dlg.getSelectedPhase().getText()));
+	        Phase phase = dlg.getSelectedPhase();
+	        t.setPhaseTitle(phase.getText()); // Set the phase for this task
+	        t.setPhaseElem(phase.getContent());
+	        phase.setPhaseDates(); // Reset the dates
+	        phase.calculateProgress(); // Calculate progress based on the change
+	        oldPhase.setPhaseDates(); // Reset the dates of the old phase
+	        
+	        // Make sure all the sub task dates are still valid after a parent edit
+	        adjustSubDates(t);
 	        
 	//		CurrentProject.getTaskList().adjustParentTasks(t);
     	}
@@ -598,6 +618,9 @@ public class TaskPanel extends JPanel {
 //		CurrentProject.getTaskList().adjustParentTasks(newTask);
 		newTask.setOwner(dlg.getSelectedOwner());
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
+		newTask.setDefaultDates();
+		ph.setPhaseDates(); // Reset the start/end date for the new phase
+		ph.calculateProgress(); // Calculate progress based on the change
         CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
@@ -651,6 +674,7 @@ public class TaskPanel extends JPanel {
 	        Phase ph = dlg.getSelectedPhase();
 			Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId,dlg.getSelectedPhase().toString());
 	        newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
+	        newTask.setDefaultDates();
 	//		CurrentProject.getTaskList().adjustParentTasks(newTask);
 	
 	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
@@ -746,6 +770,7 @@ public class TaskPanel extends JPanel {
         	// This is to protect the user from accidentally removing an entire phase and its contents
         }
         else{
+        	Phase ph = t.getPhase();
 	        if (taskTable.getSelectedRows().length > 1)
 	            msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("tasks")+"?"
 	             + "\n"+Local.getString("Are you sure?");
@@ -777,6 +802,8 @@ public class TaskPanel extends JPanel {
 	        for (int i = 0; i < toremove.size(); i++) {
 	            CurrentProject.getPhaseList().removeTask((Task)toremove.get(i));
 	        }
+	        ph.setPhaseDates(); // Reset the dates based on this change
+	        ph.calculateProgress(); // Calculate progress based on the change
 	        CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
 	        taskTable.tableChanged();
 	        parentPanel.updateIndicators();
@@ -786,18 +813,21 @@ public class TaskPanel extends JPanel {
 
 	void ppCompleteTask_actionPerformed(ActionEvent e) {
 		String msg;
+		Task t = null;
 		Vector tocomplete = new Vector();
 		for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
-			Task t =
+			t =
 			CurrentProject.getPhaseList().getAllByID(
 				taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
 			if (t != null)
 				tocomplete.add(t);
 		}
 		for (int i = 0; i < tocomplete.size(); i++) {
-			Task t = (Task)tocomplete.get(i);
+			t = (Task)tocomplete.get(i);
 			t.setProgress(100);
 		}
+		Phase phase = t.getPhase();
+		phase.calculateProgress(); // Calculate progress based on the change
 		taskTable.tableChanged();
 		 CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
 		parentPanel.updateIndicators();
@@ -815,12 +845,12 @@ public class TaskPanel extends JPanel {
     class PopupListener extends MouseAdapter {
 
         public void mouseClicked(MouseEvent e) {
-		if ((e.getClickCount() == 2) && (taskTable.getSelectedRow() > -1)){
-			// ignore "tree" column
-			//if(taskTable.getSelectedColumn() == 1) return;
-			
-			editTaskB_actionPerformed(null);
-		}
+			if ((e.getClickCount() == 2) && (taskTable.getSelectedRow() > -1)){
+				// ignore "tree" column
+				//if(taskTable.getSelectedColumn() == 1) return;
+				
+				editTaskB_actionPerformed(null);
+			}
         }
 
                 public void mousePressed(MouseEvent e) {
@@ -836,7 +866,6 @@ public class TaskPanel extends JPanel {
                         taskPPMenu.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
-
     }
     
     // Open the phase window - Doug Carroll
@@ -942,6 +971,17 @@ public class TaskPanel extends JPanel {
 
   void ppCalcTask_actionPerformed(ActionEvent e) {
       calcTask_actionPerformed(e);
+  }
+  
+  // Recursive method to adjust the dates of sub tasks - Doug Carroll
+  private void adjustSubDates(Task t){
+	  if(t.hasSubTasks()){
+      	ArrayList<Task> subs = t.getSubTasks();
+      	for(Task subTask : subs){
+      		subTask.setDefaultDates();
+      		adjustSubDates(subTask);
+      	}
+      }
   }
 
 }

@@ -13,6 +13,8 @@ package net.sf.memoranda.ui.treetable;
  * you entered into with Sun.
  */
 
+import java.awt.Color;
+
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
@@ -80,6 +82,11 @@ public class TreeTableModelAdapter extends AbstractTableModel
 
     public int getColumnCount() {
 	return treeTableModel.getColumnCount();
+    }
+    
+    public void setRowColor(int row, Color c){
+    	
+    	fireTableRowsUpdated(row, row);
     }
 
     public String getColumnName(int column) {

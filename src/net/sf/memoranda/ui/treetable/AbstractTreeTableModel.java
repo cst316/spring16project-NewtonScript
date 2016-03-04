@@ -42,6 +42,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
     public boolean isLeaf(Object node) {
         return getChildCount(node) == 0; 
     }
+    
 
     public void valueForPathChanged(TreePath path, Object newValue) {}
 

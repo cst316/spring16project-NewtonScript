@@ -28,7 +28,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-
 import java.util.EventObject;
 import java.util.Collection;
 import java.util.Vector;
@@ -119,7 +118,12 @@ public class TaskTable extends JTable {
 				tableChanged();
             }
         });
-	
+  
+    }
+    
+    // Change the tables background color
+    public void changeBackgroundColor(Color c){
+    	setBackground(c);
     }
 
     private void initTable() {
@@ -156,7 +160,6 @@ public class TaskTable extends JTable {
 		getColumn( "% " + Local.getString("done") ).setCellEditor(new TaskProgressEditor());
 		
 		// TODO: editor for task progress
-		
 		
 		//  grid.
 		setShowGrid(false);
@@ -277,12 +280,13 @@ public class TaskTable extends JTable {
             TreeCellRenderer tcr = getCellRenderer();
             if (tcr instanceof DefaultTreeCellRenderer) {
                 DefaultTreeCellRenderer dtcr = ((DefaultTreeCellRenderer) tcr);
- 
+                
 				dtcr.setBorderSelectionColor(null);
                 dtcr.setTextSelectionColor(UIManager
                         .getColor("Table.selectionForeground"));
                 dtcr.setBackgroundSelectionColor(UIManager
                         .getColor("Table.selectionBackground"));
+              
             }
         }
 
@@ -323,19 +327,14 @@ public class TaskTable extends JTable {
                 Object value, boolean isSelected, boolean hasFocus, int row,
                 int column) {
             if (isSelected)
-                setBackground(table.getSelectionBackground());
-            // Change color for phase - Doug Carroll
-            // This was done while experimenting, leaving code commented for future implementation
-            /*
-            else if(value instanceof Task){
-            	Task t = (Task) value;
-            	if(t.isPhase())
-            		 setBackground(table.getBackground());
-            	else
-            		 setBackground(table.getBackground());
-            }*/
-            else
-                setBackground(table.getBackground());
+               setBackground(table.getSelectionBackground());
+            else{
+               setBackground(table.getBackground());
+               // If the task is a phase, lets do some special operations
+               if(value instanceof Task && ((Task)value).isPhase()){
+           			setBackground(TaskPanel.PHASECOLOR);
+           		}
+            }
             visibleRow = row;
             return this;
         }
