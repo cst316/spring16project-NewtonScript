@@ -1,9 +1,10 @@
 /**
  * 
  */
-package net.sf.memoranda.server;
+package net.sf.memoranda.tests.server;
 
 import static org.junit.Assert.*;
+import net.sf.memoranda.server.ServerCommCore;
 
 import org.junit.After;
 import org.junit.Before;

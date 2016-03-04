@@ -14,6 +14,7 @@ import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
+import net.sf.memoranda.TestCaseList;
 /**
  * 
  */
@@ -49,5 +50,16 @@ public interface Storage {
     
     void restoreContext();
     void storeContext();
+    
+    /**
+     * Used to open the TestCase list from the XML file
+     * @return 
+     */
+    TestCaseList openTestCaseList(Project pr);
+    
+    /**
+     * Used to save the TestCase list to an XML file
+     */
+    void storeTestCaseList(TestCaseList dl, Project pr);
        
 }

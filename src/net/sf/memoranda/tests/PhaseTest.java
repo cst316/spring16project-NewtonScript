@@ -1,6 +1,11 @@
-package net.sf.memoranda;
+package net.sf.memoranda.tests;
 
 import static org.junit.Assert.*;
+import net.sf.memoranda.Phase;
+import net.sf.memoranda.Project;
+import net.sf.memoranda.ProjectManager;
+import net.sf.memoranda.TaskList;
+import net.sf.memoranda.TaskListImpl;
 import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Attribute;
 import nu.xom.Element;

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 #Build Number for ANT. Do not edit!
 #Thu Feb 25 17:48:04 MST 2016
 build.number=78
+=======
+#Build Number for ANT. Do not edit!
+#Mon Feb 22 16:26:38 MST 2016
+build.number=122
+>>>>>>> refs/heads/US-2
