@@ -58,7 +58,12 @@ public class TestCaseTable extends JTable {
 	private void initComponents() {
 		
 		renderer = new TableCellRenderer();
-		model = new DefaultTableModel(data, columnNames);
+		// Create default table model and disallow cell editing immediately.
+		model = new DefaultTableModel(data, columnNames){
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
 		setLayout(new FlowLayout());
 		setModel(model);
 		getTableHeader().setReorderingAllowed(false);
@@ -112,6 +117,21 @@ public class TestCaseTable extends JTable {
 	 */
 	public void remTestCase(){
 		model.removeRow(getSelectedRow());
+	}
+	
+	/**
+	 * Edits the test case on the table.
+	 * 
+	 * @param tc
+	 */
+	public void editTestCase(int row, TestCase tc){
+		model.setValueAt(tc.getID(), row, ID);
+		model.setValueAt(tc.getMethod(), row, METHOD);
+		model.setValueAt(tc.getDescription(), row, DESCRIPTION);
+		model.setValueAt(tc.getTestCase(), row, TESTCASE);
+		model.setValueAt(tc.getExpectedRes(), row, EXPRES);
+		model.setValueAt(tc.getActualRes(), row, ACTRES);
+		model.setValueAt(tc.getStatusString(), row, STATUS);
 	}
 	
 	// Get all the values in the row
