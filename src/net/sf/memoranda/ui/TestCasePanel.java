@@ -216,12 +216,13 @@ public class TestCasePanel extends JPanel {
 	
 	private void editAction() {
 		String id;
+		int row = table.getSelectedRow();
 		
 		// If nothing is highlighted, warn the user.
-		if(table.getSelectedRow() < 0){
+		if(row < 0){
 			JOptionPane.showMessageDialog(this, "Please select a test case");
 		} else{
-			id = (String) table.getModel().getValueAt(table.getSelectedRow(), TestCaseTable.ID);
+			id = (String) table.getModel().getValueAt(row, TestCaseTable.ID);
 			TestCase tc = CurrentProject.getTestCaseList().getTestCase(id);
 			//Creates dialog with test case info
 			TestCaseDialog dlg = new TestCaseDialog(App.getFrame(), tc.getID(), tc.getMethod(), 
@@ -242,6 +243,7 @@ public class TestCasePanel extends JPanel {
 				tc.setStatus(STATUS.FAILED);
 			}
 			
+			table.editTestCase(row, tc); // Update the single row
 			save();
 			updateTable();
 		}
@@ -338,5 +340,4 @@ int row = table.getSelectedRow();
 		table.getModel().fireTableDataChanged();
 		table.updateUI();
 	}
-
 }
