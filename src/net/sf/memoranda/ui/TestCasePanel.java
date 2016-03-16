@@ -48,6 +48,16 @@ public class TestCasePanel extends JPanel {
 	
 	public TestCasePanel() {
 		initComponents();
+		
+		// FOLOWING IS FOR TESTING THE CHART
+		// UNCOMMENT TO SEE THE TEST CASE PIE CHART
+		/*
+		TestCasePieChart pie = new TestCasePieChart();
+		this.setLayout(new BorderLayout());
+		add(pie, BorderLayout.CENTER);
+		*/
+		
+		
 	}
 
 	private void initComponents() {
