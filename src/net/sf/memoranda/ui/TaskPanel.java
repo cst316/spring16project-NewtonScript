@@ -548,6 +548,7 @@ public class TaskPanel extends JPanel {
 	        t.setPriority(dlg.priorityCB.getSelectedIndex());
 	        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
 	        t.setProgress(((Integer)dlg.progress.getValue()).intValue());
+	        t.setOwner(dlg.getSelectedOwner());
 	     
 	        t.setPhaseTitle(dlg.getSelectedPhase().getText()); // Set the phase for this task
 	        t.setPhaseElem(CurrentProject.getPhaseList().getPhaseElem(dlg.getSelectedPhase().getText()));

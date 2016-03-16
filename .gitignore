@@ -8,3 +8,4 @@ README.txt
 /classes/
 /nbproject/private/
 build.number
+*.number
