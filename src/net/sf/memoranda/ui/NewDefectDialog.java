@@ -17,7 +17,9 @@ public class NewDefectDialog extends javax.swing.JDialog {
         initComponents();
     }
     
+
     static DefectFunctionality func = new DefectFunctionality();
+
 
     /**
      * This method is called from within the constructor to initialize the form.

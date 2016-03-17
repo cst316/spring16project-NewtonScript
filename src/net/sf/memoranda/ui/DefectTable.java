@@ -313,53 +313,53 @@ public class DefectTable extends javax.swing.JPanel {
 
     private void addDefectActionPerformed(java.awt.event.ActionEvent evt) {   
     	
-         NewDefectDialog addDefect = new NewDefectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
-         addDefect.setVisible(true);
-    }                                         
+        NewDefectDialog addDefect = new NewDefectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        addDefect.setVisible(true);
+   }                                         
 
-    private void inspectDefectActionPerformed(java.awt.event.ActionEvent evt) {
-        
-    	
-    	//openDefectTable.
-        DefectInspectDialog inspectDefect = new DefectInspectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        inspectDefect.setVisible(true);
-    }                                             
+   private void inspectDefectActionPerformed(java.awt.event.ActionEvent evt) {
+       
+   	
+   	//openDefectTable.
+       DefectInspectDialog inspectDefect = new DefectInspectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+       inspectDefect.setVisible(true);
+   }                                             
 
-    private void editDefectActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        DefectEditDialog editDefect = new DefectEditDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        editDefect.setVisible(true);
-    }                                          
+   private void editDefectActionPerformed(java.awt.event.ActionEvent evt) {                                           
+       DefectEditDialog editDefect = new DefectEditDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+       editDefect.setVisible(true);
+   }                                          
 
-    private void completeDefectActionPerformed(java.awt.event.ActionEvent evt) {                                               
-    	DefectCompleteDialog completeDefect = new DefectCompleteDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        completeDefect.setVisible(true);
-    }       
-    
-    private void deleteDefectActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        NewDefectDialog.func.deleteRow(openDefectTable.getSelectedRow(), openDefectTable);
-    }                                            
+   private void completeDefectActionPerformed(java.awt.event.ActionEvent evt) {                                               
+   	DefectCompleteDialog completeDefect = new DefectCompleteDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+       completeDefect.setVisible(true);
+   }       
+   
+   private void deleteDefectActionPerformed(java.awt.event.ActionEvent evt) {                                             
+       NewDefectDialog.func.deleteRow(openDefectTable.getSelectedRow(), openDefectTable);
+   }                                            
 
 
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton addDefect;
-    private javax.swing.JButton completeDefect;
-    private javax.swing.JButton deleteDefect;
-    private javax.swing.JButton editDefect;
-    private javax.swing.JButton inspectDefect;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    public static javax.swing.JTable openDefectTable;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    public static javax.swing.JTable closedDefectTable;
-    // End of variables declaration                   
+   // Variables declaration - do not modify                     
+   private javax.swing.JButton addDefect;
+   private javax.swing.JButton completeDefect;
+   private javax.swing.JButton deleteDefect;
+   private javax.swing.JButton editDefect;
+   private javax.swing.JButton inspectDefect;
+   private javax.swing.JPanel jPanel1;
+   private javax.swing.JPanel jPanel2;
+   private javax.swing.JPanel jPanel3;
+   private javax.swing.JPanel jPanel4;
+   private javax.swing.JPanel jPanel5;
+   private javax.swing.JPanel jPanel6;
+   private javax.swing.JScrollPane jScrollPane1;
+   private javax.swing.JScrollPane jScrollPane2;
+   private javax.swing.JScrollPane jScrollPane3;
+   private javax.swing.JScrollPane jScrollPane4;
+   private javax.swing.JTabbedPane jTabbedPane1;
+   public static javax.swing.JTable openDefectTable;
+   private javax.swing.JTable jTable2;
+   private javax.swing.JTable jTable3;
+   public static javax.swing.JTable closedDefectTable;
+   // End of variables declaration                   
 }
