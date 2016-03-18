@@ -1,13 +1,31 @@
 package net.sf.memoranda.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.TestCase;
 
-public class TestCasePieChart extends PieChartPanel{
+/**
+ * This panel holds the test case pie with all chart options.
+ * 
+ * @author Douglas Carroll
+ */
+public class TestCasePieChart extends PieChartPopulatedPanel{
 	
+	private static final long serialVersionUID = 1L;
 	public static final String TITLE = "Test Case Status";
 	public static final int STARTVAL = 0; // Starting value for each section
  
@@ -15,13 +33,13 @@ public class TestCasePieChart extends PieChartPanel{
 	private int passedValue = 0;
 	private int failedValue = 0;
 	
-	
 	public TestCasePieChart() {
 		super(TITLE);
 		this.init();
 	}
 	
 	private void init(){
+		
 		// Insert test case data categories
 		insertNewData(TestCase.INPROG, inProgValue);
 		insertNewData(TestCase.PASSED, passedValue);
@@ -32,6 +50,7 @@ public class TestCasePieChart extends PieChartPanel{
 		
 		setTransparency(60);
 		setBackgroundGap(5);
+		//setBorderPaint(UIManager.getColor("Panel.background"));
 		getPlot().setNoDataMessage("No Test Cases");
 		
 		// Label settings
@@ -45,6 +64,7 @@ public class TestCasePieChart extends PieChartPanel{
 		setColor(TestCase.INPROG, Color.white);
 		setColor(TestCase.PASSED, Color.green);
 		setColor(TestCase.FAILED, Color.red);
+		
 		
 		updatePie();
 	}
@@ -71,6 +91,7 @@ public class TestCasePieChart extends PieChartPanel{
 		
 		update();
 	}
+	
 	
 	// Increments the values based on the given test case
 	private void applyValue(TestCase tc){

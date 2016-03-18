@@ -1,24 +1,26 @@
 package net.sf.memoranda.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.ui.RectangleInsets;
 
 /**
  * JPanel which will contain functionality
@@ -27,24 +29,52 @@ import org.jfree.ui.RectangleInsets;
  * Mostly used as an adaptor for the pie chart API
  * to make our lives a little easier.
  * 
+ * See PieChartPopulatedPanel for a panel that includes
+ * extra options.
+ * 
  * @author Douglas Carroll
  */
 
-public class PieChartPanel extends JPanel{
+public class PieChart extends JPanel{
 	
 	public static final int ANGLE = 270;
+	public static final int PNGWIDTH = 1200;
+	public static final int PNGHEIGHT = 800;
 	
 	private static final long serialVersionUID = 1L;
 	private String title;		// Title for the pie chart
 	private JFreeChart pie;		// Chart itself
 	private DefaultPieDataset data;	// Data for the chart
-	private ChartPanel chartPane;
+	private ChartPanel chartPanel;
 	private PiePlot3D plot;
 	private PieRotator rotator = null;
+	protected double pieAngle = ANGLE;
 	
-	public PieChartPanel(String title){
+	public PieChart(String title){
 		this.title = title;
 		init();
+	}
+	
+	private void init(){
+		data = new DefaultPieDataset();
+		
+		// Create a generic pie chart
+		pie = ChartFactory.createPieChart3D(
+				title,			// Title
+				data,			// Pie chart data
+				true,			// Legend
+				true,			// Tooltips
+				false			// URLs
+		);
+		chartPanel = new ChartPanel(pie);
+		fixAspectRatio();
+		plot = (PiePlot3D) pie.getPlot();
+		plot.setStartAngle(ANGLE);
+		plot.setCircular(true);
+		this.setLayout(new BorderLayout());
+		this.add(chartPanel, BorderLayout.CENTER);
+		this.setVisible(true);
+		chartPanel.setVisible(true);
 	}
 	
 	public JFreeChart getChart(){
@@ -60,7 +90,7 @@ public class PieChartPanel extends JPanel{
 	}
 	
 	public ChartPanel getPanel(){
-		return chartPane;
+		return chartPanel;
 	}
 	
 	/**
@@ -73,6 +103,7 @@ public class PieChartPanel extends JPanel{
 			rotator = new PieRotator(plot);
 		
 		if(res){
+			pieAngle = plot.getStartAngle();
 			rotator.start();
 		}
 		else{
@@ -150,6 +181,17 @@ public class PieChartPanel extends JPanel{
 	}
 	
 	/**
+	 * Toggles label location on the pie chart.
+	 * 
+	 * True - labels stick to pie.
+	 * False - labels float.
+	 * 
+	 * @param res
+	 */
+	public void setStaticLabels(boolean res){
+			plot.setSimpleLabels(res);
+	}
+	/**
 	 * Set the transparency of the charts background
 	 * 0 means completely transparent.
 	 * 
@@ -160,7 +202,7 @@ public class PieChartPanel extends JPanel{
 	}
 	
 	/**
-	 * Set the background color for the chart
+	 * Set the background color for the plot
 	 * 
 	 * @param c
 	 */
@@ -169,50 +211,47 @@ public class PieChartPanel extends JPanel{
 	}
 	
 	/**
+	 * Set the background color for the panel.
+	 * This is the area around the edges and title.
+	 * 
+	 * @param c
+	 */
+	public void setBorderPaint(Color c){
+		pie.setBackgroundPaint(c);
+	}
+	
+	/**
 	 * Enables or disabled mouse wheel scrolling of the pie chart
 	 * 
 	 * @param res
 	 */
 	public void setMouseWheelEnabled(boolean res){
-		chartPane.setMouseWheelEnabled(res);
+		chartPanel.setMouseWheelEnabled(res);
 	}
 	
-	// Converts int percentage to a float
-	private float convertToPercent(int percent){
-		float trans = 0.0f;
+	/**
+	 * Allows user to save the file as a png.
+	 */
+	public void exportPNG(){
 		try{
-			if(percent > 100 || percent < 0)
-				throw new IllegalArgumentException();
-			trans = ((float)percent) / 100;
+			JFileChooser fc = new JFileChooser();
+			fc.addChoosableFileFilter(new FileNameExtensionFilter("png", "png"));
+			fc.setFileHidingEnabled(true); // Hide the users hidden files
+			int res = fc.showOpenDialog(App.getFrame());
 			
-		} catch(IllegalArgumentException e) {
-			System.out.println("Invalid percentage!");
+			if(res == JFileChooser.APPROVE_OPTION){
+				File selection = new File(fc.getSelectedFile() + ".png");
+				// API utility to save to PNG
+				ChartUtilities.saveChartAsPNG(selection, pie, PNGWIDTH, PNGHEIGHT);
+				// Confirm box
+				JOptionPane.showMessageDialog(App.getFrame(), 
+						"File Saved to " + fc.getSelectedFile());
+			}
+		} catch (IOException e) {
+			System.out.println("Exporting PNG failed!");
 			e.printStackTrace();
 		}
 		
-		return trans;
-	}
-	
-	private void init(){
-		data = new DefaultPieDataset();
-		
-		// Create a generic pie chart
-		pie = ChartFactory.createPieChart3D(
-				title,			// Title
-				data,			// Pie chart data
-				true,			// Legend
-				true,			// Tooltips
-				false			// URLs
-		);
-		chartPane = new ChartPanel(pie);
-		
-		pie.setPadding(new RectangleInsets(4, 8, 2, 2));
-		plot = (PiePlot3D) pie.getPlot();
-		plot.setStartAngle(ANGLE);
-		this.setLayout(new FlowLayout());
-		this.add(chartPane);
-		this.setVisible(true);
-		chartPane.setVisible(true);
 	}
 	
 	/**
@@ -249,34 +288,56 @@ public class PieChartPanel extends JPanel{
 	 */
 	public void update(){
 		pie.fireChartChanged();
-		chartPane.updateUI();
+		chartPanel.updateUI();
 		updateUI();
 	}
 	
-}
-
-/**
- * Handles graph rotation
- */
-class PieRotator extends Timer implements ActionListener{
-	
-	private static final long serialVersionUID = 1L;
-	private PiePlot3D roPlot;
-	private int angle = PieChartPanel.ANGLE;
-	
-	PieRotator(PiePlot3D plot){
-		super(100, null);
-		roPlot = plot;
-		addActionListener(this);
+	// Converts int percentage to a float
+	private float convertToPercent(int percent){
+		float trans = 0.0f;
+		try{
+			if(percent > 100 || percent < 0)
+				throw new IllegalArgumentException();
+			trans = ((float)percent) / 100;
+			
+		} catch(IllegalArgumentException e) {
+			System.out.println("Invalid percentage!");
+			e.printStackTrace();
+		}
+		
+		return trans;
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		roPlot.setStartAngle(angle);
-		angle++;
-		if(angle >= 360){
-			angle = 0;
+	// Setting these will force the chart to maintain it's aspect ratio
+	private void fixAspectRatio(){
+		chartPanel.setMinimumDrawWidth(0);
+        chartPanel.setMaximumDrawWidth(Integer.MAX_VALUE);
+        chartPanel.setMinimumDrawHeight(0);
+        chartPanel.setMaximumDrawHeight(Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Handles graph rotation
+	 */
+	class PieRotator extends Timer implements ActionListener{
+		
+		private static final long serialVersionUID = 1L;
+		private PiePlot3D roPlot;
+		
+		PieRotator(PiePlot3D plot){
+			super(100, null);
+			roPlot = plot;
+			addActionListener(this);
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// Convert the angle to it's positive counterpart
+	        pieAngle = ((pieAngle) % -360) + 360;
+			roPlot.setStartAngle(pieAngle);
+			pieAngle--;
+			
 		}
 	}
-	
 }
+	

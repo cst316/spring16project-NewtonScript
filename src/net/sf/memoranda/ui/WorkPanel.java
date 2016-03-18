@@ -296,7 +296,10 @@ public class WorkPanel extends JPanel {
 		testcaseB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		testcaseB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				testcaseB_actionPerformed(e);
+				// TODO UNCOMMENT BELOW TO RESTORE THE TEST CASE PAGE
+				// THIS IS FOR DEBUGGING UNTIL THE STATS TAB IS MADE
+				//testcaseB_actionPerformed(null);
+				statsB_actionPerformed(e);
 			}
 		});
 		testcaseB.setFont(new java.awt.Font("Dialog", 1, 10));
@@ -419,6 +422,12 @@ public class WorkPanel extends JPanel {
 		cardLayout1.show(panel, "TESTCASES");
 		setCurrentButton(testcaseB);
 		Context.put("CURRENT_PANEL", "TESTCASES");
+	}
+	public void statsB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("STATS");
+		setCurrentButton(testcaseB);
+		Context.put("CURRENT_PANEL", "STATS");
 	}
 
 	void setCurrentButton(JButton cb) {
