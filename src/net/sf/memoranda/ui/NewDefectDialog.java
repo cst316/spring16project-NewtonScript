@@ -18,7 +18,9 @@ public class NewDefectDialog extends javax.swing.JDialog {
     }
     
 
+
     static DefectFunctionality func = new DefectFunctionality();
+
 
 
     /**

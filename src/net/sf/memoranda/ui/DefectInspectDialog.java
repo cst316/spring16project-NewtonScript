@@ -342,3 +342,6 @@ public class DefectInspectDialog extends javax.swing.JDialog {
     // End of variables declaration                   
 }
 
+
+
+
