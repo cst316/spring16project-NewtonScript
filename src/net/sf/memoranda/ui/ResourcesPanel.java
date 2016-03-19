@@ -9,7 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -341,7 +345,22 @@ public class ResourcesPanel extends JPanel {
     }
 
     void runBrowser(String url) {
-        Util.runBrowser(url);
+    	if(Desktop.isDesktopSupported()){
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI(url));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }else{
+        	//Browser for Linux
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("xdg-open " + url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     class PopupListener extends MouseAdapter {
