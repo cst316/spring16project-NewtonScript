@@ -233,12 +233,13 @@ public class WorkPanel extends JPanel {
 		filesB.setOpaque(false);
 		filesB.setMaximumSize(new Dimension(60, 80));
 		/*---------------------------------------------------------------------------*/
+		//changed name to time sheet and added new icon
 		timesheetB.setSelected(true);
 		timesheetB.setMargin(new Insets(0, 0, 0, 0));
 		timesheetB.setIcon(
 			new ImageIcon(
 				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/files.png")));
+					"resources/icons/timesheet.png")));
 		timesheetB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		timesheetB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -247,7 +248,7 @@ public class WorkPanel extends JPanel {
 		});
 		timesheetB.setFont(new java.awt.Font("Dialog", 1, 10));
 		timesheetB.setVerticalAlignment(SwingConstants.TOP);
-		timesheetB.setText(Local.getString("Time"));
+		timesheetB.setText(Local.getString("Time Sheet"));
 		timesheetB.setHorizontalTextPosition(SwingConstants.CENTER);
 		timesheetB.setFocusPainted(false);
 		timesheetB.setBorderPainted(false);
@@ -257,7 +258,6 @@ public class WorkPanel extends JPanel {
 		timesheetB.setOpaque(false);
 		timesheetB.setMaximumSize(new Dimension(60, 80));
 		timesheetB.setBackground(Color.red);
-
 		/*--------------------------------------------------------------------------*/
 		/*---------------------------------------------------------------------------*/
 		defectlogB.setSelected(true);
