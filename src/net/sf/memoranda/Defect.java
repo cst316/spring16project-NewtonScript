@@ -26,37 +26,81 @@ public interface Defect {
 	
 	// Enums for defect values
 	public static enum TYPE { 
-		DOCUMENTATION,
-		SYNTAX,
-		BUILD,
-		PACKAGE,
-		ASSIGNMENT,
-		INTERFACE,
-		CHECKING,
-		DATA,
-		FUNCTION,
-		SYSTEM,
-		ENVIORNMENT
+		DOCUMENTATION("Documentation"),
+		SYNTAX("Syntax"),
+		BUILD("Build"),
+		PACKAGE("Package"),
+		ASSIGNMENT("Assignment"),
+		INTERFACE("Interface"),
+		CHECKING("Checking"),
+		DATA("Data"),
+		FUNCTION("Function"),
+		SYSTEM("System"),
+		ENVIORNMENT("Enviornment");
+		
+		private String name;
+		
+		TYPE(String name){
+			this.name = name;
+		}
+		
+		@Override
+		public String toString(){
+			return this.name;
+		}
 	}
 	
 	public static enum INJECTION { 
-		REQUIREMENTS,
-		DESIGN,
-		IMPLEMENTATION,
-		TEST
+		REQUIREMENTS("Requirements"),
+		DESIGN("Design"),
+		IMPLEMENTATION("Implementation"),
+		TEST("Test");
+		
+		private String name;
+		
+		INJECTION(String name){
+			this.name = name;
+		}
+		
+		@Override
+		public String toString(){
+			return this.name;
+		}
 	}
 	
 	public static enum DISCOVERY { 
-		REQUIREMENTS,
-		DESIGN,
-		IMPLEMENTATION,
-		TEST
+		REQUIREMENTS("Requirements"),
+		DESIGN("Design"),
+		IMPLEMENTATION("Implementation"),
+		TEST("Test");
+		
+		private String name;
+		
+		DISCOVERY(String name){
+			this.name = name;
+		}
+		
+		@Override
+		public String toString(){
+			return this.name;
+		}
 	}
 	
 	public static enum SEVERITY {
-		LOW,
-		MEDIUM,
-		HIGH
+		LOW("Low"),
+		MEDIUM("Medium"),
+		HIGH("High");
+		
+		private String name;
+		
+		SEVERITY(String name){
+			this.name = name;
+		}
+		
+		@Override
+		public String toString(){
+			return this.name;
+		}
 	}
 	
 	/**

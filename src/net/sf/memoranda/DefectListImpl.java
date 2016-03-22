@@ -13,6 +13,7 @@ import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
+import nu.xom.Node;
 
 public class DefectListImpl implements DefectList{
 	
@@ -64,17 +65,22 @@ public class DefectListImpl implements DefectList{
 	
 	@Override
 	public Defect createDefect(Element e) {
+		Defect d = new DefectImpl(e);
+		
+		rootElem.appendChild(e);
+		elements.put(d.getID(), e);
+		
 		return new DefectImpl(e);
 	}
 	
 	@Override
-	public Defect createDefect(String id, int hours, String desc, 
+	public Defect createDefect(String id, String desc, 
 			INJECTION inj, DISCOVERY dis, SEVERITY sev, TYPE type, 
 			CalendarDate date) {
 		
 		Element elem = new Element("defect");
 		elem.addAttribute(new Attribute(Defect.ID, id));
-		elem.addAttribute(new Attribute(Defect.HOURS, Integer.toString(hours)));
+		elem.addAttribute(new Attribute(Defect.HOURS, ""));
 		elem.addAttribute(new Attribute(Defect.DESC, desc));
 		elem.addAttribute(new Attribute(Defect.INJ, inj.name()));
 		elem.addAttribute(new Attribute(Defect.DIS, dis.name()));
@@ -84,6 +90,7 @@ public class DefectListImpl implements DefectList{
 		elem.addAttribute(new Attribute(Defect.REMDATE, ""));
 		elem.addAttribute(new Attribute(Defect.OPEN, "true"));
 		
+		rootElem.appendChild(elem);
 		elements.put(id, elem);
 		
 		return new DefectImpl(elem);
@@ -101,7 +108,9 @@ public class DefectListImpl implements DefectList{
 	
 	@Override
 	public void removeDefect(String id){
+		Node node = getDefect(id).getContent();
 		elements.remove(id);
+		rootElem.removeChild(node);
 	}
 
 	@Override
@@ -116,6 +125,7 @@ public class DefectListImpl implements DefectList{
 		
 		return list;
 	}
+	
 
 	@Override
 	public Document getXMLContent() {

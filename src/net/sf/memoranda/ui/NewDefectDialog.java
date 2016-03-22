@@ -1,7 +1,25 @@
 package net.sf.memoranda.ui;
+import java.awt.Component;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Vector;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JSpinner;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListCellRenderer;
+import javax.swing.SpinnerDateModel;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
+
+import net.sf.memoranda.Defect;
 
 /**
  *
@@ -9,6 +27,31 @@ import javax.swing.LayoutStyle.ComponentPlacement;
  */
 public class NewDefectDialog extends javax.swing.JDialog {
 
+	
+	private static final long serialVersionUID = 1L;
+	// Variables declaration - do not modify                     
+    private javax.swing.JButton addNewDefect;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private JSpinner newDefectDate;
+    private javax.swing.JTextPane newDefectDescription;
+    private CustomComboBox<Defect.DISCOVERY> newDefectDiscovery;
+    private CustomComboBox<Defect.INJECTION> newDefectInjection;
+    private CustomComboBox<Defect.SEVERITY> newDefectSeverity;
+    private CustomComboBox<Defect.TYPE> newDefectType;
+    // End of variables declaration 
+	
+	// Do not remove carrots without editing the custom combo box class
+	public static final String TYPETITLE = "<Type>";
+	public static final String DISTITLE = "<Discovery>";
+	public static final String INJTITLE = "<Injection>";
+	public static final String SEVTITLE = "<Severity>";
+	
     /**
      * Creates new form NewJDialog
      */
@@ -16,10 +59,6 @@ public class NewDefectDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
-
-
-    static DefectFunctionality func = new DefectFunctionality();
 
 
 
@@ -37,16 +76,37 @@ public class NewDefectDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        newDefectType = new javax.swing.JComboBox();
-        newDefectDiscovery = new javax.swing.JComboBox();
-        newDefectInjection = new javax.swing.JComboBox();
-        newDefectSeverity = new javax.swing.JComboBox();
+        newDefectType = new CustomComboBox<Defect.TYPE>(Defect.TYPE.values());
+        newDefectDiscovery = new CustomComboBox<Defect.DISCOVERY>(Defect.DISCOVERY.values());
+        newDefectInjection = new CustomComboBox<Defect.INJECTION>(Defect.INJECTION.values());
+        newDefectSeverity = new CustomComboBox<Defect.SEVERITY>(Defect.SEVERITY.values());
         jScrollPane1 = new javax.swing.JScrollPane();
         newDefectDescription = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
-        newDefectDate = new javax.swing.JSpinner();
+        newDefectDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         addNewDefect = new javax.swing.JButton();
+        SimpleDateFormat sdf = new SimpleDateFormat();
 
+        newDefectType.setRenderer(new ComboBoxRenderer(TYPETITLE));
+        newDefectDiscovery.setRenderer(new ComboBoxRenderer(DISTITLE));
+        newDefectInjection.setRenderer(new ComboBoxRenderer(INJTITLE));
+        newDefectSeverity.setRenderer(new ComboBoxRenderer(SEVTITLE));
+        
+        newDefectType.setToolTipText(TYPETITLE);
+        newDefectDiscovery.setToolTipText(DISTITLE);
+        newDefectInjection.setToolTipText(INJTITLE);
+        newDefectSeverity.setToolTipText(SEVTITLE);
+        
+        newDefectType.setSelectedIndex(-1);
+        newDefectDiscovery.setSelectedIndex(-1);
+        newDefectInjection.setSelectedIndex(-1);
+        newDefectSeverity.setSelectedIndex(-1);
+        
+        newDefectType.setEditable(false);
+        newDefectDiscovery.setEditable(false);
+        newDefectInjection.setEditable(false);
+        newDefectSeverity.setEditable(false);
+        
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -78,21 +138,21 @@ public class NewDefectDialog extends javax.swing.JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 255), null));
 
-        newDefectType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Type", "Documentation", "Syntax", "Build", "Package", "Assignment", "Interface", "Checking", "Data", "Function", "System", "Environment " }));
-        newDefectType.setToolTipText("Select Defect Type");
-
-        newDefectDiscovery.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Discovery", "Requirements", "Design", "Implementation", "Test" }));
-
-        newDefectInjection.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Injection", "Requirements", "Design", "Implementation", "Test", " " }));
-
-        newDefectSeverity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Severity", "LOW", "MEDIUM", "HIGH" }));
 
         newDefectDescription.setContentType("Description"); // NOI18N
         jScrollPane1.setViewportView(newDefectDescription);
 
         jLabel2.setText("Description");
-
-        newDefectDate.setModel(new javax.swing.SpinnerDateModel());
+        
+        
+        
+        
+        // DATE STUFF HERE
+		sdf = (SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT);
+        newDefectDate.setEditor(new JSpinner.DateEditor(newDefectDate, sdf.toPattern()));
+        newDefectDate.setModel(new SpinnerDateModel((Date)newDefectDate.getModel().getValue(),null,null,Calendar.DAY_OF_WEEK));
+        
+        
 
         addNewDefect.setBackground(new java.awt.Color(204, 255, 255));
         addNewDefect.setText("Add Defect");
@@ -192,7 +252,8 @@ public class NewDefectDialog extends javax.swing.JDialog {
     private void addNewDefectActionPerformed(java.awt.event.ActionEvent evt) {    
     	
     	System.out.println("workiong again");
-    	func.addRow(newDefectDiscovery, newDefectInjection, newDefectDate, newDefectSeverity, newDefectType, newDefectDescription, DefectTable.openDefectTable);
+    	DefectTable.getFunctionality().addRow(newDefectDiscovery, newDefectInjection, newDefectDate, newDefectSeverity, newDefectType, newDefectDescription);
+    	this.dispose(); // Close the window when defect is added
     }                                            
 
     /**
@@ -237,21 +298,68 @@ public class NewDefectDialog extends javax.swing.JDialog {
             }
         });
     }
+    
+    /**
+     * Allow titles to be displayed for the boxes
+     * 
+     * @author Douglas Carroll
+     */
+    class ComboBoxRenderer extends BasicComboBoxRenderer {
 
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton addNewDefect;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner newDefectDate;
-    private javax.swing.JTextPane newDefectDescription;
-    private javax.swing.JComboBox newDefectDiscovery;
-    private javax.swing.JComboBox newDefectInjection;
-    private javax.swing.JComboBox newDefectSeverity;
-    private javax.swing.JComboBox newDefectType;
-    // End of variables declaration                   
+		private static final long serialVersionUID = 1L;
+		private String boxTitle;
+    	
+    	public ComboBoxRenderer(String title){
+    		boxTitle = title;
+    	}
+    	
+    	// Override cell renderer
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			
+			// Keep selected coloring
+			if (isSelected) {
+	            setBackground(list.getSelectionBackground());
+	            setForeground(list.getSelectionForeground());
+	        } else {
+	            setBackground(list.getBackground());
+	            setForeground(list.getForeground());
+	        }
+			
+			// Set title
+			if(index == -1 && value == null){
+				setText(boxTitle);
+			}
+			else{
+				setText(value.toString());
+			}
+			return this;
+		}
+    	
+    }
+    
+    /**
+     * This will ensure that the first value is returned if title is selected
+     * 
+     * @author Douglas Carroll
+     */
+    class CustomComboBox<T> extends JComboBox<Object>{
+    	
+		private static final long serialVersionUID = 1L;
+
+		public CustomComboBox(T objs[]){
+    		super(objs);
+    	}
+    	
+    	public Object getItem(){
+    		Object item = getSelectedItem();
+    		
+    		if(item == null){
+    			item = getItemAt(0);
+    		}
+    		
+    		return item;
+    	}
+    }
 }

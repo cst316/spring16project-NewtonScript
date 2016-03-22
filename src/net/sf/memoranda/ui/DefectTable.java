@@ -2,6 +2,7 @@ package net.sf.memoranda.ui;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -17,13 +18,20 @@ import javax.swing.LayoutStyle.ComponentPlacement;
  */
 public class DefectTable extends javax.swing.JPanel {
 
+	private static DefectFunctionality func;
+	
     /**
      * Creates new form NewJPanel
      */
     public DefectTable() {
         initComponents();
+        func = new DefectFunctionality();
     }
 
+    
+    public static DefectFunctionality getFunctionality(){
+    	return func;
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -311,6 +319,10 @@ public class DefectTable extends javax.swing.JPanel {
         this.setLayout(layout);
     }// </editor-fold>                        
 
+    public static JTable getOpenTable(){
+    	return openDefectTable;
+    }
+    
     private void addDefectActionPerformed(java.awt.event.ActionEvent evt) {   
     	
 
@@ -340,8 +352,9 @@ public class DefectTable extends javax.swing.JPanel {
    }       
    
    private void deleteDefectActionPerformed(java.awt.event.ActionEvent evt) {                                             
-       NewDefectDialog.func.deleteRow(openDefectTable.getSelectedRow(), openDefectTable);
-   }                                            
+       func.deleteRow(openDefectTable.getSelectedRow(), openDefectTable);
+   }
+   
 
 
    // Variables declaration - do not modify                     
@@ -361,7 +374,7 @@ public class DefectTable extends javax.swing.JPanel {
    private javax.swing.JScrollPane jScrollPane3;
    private javax.swing.JScrollPane jScrollPane4;
    private javax.swing.JTabbedPane jTabbedPane1;
-   public static javax.swing.JTable openDefectTable;
+   private static javax.swing.JTable openDefectTable;
    private javax.swing.JTable jTable2;
    private javax.swing.JTable jTable3;
    public static javax.swing.JTable closedDefectTable;

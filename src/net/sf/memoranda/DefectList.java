@@ -1,4 +1,4 @@
-package net.sf.memoranda;
+ package net.sf.memoranda;
 import java.util.ArrayList;
 
 import net.sf.memoranda.Defect.*;
@@ -59,7 +59,7 @@ public interface DefectList {
 	 * @param type
 	 * @return Defect
 	 */
-	public Defect createDefect(String id, int hours, String desc, 
+	public Defect createDefect(String id, String desc, 
 			INJECTION inj, DISCOVERY dis, SEVERITY sev, 
 			TYPE type, CalendarDate date);
 	
