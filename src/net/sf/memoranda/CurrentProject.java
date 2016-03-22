@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import net.sf.memoranda.ui.AppFrame;
+import net.sf.memoranda.ui.TimeSheetPanel;
+import net.sf.memoranda.ui.WorkPanel;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Storage;
@@ -30,6 +32,7 @@ public class CurrentProject {
     private static PhaseList _phaseList = null;
     private static TestCaseList _testCaseList = null;
     private static ResourcesList _resources = null;
+    private static TimeSheetPanel tsp = null;
     private static Vector projectListeners = new Vector();
 
         
@@ -57,6 +60,7 @@ public class CurrentProject {
         _phaseList = CurrentStorage.get().openPhaseList(_project);
         _testCaseList = CurrentStorage.get().openTestCaseList(_project);
         _tasklist = _phaseList.getAllTasks();
+        tsp = CurrentStorage.get().loadTimeSheet(_project);
         AppFrame.addExitListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();                                               
@@ -83,6 +87,10 @@ public class CurrentProject {
     
     public static TestCaseList getTestCaseList(){
     	return _testCaseList;
+    }
+    
+    public static TimeSheetPanel getTimeSheet(){
+    	return tsp;
     }
 
     public static void set(Project project) {
@@ -131,6 +139,7 @@ public class CurrentProject {
         storage.storeNoteList(_notelist, _project);
         storage.storeResourcesList(_resources, _project);
         storage.storePhaseList(_phaseList, _project); // Save the phase list to a file
+        storage.saveTimeSheet(WorkPanel.getTimeSheetPanel(), _project);
         storage.storeProjectManager();
     }
     

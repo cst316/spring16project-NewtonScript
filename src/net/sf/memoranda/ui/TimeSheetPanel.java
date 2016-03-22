@@ -40,20 +40,12 @@ import net.sf.memoranda.util.Util;
 
 import java.io.*;
 import java.awt.GridBagLayout;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.BoxLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.GridLayout;
-import javax.swing.SwingConstants;
-import javax.swing.JTextPane;
 
 /* ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
-public class TimeSheetPanel extends JPanel {
+public class TimeSheetPanel extends JPanel implements Serializable {
     JToolBar toolBar = new JToolBar();
     JButton newResB = new JButton();
     ResourcesTable resourcesTable = new ResourcesTable();
@@ -220,6 +212,7 @@ public class TimeSheetPanel extends JPanel {
         resourcesTable.setMaximumSize(new Dimension(32767, 32767));
         resourcesTable.setRowHeight(24);
         scrollPane.getViewport().setBackground(Color.white);
+        scrollPane.setBounds(15, 31, 961, 72);
         scrollPane.addMouseListener(ppListener);
         resourcesTable.addMouseListener(ppListener);
         
@@ -231,6 +224,7 @@ public class TimeSheetPanel extends JPanel {
                         ppRun.setEnabled(enbl);
                     }
                 });
+                toolBar.setBounds(0, 0, 976, 26);
                 toolBar.setFloatable(false);
                 newResB.setIcon(
                     new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
@@ -286,30 +280,8 @@ public class TimeSheetPanel extends JPanel {
                     removeResB.setEnabled(false);
                     toolBar.add(removeResB, null);
                 scrollPane.setViewportView(resourcesTable);
-                GroupLayout groupLayout = new GroupLayout(this);
-                groupLayout.setHorizontalGroup(
-                	groupLayout.createParallelGroup(Alignment.LEADING)
-                		.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 705, GroupLayout.PREFERRED_SIZE)
-                		.addGroup(groupLayout.createSequentialGroup()
-                			.addGap(15)
-                			.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1124, Short.MAX_VALUE)
-                			.addContainerGap())
-                		.addGroup(groupLayout.createSequentialGroup()
-                			.addContainerGap()
-                			.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 964, GroupLayout.PREFERRED_SIZE)
-                			.addContainerGap(175, Short.MAX_VALUE))
-                );
-                groupLayout.setVerticalGroup(
-                	groupLayout.createParallelGroup(Alignment.LEADING)
-                		.addGroup(groupLayout.createSequentialGroup()
-                			.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-                			.addGap(5)
-                			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-                			.addPreferredGap(ComponentPlacement.UNRELATED)
-                			.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
-                			.addContainerGap())
-                );
                 int i, j;
+                tabbedPane.setBounds(12, 115, 964, 917);
                 
                 tabbedPane.addTab("January", null, panel, null);
                 GridBagLayout gbl_panel = new GridBagLayout();
@@ -983,10 +955,11 @@ public class TimeSheetPanel extends JPanel {
                         JTextField textField = new JTextField();
                         panel_11.add(textField, gbc_textField);
                 	}
-                }    
-
-
-                setLayout(groupLayout);
+                }
+                setLayout(null);
+                add(toolBar);
+                add(scrollPane);
+                add(tabbedPane);
                 
                
         	    

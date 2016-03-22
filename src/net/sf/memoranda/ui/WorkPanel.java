@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
 
@@ -32,7 +33,7 @@ public class WorkPanel extends JPanel {
 	CardLayout cardLayout1 = new CardLayout();
 
 	public JButton notesB = new JButton();
-	public TimeSheetPanel timeSheetPanel = new TimeSheetPanel();
+	private static TimeSheetPanel timeSheetPanel;
 	public DailyItemsPanel dailyItemsPanel = new DailyItemsPanel(this);
 	public ResourcesPanel filesPanel = new ResourcesPanel();
 	public JButton agendaB = new JButton();
@@ -58,6 +59,33 @@ public class WorkPanel extends JPanel {
 		} catch (Exception ex) {
 			new ExceptionDialog(ex);
 		}
+	}
+	
+	/**
+	 * Get instance of time sheet panel
+	 * 
+	 * @return TimeSheetPanel
+	 */
+	public static TimeSheetPanel getTimeSheetPanel(){
+		return timeSheetPanel;
+	}
+	
+	/**
+	 * Overwrite time sheet panel obj (if able).
+	 * 
+	 * @param tsp
+	 */
+	public static void setTimeSheetPanel(TimeSheetPanel tsp){
+		
+		if(tsp == null){
+			System.out.println("[DEBUG] New Time sheet panel created.");
+			tsp = new TimeSheetPanel();
+		}
+		else{
+			System.out.println("[DEBUG] New Time sheet panel loaded from file.");
+		}
+		
+		timeSheetPanel = tsp;
 	}
 
 	void jbInit() throws Exception {
@@ -236,10 +264,11 @@ public class WorkPanel extends JPanel {
 		//changed name to time sheet and added new icon
 		timesheetB.setSelected(true);
 		timesheetB.setMargin(new Insets(0, 0, 0, 0));
+		// TODO Changed timesheet.png to time.png.. Where is timesheet.png?
 		timesheetB.setIcon(
 			new ImageIcon(
 				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/timesheet.png")));
+					"resources/icons/time.png")));
 		timesheetB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		timesheetB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -258,6 +287,10 @@ public class WorkPanel extends JPanel {
 		timesheetB.setOpaque(false);
 		timesheetB.setMaximumSize(new Dimension(60, 80));
 		timesheetB.setBackground(Color.red);
+		
+		// Set the time sheet panel from file
+		setTimeSheetPanel(CurrentProject.getTimeSheet());
+		
 		/*--------------------------------------------------------------------------*/
 		/*---------------------------------------------------------------------------*/
 		defectlogB.setSelected(true);

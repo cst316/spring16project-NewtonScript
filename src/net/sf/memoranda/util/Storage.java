@@ -15,6 +15,7 @@ import net.sf.memoranda.Project;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TestCaseList;
+import net.sf.memoranda.ui.TimeSheetPanel;
 /**
  * 
  */
@@ -61,5 +62,21 @@ public interface Storage {
      * Used to save the TestCase list to an XML file
      */
     void storeTestCaseList(TestCaseList dl, Project pr);
+    
+    /**
+     * Load time sheet panel from the serialized object file
+     * 
+     * @param prj
+     * @return
+     */
+    public TimeSheetPanel loadTimeSheet(Project prj);
+    
+    /**
+     * Save the time sheet panel to a serialized object
+     * 
+     * @param tsp
+     * @param prj
+     */
+    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);
        
 }

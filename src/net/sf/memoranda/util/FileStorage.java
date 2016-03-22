@@ -8,12 +8,20 @@
  */
 package net.sf.memoranda.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 
@@ -35,6 +43,7 @@ import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.TestCaseListImpl;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.ExceptionDialog;
+import net.sf.memoranda.ui.TimeSheetPanel;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 import nu.xom.Builder;
 import nu.xom.DocType;
@@ -507,5 +516,54 @@ public class FileStorage implements Storage {
                 + ".testcaselist");
         Document doc = dl.getXMLContent();
         saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".testcaselist");
+    }
+    
+    public TimeSheetPanel loadTimeSheet(Project prj){
+    	String fn = JN_DOCPATH + prj.getID() + File.separator + ".timeSheet.ser";
+    	TimeSheetPanel panel = null;
+    	try {
+			InputStream is = new FileInputStream(fn);
+			InputStream buff = new BufferedInputStream(is);
+			ObjectInput in = new ObjectInputStream(buff);
+			panel = (TimeSheetPanel) in.readObject();
+			System.out.println("[DEBUG] Open time sheet: " + fn);
+		} catch (FileNotFoundException e) {
+			System.out.print("[DEBUG] FAILED to load time sheet page.\n");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.print("[DEBUG] FAILED to load time sheet page.\n");
+			System.out.print("[DEBUG] Object import failed.\n");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.print("[DEBUG] FAILED to load time sheet page.\n");
+			System.out.print("[DEBUG] Object deserialize failed.\n");
+			e.printStackTrace();
+		}
+    	
+    	return panel;
+    }
+    
+    // Save time sheet as serialized object
+    // Extremely inefficient, but only real way to save the time sheet panel as of now.
+    public void saveTimeSheet(TimeSheetPanel tsp, Project prj){
+    	String fn = JN_DOCPATH + prj.getID() + File.separator + ".timeSheet.ser";
+    	ObjectOutput out;
+    	try {
+    		
+			OutputStream os = new FileOutputStream(fn);
+			OutputStream buff = new BufferedOutputStream(os);
+			out = new ObjectOutputStream(buff);
+			out.writeObject(tsp);
+			out.close();
+			System.out.println("[DEBUG] Save time sheet: " + fn);
+			
+		} catch (FileNotFoundException e) {
+			System.out.print("[DEBUG] FAILED to save time sheet page.\n");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.print("[DEBUG] FAILED to save time sheet page.\n");
+			System.out.print("[DEBUG] Object output failed.\n");
+			e.printStackTrace();
+		}
     }
 }
