@@ -50,6 +50,7 @@ public class StatsPanel extends JPanel {
 	private JMenu export;
 	private JMenuItem png;
 	private TestCasePieChart testCasePie;
+	private DefectPieChart defectPie;
 	
 	public StatsPanel(){
 		initComponents();
@@ -58,6 +59,7 @@ public class StatsPanel extends JPanel {
 	// Handles building of all charts
 	private void buildCharts() {
 		testCasePie = new TestCasePieChart();
+		defectPie = new DefectPieChart();
 	}
 	
 	// Builds the panel
@@ -109,6 +111,7 @@ public class StatsPanel extends JPanel {
 
 		// Defects tab
 		defectsPanel.setLayout(new BorderLayout());
+		defectsPanel.add(defectPie, BorderLayout.CENTER);
 		tabbedPane.addTab("Defects", defectsPanel);
 		tabbedPane.setComponentAt(DEFECTINDEX, defectsPanel);
 
