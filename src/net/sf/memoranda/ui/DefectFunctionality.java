@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
@@ -81,8 +82,7 @@ public class DefectFunctionality {
 		DefaultTableModel model = (DefaultTableModel) DefectTable.getOpenTable().getModel();
 		
 	
-        model.addRow(new String[]{id, type.toString(), dis.toString(), inj.toString(), 
-        				sev.toString(), date.getShortDateString(), desc});
+        model.addRow(new String[]{id, type.toString(), dis.toString(), inj.toString(), sev.toString(), date.getShortDateString(), desc});
         
         // Save defect in the file
         dl.createDefect(id, desc, inj, dis, sev, type, date);
@@ -146,6 +146,32 @@ public class DefectFunctionality {
 			 System.out.println("Added defect " + d.getID() + " to table.");
 		}
 	}
+	
+	
+	public void addCompletedRow(String id,Defect.DISCOVERY newDefectDiscovery, 
+			Defect.INJECTION newDefectInjection, CalendarDate date, 
+			Defect.SEVERITY newDefectSeverity, Defect.TYPE newDefectType, 
+			String newDefectDescription, JComboBox<Defect.REMOVAL> newDefectRemoval, JSpinner newRemovalDate, 
+			JTextPane notes, JSpinner manHours) {
+        
+		DefectList dl = CurrentProject.getDefectList();
+		Defect.REMOVAL rmv = (Defect.REMOVAL) newDefectRemoval.getSelectedItem();
+		CalendarDate rmvDate = new CalendarDate((Date) newRemovalDate.getModel().getValue());
+		String rmvNotes = String.valueOf(notes.getText());
+		String hours = (String)manHours.getModel().getValue();
+        
+
+		
+		
+		DefaultTableModel model = (DefaultTableModel) DefectTable.getClosedDefectTable().getModel();
+		
+	
+        model.addRow(new String[]{id, newDefectType.toString(), newDefectInjection.toString(), date.getShortDateString(), newDefectDiscovery.toString(), 
+        		newDefectDescription, rmv.toString(), hours, rmvDate.getShortDateString(), rmvNotes});
+
+	}
+	
+	
 	
 	/**
 	 * Will compare defects based on the ID.

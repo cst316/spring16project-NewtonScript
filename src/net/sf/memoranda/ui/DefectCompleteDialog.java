@@ -6,7 +6,11 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Defect;
 
 public class DefectCompleteDialog extends javax.swing.JDialog {
 
@@ -31,15 +35,15 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
+        rmvCombo = new javax.swing.JComboBox<Defect.REMOVAL>(Defect.REMOVAL.values());
         manHours = new javax.swing.JSpinner();
-        jTextField1 = new javax.swing.JTextField();
+        notes = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        rmvDate = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
@@ -70,24 +74,20 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 255, 255), new java.awt.Color(0, 0, 0), new java.awt.Color(204, 255, 255), new java.awt.Color(0, 0, 0)));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Romoval" }));
+        rmvCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Romoval" }));
 
         manHours.setToolTipText("Select Man Hours");
         manHours.setName("Man Hours"); // NOI18N
 
-        jTextField1.setBackground(new java.awt.Color(240, 255, 255));
-        jTextField1.setToolTipText("Enter Notes");
-        jTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0), new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0)));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+        notes.setBackground(new java.awt.Color(240, 255, 255));
+        notes.setToolTipText("Enter Notes");
+        notes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0), new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0)));
+        
 
         jLabel2.setFont(new java.awt.Font("Hiragino Sans GB", 0, 16)); // NOI18N
         jLabel2.setText("Notes:");
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
+        rmvDate.setModel(new javax.swing.SpinnerDateModel());
 
         jLabel3.setFont(new java.awt.Font("Hiragino Sans GB", 0, 16)); // NOI18N
         jLabel3.setText("Man Hours:");
@@ -123,12 +123,12 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(rmvDate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(rmvCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(37, 37, 37)))
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -138,12 +138,12 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rmvCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(19, 19, 19)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rmvDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
@@ -152,7 +152,7 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
                                 .addGap(1, 1, 1))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -197,8 +197,30 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }                                           
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { 
+    	
+    	JTable table = DefectTable.getOpenTable();
+    	int row = table.getSelectedRow();
+    	String id = (String)table.getValueAt(row,0);
+    	Defect compD = CurrentProject.getDefectList().getDefect(id);
+
+    	
+    	
+    	
+    	DefectTable.getFunctionality().addCompletedRow(id,
+    			                                       compD.getDiscovery(), 
+    			                                       compD.getInj(), 
+    			                                       compD.getDate(), 
+    			                                       compD.getSeverity(), 
+    			                                       compD.getType(), 
+    			                                       compD.getDesc(), 
+    			                                       rmvCombo, 
+    			                                       rmvDate, 
+    			                                       notes, 
+    			                                       manHours
+    			                                       );
+    	this.dispose();
+    	
     }                                        
 
     /**
@@ -245,7 +267,7 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox<Defect.REMOVAL> rmvCombo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -253,8 +275,8 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JSpinner rmvDate;
+    private javax.swing.JTextPane notes;
     private javax.swing.JSpinner manHours;
     // End of variables declaration                   
 }

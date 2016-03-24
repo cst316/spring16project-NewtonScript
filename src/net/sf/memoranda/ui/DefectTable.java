@@ -355,6 +355,10 @@ public class DefectTable extends javax.swing.JPanel {
        func.deleteRow(openDefectTable.getSelectedRow(), openDefectTable);
    }
    
+   public static javax.swing.JTable getClosedDefectTable() {
+		return closedDefectTable;
+	}
+   
 
 
    // Variables declaration - do not modify                     
@@ -377,7 +381,8 @@ public class DefectTable extends javax.swing.JPanel {
    private static javax.swing.JTable openDefectTable;
    private javax.swing.JTable jTable2;
    private javax.swing.JTable jTable3;
-   public static javax.swing.JTable closedDefectTable;
+   private static javax.swing.JTable closedDefectTable;
    // End of variables declaration                   
+
 }
 

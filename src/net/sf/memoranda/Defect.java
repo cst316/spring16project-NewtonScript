@@ -36,7 +36,7 @@ public interface Defect {
 		DATA("Data"),
 		FUNCTION("Function"),
 		SYSTEM("System"),
-		ENVIORNMENT("Enviornment");
+		ENVIRONMENT("Environment");
 		
 		private String name;
 		
@@ -94,6 +94,24 @@ public interface Defect {
 		private String name;
 		
 		SEVERITY(String name){
+			this.name = name;
+		}
+		
+		@Override
+		public String toString(){
+			return this.name;
+		}
+	}
+	
+	public static enum REMOVAL { 
+		REQUIREMENTS("Requirements"),
+		DESIGN("Design"),
+		IMPLEMENTATION("Implementation"),
+		TEST("Test");
+		
+		private String name;
+		
+		REMOVAL(String name){
 			this.name = name;
 		}
 		
