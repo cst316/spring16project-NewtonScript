@@ -33,6 +33,7 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
+import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -256,7 +257,9 @@ public class AgendaPanel extends JPanel {
 					TaskList tl,
 					ResourcesList rl,
 					PhaseList pl,
-					DefectList dl) {
+					TestCaseList tc,
+					DefectList dl
+					) {
 			}
 
 			public void projectWasChanged() {

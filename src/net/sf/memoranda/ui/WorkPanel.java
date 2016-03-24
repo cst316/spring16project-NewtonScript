@@ -39,10 +39,12 @@ public class WorkPanel extends JPanel {
 	public JButton tasksB = new JButton();
 	public DefectLogPanel defectLogPanel = new DefectLogPanel();
 	public DefectTable defectTable = new DefectTable();
+	public TestCasePanel testCasePanel = new TestCasePanel();
 	public JButton eventsB = new JButton();
 	public JButton filesB = new JButton();
 	public JButton timesheetB = new JButton();
 	public JButton defectlogB = new JButton();
+	public JButton testcaseB = new JButton();
 	
 	public JButton usersB = new JButton(); //Button for system users
 	SystemUsersDialog sysUser; // System Users dialog
@@ -285,12 +287,43 @@ public class WorkPanel extends JPanel {
 		defectlogB.setBackground(Color.red);
 
 		/*--------------------------------------------------------------------------*/
+		/*---------------------------------------------------------------------------*/
+		testcaseB.setSelected(true);
+		testcaseB.setMargin(new Insets(0, 0, 0, 0));
+		testcaseB.setIcon(
+			new ImageIcon(
+				net.sf.memoranda.ui.AppFrame.class.getResource(
+					"resources/icons/testcase.png")));
+		testcaseB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		testcaseB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO UNCOMMENT BELOW TO RESTORE THE TEST CASE PAGE
+				// THIS IS FOR DEBUGGING UNTIL THE STATS TAB IS MADE
+				//testcaseB_actionPerformed(null);
+				statsB_actionPerformed(e);
+			}
+		});
+		testcaseB.setFont(new java.awt.Font("Dialog", 1, 10));
+		testcaseB.setVerticalAlignment(SwingConstants.TOP);
+		testcaseB.setText(Local.getString("Test Cases"));
+		testcaseB.setHorizontalTextPosition(SwingConstants.CENTER);
+		testcaseB.setFocusPainted(false);
+		testcaseB.setBorderPainted(false);
+		testcaseB.setContentAreaFilled(false);
+		testcaseB.setPreferredSize(new Dimension(50, 50));
+		testcaseB.setMinimumSize(new Dimension(30, 30));
+		testcaseB.setOpaque(false);
+		testcaseB.setMaximumSize(new Dimension(60, 80));
+		testcaseB.setBackground(Color.red);
+
+		/*--------------------------------------------------------------------------*/
 		filesB.setBackground(Color.red);
 		this.add(toolBar, BorderLayout.WEST);
 		this.add(panel, BorderLayout.CENTER);
 		panel.add(defectTable, "DEFECTLOG");
 		panel.add(timeSheetPanel, "TIMESHEET");
 		panel.add(dailyItemsPanel, "DAILYITEMS");
+		panel.add(testCasePanel, "TESTCASES");
 		panel.add(filesPanel, "FILES");
 		toolBar.add(agendaB, null);
 		toolBar.add(eventsB, null);
@@ -299,6 +332,7 @@ public class WorkPanel extends JPanel {
 		toolBar.add(filesB, null);
 		toolBar.add(timesheetB, null);
 		toolBar.add(defectlogB, null);
+		toolBar.add(testcaseB, null);
 		toolBar.add(usersB, null);
 		currentB = agendaB;
 		// Default blue color
@@ -326,6 +360,8 @@ public class WorkPanel extends JPanel {
 				timesheetB_actionPerformed(null);
 			else if (pan.equals("DEFECTLOG"))
 				defectlogB_actionPerformed(null);
+			else if (pan.equals("TESTCASES"))
+				testcaseB_actionPerformed(null);
 			else if (pan.equals("USERS"))
 				usersB_actionPerformed(null);
 		}
@@ -375,13 +411,24 @@ public class WorkPanel extends JPanel {
 		Context.put("CURRENT_PANEL", "DEFECTLOG");
 	}
 	public void usersB_actionPerformed(ActionEvent e) {
-		cardLayout1.show(panel, "DAILYITEMS");
+		cardLayout1.show(panel, "USERS");
 		dailyItemsPanel.selectPanel("USERS");
 		setCurrentButton(usersB);
 		Context.put("CURRENT_PANEL", "USERS");
 		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
     	sysUser.requestFocus();
     	userList.addArray(sysUser.getUsersArray());
+	}
+	public void testcaseB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "TESTCASES");
+		setCurrentButton(testcaseB);
+		Context.put("CURRENT_PANEL", "TESTCASES");
+	}
+	public void statsB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("STATS");
+		setCurrentButton(testcaseB);
+		Context.put("CURRENT_PANEL", "STATS");
 	}
 
 	void setCurrentButton(JButton cb) {

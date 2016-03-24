@@ -22,6 +22,7 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
+import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.ui.table.TableSorter;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.MimeType;
@@ -46,8 +47,8 @@ public class ResourcesTable extends JTable {
         initColumsWidth();
         //this.setModel(new ResourcesTableModel());
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, DefectList dl) {                
-               
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {                
+
             }
             public void projectWasChanged() {
                  tableChanged();

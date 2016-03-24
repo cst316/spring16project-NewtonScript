@@ -136,8 +136,11 @@ public class TaskListImpl implements TaskList {
         }
         
 		elements.put(id, el);
-        
-        return new TaskImpl(el, this);
+		
+		TaskImpl task = new TaskImpl(el, this);
+        task.setDefaultDates(); // Set the default date if needed.
+		
+        return task;
     }
 	
 	/**

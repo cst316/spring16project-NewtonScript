@@ -210,7 +210,6 @@ public class EventsPanel extends JPanel {
         eventPPMenu.addSeparator();
         eventPPMenu.add(ppNewEvent);
         eventPPMenu.add(ppRemoveEvent);
-		
 		// remove events using the DEL key
 		eventsTable.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e){
@@ -221,6 +220,7 @@ public class EventsPanel extends JPanel {
 			public void	keyReleased(KeyEvent e){}
 			public void keyTyped(KeyEvent e){} 
 		});
+		
     }
 
     void editEventB_actionPerformed(ActionEvent e) {
