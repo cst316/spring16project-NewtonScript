@@ -30,6 +30,7 @@ public class CurrentProject {
     private static PhaseList _phaseList = null;
     private static TestCaseList _testCaseList = null;
     private static ResourcesList _resources = null;
+    private static DefectList _defectList = null;
     private static Vector projectListeners = new Vector();
 
         
@@ -57,6 +58,7 @@ public class CurrentProject {
         _phaseList = CurrentStorage.get().openPhaseList(_project);
         _testCaseList = CurrentStorage.get().openTestCaseList(_project);
         _tasklist = _phaseList.getAllTasks();
+        _defectList = CurrentStorage.get().openDefectList(_project);
         AppFrame.addExitListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();                                               
@@ -81,6 +83,9 @@ public class CurrentProject {
     	return _phaseList;
     }
     
+    public static DefectList getDefectList(){
+    	return _defectList;
+	}
     public static TestCaseList getTestCaseList(){
     	return _testCaseList;
     }
@@ -92,13 +97,15 @@ public class CurrentProject {
         PhaseList newPhases = CurrentStorage.get().openPhaseList(project);
         TestCaseList newTestCases = CurrentStorage.get().openTestCaseList(project);
         TaskList newtasklist = newPhases.getAllTasks();
+        DefectList newDefects = CurrentStorage.get().openDefectList(project);
         notifyListenersBefore(project, newnotelist, newtasklist, 
-        		newresources, newPhases, newTestCases);
+        		newresources, newPhases, newTestCases, newDefects);
         _project = project;
         _tasklist = newtasklist;
         _notelist = newnotelist;
         _resources = newresources;
         _phaseList = newPhases;
+        _defectList = newDefects;
         _testCaseList = newTestCases;
         notifyListenersAfter();
         Context.put("LAST_OPENED_PROJECT_ID", project.getID());
@@ -112,9 +119,10 @@ public class CurrentProject {
         return projectListeners;
     }
 
-    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList newTestCases) {
+    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList newTestCases, DefectList dl) {
+
         for (int i = 0; i < projectListeners.size(); i++) {
-            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, null);
+            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, newTestCases, dl);
             /*DEBUGSystem.out.println(projectListeners.get(i));*/
         }
     }
@@ -131,6 +139,7 @@ public class CurrentProject {
         storage.storeNoteList(_notelist, _project);
         storage.storeResourcesList(_resources, _project);
         storage.storePhaseList(_phaseList, _project); // Save the phase list to a file
+        storage.storeDefectList(_defectList, _project); // Save the defect list to a file
         storage.storeProjectManager();
     }
     

@@ -175,7 +175,8 @@ public class Local {
 
     public static String getDateString(int m, int d, int y, int f) {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, m);
+        // Dates in memoranda seem to subtract a month?
+        cal.set(Calendar.MONTH, m + 1);
         cal.set(Calendar.DAY_OF_MONTH, d);
         cal.set(Calendar.YEAR, y);
 
