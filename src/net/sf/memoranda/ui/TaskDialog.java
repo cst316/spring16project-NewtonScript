@@ -339,14 +339,7 @@ public class TaskDialog extends JDialog {
                 setNotifB_actionPerformed(e);
             }
         });
-      //Adds listener to Owner Button
-        if(ownerCB.getItemCount() == 0) {
-        	ownerCB.insertItemAt(" ", 0);
-        }
-        else if(!ownerCB.getItemAt(0).equals(" ")) {
-        	ownerCB.insertItemAt(" ", 0);
-    	}
-        ownerCB.setSelectedIndex(0);
+        ownerCB.setSelectedIndex(-1);
         ownerCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ownerCB_actionPerformed(e);
@@ -481,16 +474,10 @@ public class TaskDialog extends JDialog {
 	
     void okB_actionPerformed(ActionEvent e) {
 	CANCELLED = false;
-        if(ownerCB.getItemAt(0).equals(" ")) {
-    		ownerCB.removeItemAt(0);
-    	}
         this.dispose();
     }
 
     void cancelB_actionPerformed(ActionEvent e) {
-        if(ownerCB.getItemAt(0).equals(" ")) {
-    		ownerCB.removeItemAt(0);
-    	}
         this.dispose();
     }
 	
