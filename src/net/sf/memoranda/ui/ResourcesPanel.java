@@ -220,8 +220,10 @@ public class ResourcesPanel extends JPanel {
             resourcesTable.tableChanged();
         }
         else {
-            if (!Util.checkBrowser())
-                return;
+            /** This asks for an executable for the browser, but it won't be needed anymore.
+             * Due to a new implementation.
+             * if (!Util.checkBrowser())
+                return; **/
             CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
             resourcesTable.tableChanged();
         }
@@ -332,7 +334,7 @@ public class ResourcesPanel extends JPanel {
         String[] command = MimeTypesList.getAppList().getCommand(mt.getAppId(), fpath);
         if (command == null)
             return;
-        /*DEBUG*/
+        //DEBUG
         System.out.println("Run: " + command[0]);
         try {
             Runtime.getRuntime().exec(command);
