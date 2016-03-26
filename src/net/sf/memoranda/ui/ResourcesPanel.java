@@ -207,8 +207,8 @@ public class ResourcesPanel extends JPanel {
                 if (mt == null)
                     return;
             }
-            if (!checkApp(mt))
-                return;
+            //if (!checkApp(mt))
+            //    return;
             // if file if projectFile, than copy the file and change url.
             if (dlg.projectFileCB.isSelected()) {
             	fpath = copyFileToProjectDir(fpath);
@@ -220,10 +220,10 @@ public class ResourcesPanel extends JPanel {
             resourcesTable.tableChanged();
         }
         else {
-            /** This asks for an executable for the browser, but it won't be needed anymore.
+            /* This asks for an executable for the browser, but it won't be needed anymore.
              * Due to a new implementation.
              * if (!Util.checkBrowser())
-                return; **/
+                return; */
             CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
             resourcesTable.tableChanged();
         }
@@ -323,7 +323,34 @@ public class ResourcesPanel extends JPanel {
     
 
     void runApp(String fpath) {
-        MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
+    	if(Desktop.isDesktopSupported()){
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.open(new File(fpath));
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open file.");
+            }
+    	} else {
+    		//Browser for Linux and mac
+            Runtime runtime = Runtime.getRuntime();
+            if (System.getProperty("os.name").contains("OS X")){
+            	try {
+                    runtime.exec("open " + fpath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open file.");
+                }
+            } else {
+            	try {
+                    runtime.exec("xdg-open " + fpath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open file.");
+                }
+            }
+        }
+        /*MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
         if (mt.getMimeTypeId().equals("__UNKNOWN")) {
             mt = addResourceType(fpath);
             if (mt == null)
@@ -343,7 +370,7 @@ public class ResourcesPanel extends JPanel {
             new ExceptionDialog(ex, "Failed to run an external application <br><code>"
                     +command[0]+"</code>", "Check the application path and command line parameters for this resource type " +
                     		"(File-&gt;Preferences-&gt;Resource types).");
-        }
+        }*/
     }
 
     void runBrowser(String url) {
@@ -353,14 +380,25 @@ public class ResourcesPanel extends JPanel {
                 desktop.browse(new URI(url));
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open URL.");
             }
         }else{
-        	//Browser for Linux
+        	//Browser for Linux and mac
             Runtime runtime = Runtime.getRuntime();
-            try {
-                runtime.exec("xdg-open " + url);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (System.getProperty("os.name").contains("OS X")){
+            	try {
+                    runtime.exec("open " + url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open URL.");
+                }
+            } else {
+            	try {
+                    runtime.exec("xdg-open " + url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open URL.");
+                }
             }
         }
     }
