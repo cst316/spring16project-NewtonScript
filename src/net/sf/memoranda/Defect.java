@@ -16,6 +16,7 @@ public interface Defect {
 	public static final String DIS = "discovery";
 	public static final String INJ = "injection";
 	public static final String SEV = "severity";
+	public static final String REM = "removal";
 	public static final String DESC = "description";
 	public static final String HOURS = "hours";
 	public static final String ID = "id";
@@ -104,6 +105,7 @@ public interface Defect {
 	}
 	
 	public static enum REMOVAL { 
+		OPEN("Open"),
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
 		IMPLEMENTATION("Implementation"),
@@ -280,6 +282,19 @@ public interface Defect {
 	 */
 	public void setID(String id);
 	
+	/**
+	 * Get the removal stage of this defect
+	 * 
+	 * @return
+	 */
+	public REMOVAL getRemoval();
+	
+	/**
+	 * Set the removal stage for this defect
+	 * 
+	 * @param r
+	 */
+	public void setRemoval(REMOVAL r);
 	/**
 	 * Get the element for the defect
 	 * 

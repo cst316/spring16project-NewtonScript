@@ -180,4 +180,16 @@ public class DefectImpl implements Defect {
     private String getAttr(String key){
     	return element.getAttribute(key).getValue();
     }
+
+	@Override
+	public REMOVAL getRemoval() {
+		String rem = getAttr(REM);
+		REMOVAL result = REMOVAL.valueOf(REMOVAL.class, rem);
+		return result;
+	}
+
+	@Override
+	public void setRemoval(REMOVAL r) {
+		setAttr(REM, r.name());
+	}
 }
