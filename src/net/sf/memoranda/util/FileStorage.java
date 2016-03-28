@@ -20,6 +20,8 @@ import java.net.URL;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
+import net.sf.memoranda.DefectList;
+import net.sf.memoranda.DefectListImpl;
 import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
@@ -474,6 +476,42 @@ public class FileStorage implements Storage {
         }
     }
     
+
+    public DefectList openDefectList(Project prj) {
+        String fn = JN_DOCPATH + prj.getID() + File.separator + ".defectlist";
+
+        if (documentExists(fn)) {
+            /*DEBUG*/
+            System.out.println(
+                "[DEBUG] Open defect list: "
+                    + JN_DOCPATH
+                    + prj.getID()
+                    + File.separator
+                    + ".defectlist");
+            
+            Document doc = openDocument(fn);
+            
+            return new DefectListImpl(prj, doc);   
+        }
+        else {
+            /*DEBUG*/
+            System.out.println("[DEBUG] New defect list created");
+            return new DefectListImpl(prj);
+        }
+    }
+    
+    public void storeDefectList(DefectList dl, Project prj) {
+        /*DEBUG*/
+        System.out.println(
+            "[DEBUG] Save defect list: "
+                + JN_DOCPATH
+                + prj.getID()
+                + File.separator
+                + ".defectlist");
+        Document doc = dl.getXMLContent();
+        saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".defectlist");
+    }
+
     public TestCaseList openTestCaseList(Project prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".testcaselist";
 

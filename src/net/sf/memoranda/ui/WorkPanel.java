@@ -39,6 +39,7 @@ public class WorkPanel extends JPanel {
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
 	public DefectLogPanel defectLogPanel = new DefectLogPanel();
+	public DefectTable defectTable = new DefectTable();
 	public TestCasePanel testCasePanel = new TestCasePanel();
 	public JButton eventsB = new JButton();
 	public JButton filesB = new JButton();
@@ -346,7 +347,7 @@ public class WorkPanel extends JPanel {
 		filesB.setBackground(Color.red);
 		this.add(toolBar, BorderLayout.WEST);
 		this.add(panel, BorderLayout.CENTER);
-		panel.add(defectLogPanel, "DEFECTLOG");
+		panel.add(defectTable, "DEFECTLOG");
 		panel.add(timeSheetPanel, "TIMESHEET");
 		panel.add(dailyItemsPanel, "DAILYITEMS");
 		panel.add(testCasePanel, "TESTCASES");

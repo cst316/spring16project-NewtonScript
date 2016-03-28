@@ -20,8 +20,8 @@ import javax.swing.SwingConstants;
  */
 public class PieChartPopulatedPanel extends PieChart {
 	
-	private JPanel testCaseRight;
-	private JPanel testCaseOptions;
+	private JPanel rightPanel;
+	private JPanel optionsPanel;
 	private JToggleButton rotateToggle;
 	private JToggleButton labelsToggle;
 	
@@ -30,15 +30,19 @@ public class PieChartPopulatedPanel extends PieChart {
 		init();
 	}
 	
+	public JPanel getOptionsPanel(){
+		return optionsPanel;
+	}
+	
 	private void init(){
-		testCaseRight = new JPanel();
-		testCaseOptions = new JPanel();
+		rightPanel = new JPanel();
+		optionsPanel = new JPanel();
 		rotateToggle = new JToggleButton();
 		labelsToggle = new JToggleButton();
 		
 		// Setup outer options
-		testCaseRight.setLayout(new BorderLayout());
-		testCaseOptions.setLayout(new BoxLayout(testCaseOptions, BoxLayout.Y_AXIS));
+		rightPanel.setLayout(new BorderLayout());
+		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
 		
 		// Rotate button
 		rotateToggle.setIcon(
@@ -69,13 +73,13 @@ public class PieChartPopulatedPanel extends PieChart {
 		labelsToggle.setBorder(null); // Remove borders
 		
 		
-		testCaseOptions.add(rotateToggle);
-		testCaseOptions.add(Box.createVerticalStrut(1));
-		testCaseOptions.add(labelsToggle);
-		testCaseRight.add(new JSeparator(), BorderLayout.NORTH);
-		testCaseRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
-		testCaseRight.add(testCaseOptions, BorderLayout.EAST);
-		add(testCaseRight, BorderLayout.EAST);
+		optionsPanel.add(rotateToggle);
+		optionsPanel.add(Box.createVerticalStrut(1));
+		optionsPanel.add(labelsToggle);
+		rightPanel.add(new JSeparator(), BorderLayout.NORTH);
+		rightPanel.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
+		rightPanel.add(optionsPanel, BorderLayout.EAST);
+		add(rightPanel, BorderLayout.EAST);
 	}
 	
 	// Handles rotation button functionality

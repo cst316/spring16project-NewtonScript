@@ -55,6 +55,15 @@ public class PieChart extends JPanel{
 		init();
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+		pie.setTitle(title);
+	}
+
 	private void init(){
 		data = new DefaultPieDataset();
 		
@@ -274,6 +283,14 @@ public class PieChart extends JPanel{
 	}
 	
 	/**
+	 * Clears all data in the pie chart
+	 * 
+	 */
+	public void clearData(){
+		data.clear();
+	}
+	
+	/**
 	 * Sets the value of the data
 	 * 
 	 * @param title
@@ -281,6 +298,16 @@ public class PieChart extends JPanel{
 	 */
 	public void editValue(String title, int val){
 		data.setValue(title, val);
+	}
+	
+	/**
+	 * Add value to the existing data
+	 * 
+	 * @param title
+	 * @param val
+	 */
+	public void addValue(String title, int val){
+		data.setValue(title, data.getValue(title).intValue() + val);
 	}
 	
 	/**

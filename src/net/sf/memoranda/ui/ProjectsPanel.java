@@ -41,6 +41,7 @@ import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
+import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
@@ -243,7 +244,9 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 				NoteList nl,
 				TaskList tl,
 				ResourcesList rl,
-				PhaseList ph, TestCaseList tc) {
+				PhaseList ph,
+				TestCaseList tc,
+				DefectList dl) {
 			}
 			public void projectWasChanged() {
 				curProjectTitle.setText(CurrentProject.get().getTitle());
