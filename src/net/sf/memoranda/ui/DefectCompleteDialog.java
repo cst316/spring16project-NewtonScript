@@ -74,8 +74,6 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 255, 255), new java.awt.Color(0, 0, 0), new java.awt.Color(204, 255, 255), new java.awt.Color(0, 0, 0)));
 
-        rmvCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Romoval" }));
-
         manHours.setToolTipText("Select Man Hours");
         manHours.setName("Man Hours"); // NOI18N
 

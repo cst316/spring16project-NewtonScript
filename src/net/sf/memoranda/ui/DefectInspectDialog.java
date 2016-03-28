@@ -52,9 +52,9 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel14 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        description = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        notes = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
@@ -142,13 +142,13 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel20.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
         jLabel20.setText("4");
 
-        jTextPane1.setEditable(false);
-        jTextPane1.setText("Multiple returns out of a method causing unpredictable behavior.");
-        jScrollPane1.setViewportView(jTextPane1);
+        description.setEditable(false);
+        //jTextPane1.setText("Multiple returns out of a method causing unpredictable behavior.");
+        jScrollPane1.setViewportView(description);
 
-        jTextPane2.setEditable(false);
-        jTextPane2.setText("Changed method to a switch/case setting the local variable adn returning the value to the user with a single return statement.");
-        jScrollPane2.setViewportView(jTextPane2);
+        notes.setEditable(false);
+        //jTextPane2.setText("Changed method to a switch/case setting the local variable adn returning the value to the user with a single return statement.");
+        jScrollPane2.setViewportView(notes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -337,8 +337,8 @@ public class DefectInspectDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JTextPane description;
+    private javax.swing.JTextPane notes;
     // End of variables declaration                   
 }
 

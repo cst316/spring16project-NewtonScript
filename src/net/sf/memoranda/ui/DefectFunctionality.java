@@ -158,7 +158,7 @@ public class DefectFunctionality {
 		Defect.REMOVAL rmv = (Defect.REMOVAL) newDefectRemoval.getSelectedItem();
 		CalendarDate rmvDate = new CalendarDate((Date) newRemovalDate.getModel().getValue());
 		String rmvNotes = String.valueOf(notes.getText());
-		String hours = (String)manHours.getModel().getValue();
+		String hours = Integer.toString((int) manHours.getModel().getValue());
         
 
 		
