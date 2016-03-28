@@ -7,6 +7,7 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda.util;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -32,6 +33,8 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.ResourcesListImpl;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TaskListImpl;
+import net.sf.memoranda.TestCaseList;
+import net.sf.memoranda.TestCaseListImpl;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
@@ -473,6 +476,7 @@ public class FileStorage implements Storage {
         }
     }
     
+
     public DefectList openDefectList(Project prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".defectlist";
 
@@ -506,5 +510,40 @@ public class FileStorage implements Storage {
                 + ".defectlist");
         Document doc = dl.getXMLContent();
         saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".defectlist");
+    }
+
+    public TestCaseList openTestCaseList(Project prj) {
+        String fn = JN_DOCPATH + prj.getID() + File.separator + ".testcaselist";
+
+        if (documentExists(fn)) {
+            /*DEBUG*/
+            System.out.println(
+                "[DEBUG] Open testcase list: "
+                    + JN_DOCPATH
+                    + prj.getID()
+                    + File.separator
+                    + ".testcaselist");
+            
+            Document doc = openDocument(fn);
+            
+            return new TestCaseListImpl(prj, doc);   
+        }
+        else {
+            /*DEBUG*/
+            System.out.println("[DEBUG] New testcase list created");
+            return new TestCaseListImpl(prj);
+        }
+    }
+    
+    public void storeTestCaseList(TestCaseList dl, Project prj) {
+        /*DEBUG*/
+        System.out.println(
+            "[DEBUG] Save testcase list: "
+                + JN_DOCPATH
+                + prj.getID()
+                + File.separator
+                + ".testcaselist");
+        Document doc = dl.getXMLContent();
+        saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".testcaselist");
     }
 }

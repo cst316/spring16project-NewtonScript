@@ -9,6 +9,7 @@ import javax.swing.table.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * Editor for task progress
@@ -17,6 +18,7 @@ public class TaskProgressEditor extends JPanel implements TableCellEditor{
 	
 	JTable table;
 	Task current;
+	
 	boolean isSelected;
 	int row;
 	int column;
@@ -35,13 +37,18 @@ public class TaskProgressEditor extends JPanel implements TableCellEditor{
 						return;
 					}
 				}
-				int w = getWidth()/2;
-				if(e.getX() > w){
-					current.setProgress( current.getProgress()+5 );
-				}else{
-					current.setProgress( current.getProgress()-5 );
+				// Only allow editing if this is a task
+				if(!(current.isPhase())){
+					int w = getWidth()/2;
+					if(e.getX() > w){
+						current.setProgress( current.getProgress()+5 );
+					}else{
+						current.setProgress( current.getProgress()-5 );
+					}
+					current.getPhase().calculateProgress(); // Calculate phase progress based on the change
 				}
-				repaint();
+				// Repaint the entire table so the phase progress gets updated too.
+				table.repaint();
 			}
 		});
 		setLayout(new java.awt.BorderLayout());
@@ -65,13 +72,15 @@ public class TaskProgressEditor extends JPanel implements TableCellEditor{
 		((TaskProgressLabel)cr.getTableCellRendererComponent(table, current, isSelected, true, row, column)).paintComponent(g);
 		
 		label.setSize( this.getSize() );
-		
-		label.setText("-");
-		label.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		label.paint(g);
-		label.setText("+");
-		label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		label.paint(g);
+		// Only paint the +- if this is a task
+		if(!(current.isPhase())){
+			label.setText("-");
+			label.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+			label.paint(g);
+			label.setText("+");
+			label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+			label.paint(g);
+		}
 				
 	}
 	

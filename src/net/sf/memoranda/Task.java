@@ -8,6 +8,7 @@
  */
 package net.sf.memoranda;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
@@ -52,6 +53,7 @@ public interface Task {
 
     CalendarDate getEndDate();
     void setEndDate(CalendarDate date);
+    void setDefaultDates();
     
     int getStatus(CalendarDate date);
     
@@ -72,7 +74,7 @@ public interface Task {
     
     void removeDependsFrom(Task task);*/
             
-    Collection getSubTasks();    
+    ArrayList<Task> getSubTasks();    
     Task getSubTask(String id);
     
     boolean hasSubTasks(String id);
@@ -87,6 +89,7 @@ public interface Task {
     Task getParentTask();
     String getParentId();
     Element getParentElem();
+    public boolean isSubTask();
     
     void setOwner(String owner);
     String getOwner();

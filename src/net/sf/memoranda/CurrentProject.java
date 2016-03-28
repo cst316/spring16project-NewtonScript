@@ -28,6 +28,7 @@ public class CurrentProject {
     private static TaskList _tasklist = null;
     private static NoteList _notelist = null;
     private static PhaseList _phaseList = null;
+    private static TestCaseList _testCaseList = null;
     private static ResourcesList _resources = null;
     private static DefectList _defectList = null;
     private static Vector projectListeners = new Vector();
@@ -55,6 +56,7 @@ public class CurrentProject {
         _notelist = CurrentStorage.get().openNoteList(_project);
         _resources = CurrentStorage.get().openResourcesList(_project);
         _phaseList = CurrentStorage.get().openPhaseList(_project);
+        _testCaseList = CurrentStorage.get().openTestCaseList(_project);
         _tasklist = _phaseList.getAllTasks();
         _defectList = CurrentStorage.get().openDefectList(_project);
         AppFrame.addExitListener(new ActionListener() {
@@ -83,6 +85,9 @@ public class CurrentProject {
     
     public static DefectList getDefectList(){
     	return _defectList;
+	}
+    public static TestCaseList getTestCaseList(){
+    	return _testCaseList;
     }
 
     public static void set(Project project) {
@@ -90,15 +95,18 @@ public class CurrentProject {
         NoteList newnotelist = CurrentStorage.get().openNoteList(project);
         ResourcesList newresources = CurrentStorage.get().openResourcesList(project);
         PhaseList newPhases = CurrentStorage.get().openPhaseList(project);
+        TestCaseList newTestCases = CurrentStorage.get().openTestCaseList(project);
         TaskList newtasklist = newPhases.getAllTasks();
         DefectList newDefects = CurrentStorage.get().openDefectList(project);
-        notifyListenersBefore(project, newnotelist, newtasklist, newresources, newPhases, newDefects);
+        notifyListenersBefore(project, newnotelist, newtasklist, 
+        		newresources, newPhases, newTestCases, newDefects);
         _project = project;
         _tasklist = newtasklist;
         _notelist = newnotelist;
         _resources = newresources;
         _phaseList = newPhases;
         _defectList = newDefects;
+        _testCaseList = newTestCases;
         notifyListenersAfter();
         Context.put("LAST_OPENED_PROJECT_ID", project.getID());
     }
@@ -111,9 +119,10 @@ public class CurrentProject {
         return projectListeners;
     }
 
-    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, DefectList dl) {
+    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList newTestCases, DefectList dl) {
+
         for (int i = 0; i < projectListeners.size(); i++) {
-            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, dl);
+            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, newTestCases, dl);
             /*DEBUGSystem.out.println(projectListeners.get(i));*/
         }
     }

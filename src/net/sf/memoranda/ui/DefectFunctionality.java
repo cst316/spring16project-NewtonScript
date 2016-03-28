@@ -14,6 +14,7 @@ import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Defect;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.ui.DefectCompleteDialog.CustomCompComboBox;
 import net.sf.memoranda.ui.NewDefectDialog.CustomComboBox;
 import net.sf.memoranda.util.CurrentStorage;
 	
@@ -70,7 +71,7 @@ public class DefectFunctionality {
 			JTextPane newDefectDescription) {
         
 		DefectList dl = CurrentProject.getDefectList();
-		String id =  Integer.toString(getDefectID());
+		String id =  Integer.toString(dl.getNextID());
 		Defect.TYPE type = (Defect.TYPE) newDefectType.getItem();
 		Defect.DISCOVERY dis = (Defect.DISCOVERY) newDefectDiscovery.getItem();
 		Defect.INJECTION inj = (Defect.INJECTION) newDefectInjection.getItem();
@@ -88,7 +89,6 @@ public class DefectFunctionality {
         dl.createDefect(id, desc, inj, dis, sev, type, date);
         CurrentStorage.get().storeDefectList(CurrentProject.getDefectList(), CurrentProject.get());
         
-        defectInc();
 	}
 	/**
 	 * Setter method for the variable defectID.
@@ -126,22 +126,39 @@ public class DefectFunctionality {
 	 */
 	private void loadDefects() {
 		DefectList dl = CurrentProject.getDefectList();
-		DefaultTableModel model = (DefaultTableModel) DefectTable.getOpenTable().getModel();
+		DefaultTableModel modelOpen = (DefaultTableModel) DefectTable.getOpenTable().getModel();
+		DefaultTableModel modelClosed = (DefaultTableModel) DefectTable.getClosedDefectTable().getModel();
 		
 		// Sort list so that it is applied properly to table
 		ArrayList<Defect> list = dl.getAllDefects();
 		Collections.sort(list, dc);
 		
 		for(Defect d : list){
-			 model.addRow(new String[]{
-					 d.getID(), 
-					 d.getType().toString(), 
-					 d.getDiscovery().toString(), 
-					 d.getInj().toString(), 
-     				 d.getSeverity().toString(), 
-     				 d.getDate().toString(), 
-     				 d.getDesc() 
-     		  });
+			if(d.isOpen()){
+				 modelOpen.addRow(new String[]{
+						 d.getID(), 
+						 d.getType().toString(), 
+						 d.getDiscovery().toString(), 
+						 d.getInj().toString(), 
+		 				 d.getSeverity().toString(), 
+		 				 d.getDate().getShortDateString(), 
+		 				 d.getDesc() 
+		 		  });
+			}
+			else{
+				 modelClosed.addRow(new String[]{
+						 d.getID(), 
+						 d.getType().toString(), 
+						 d.getInj().toString(), 
+		 				 d.getDate().getShortDateString(), 
+		 				 d.getDesc(), 
+						 d.getDiscovery().toString(), 
+		 				 d.getRemoval().toString(),
+		 				 String.valueOf(d.getHours()),
+		 				 d.getRemDate().getShortDateString(),
+		 				 d.getNote()
+		 		  });
+			}
 			 
 			 System.out.println("Added defect " + d.getID() + " to table.");
 		}
@@ -151,23 +168,34 @@ public class DefectFunctionality {
 	public void addCompletedRow(String id,Defect.DISCOVERY newDefectDiscovery, 
 			Defect.INJECTION newDefectInjection, CalendarDate date, 
 			Defect.SEVERITY newDefectSeverity, Defect.TYPE newDefectType, 
-			String newDefectDescription, JComboBox<Defect.REMOVAL> newDefectRemoval, JSpinner newRemovalDate, 
+			String newDefectDescription, CustomCompComboBox<Defect.REMOVAL> newDefectRemoval, JSpinner newRemovalDate, 
 			JTextPane notes, JSpinner manHours) {
         
 		DefectList dl = CurrentProject.getDefectList();
-		Defect.REMOVAL rmv = (Defect.REMOVAL) newDefectRemoval.getSelectedItem();
+		Defect.REMOVAL rmv = (Defect.REMOVAL) newDefectRemoval.getItem();
 		CalendarDate rmvDate = new CalendarDate((Date) newRemovalDate.getModel().getValue());
 		String rmvNotes = String.valueOf(notes.getText());
+
 		String hours = Integer.toString((int) manHours.getModel().getValue());
         
 
-		
-		
-		DefaultTableModel model = (DefaultTableModel) DefectTable.getClosedDefectTable().getModel();
+ 
+		DefaultTableModel closedTable = (DefaultTableModel) DefectTable.getClosedDefectTable().getModel();
+		JTable openTable = DefectTable.getOpenTable();
+		DefaultTableModel openModel = (DefaultTableModel) openTable.getModel();
+
+
 		
 	
-        model.addRow(new String[]{id, newDefectType.toString(), newDefectInjection.toString(), date.getShortDateString(), newDefectDiscovery.toString(), 
+        closedTable.addRow(new String[]{id, newDefectType.toString(), newDefectInjection.toString(), date.getShortDateString(), newDefectDiscovery.toString(), 
         		newDefectDescription, rmv.toString(), hours, rmvDate.getShortDateString(), rmvNotes});
+        
+        // Remove the selected row
+        openModel.removeRow(openTable.getSelectedRow());
+        
+        // Close and save
+        dl.closeDefect(id, rmvDate, rmvNotes, Integer.parseInt(hours), rmv);
+        CurrentStorage.get().storeDefectList(CurrentProject.getDefectList(), CurrentProject.get());
 
 	}
 	

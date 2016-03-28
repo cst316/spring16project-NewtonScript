@@ -71,7 +71,7 @@ public interface DefectList {
 	 * @param notes Removal notes
 	 * @return Defect The defect that was closed
 	 */
-	public Defect closeDefect(String id, CalendarDate remDate, String notes);
+	public Defect closeDefect(String id, CalendarDate remDate, String notes,  int hours, REMOVAL rem);
 	
 	/**
 	 * Remove defect by ID
@@ -86,6 +86,14 @@ public interface DefectList {
 	 * @return ArrayList List of defects
 	 */
 	public ArrayList<Defect> getAllDefects();
+	
+	/**
+	 * Get the next available ID for defects.
+	 * This will return the highest ID number + 1.
+	 * 
+	 * @return
+	 */
+	public int getNextID();
 	
 	/**
 	 * Get the XML content for this list

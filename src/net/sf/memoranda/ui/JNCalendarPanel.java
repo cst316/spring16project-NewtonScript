@@ -33,6 +33,7 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
+import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.util.Local;
@@ -215,9 +216,10 @@ public class JNCalendarPanel extends JPanel {
       }
     });
     CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, DefectList dl) {}
-            public void projectWasChanged() {
-                jnCalendar.updateUI();
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, 
+            		TestCaseList tc, DefectList dl) {}
+            	public void projectWasChanged() {
+            		jnCalendar.updateUI();
             }
         });
 

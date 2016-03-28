@@ -25,7 +25,7 @@ public class ServerCommCore extends UnicastRemoteObject implements ServerInterfa
 	public static final String MOTD_AUTHOR_NAME = "author";
 	
 	
-	protected ServerCommCore() throws RemoteException {
+	public ServerCommCore() throws RemoteException {
 		super(Registry.REGISTRY_PORT);
 		// TODO Auto-generated constructor stub
 	}

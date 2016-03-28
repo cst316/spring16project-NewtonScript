@@ -1,19 +1,42 @@
 package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Defect;
+import net.sf.memoranda.ui.NewDefectDialog.ComboBoxRenderer;
+import net.sf.memoranda.ui.NewDefectDialog.CustomComboBox;
 
 public class DefectCompleteDialog extends javax.swing.JDialog {
 
+	public static final String REMTITLE = "<Removal>";
+	
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton jButton1;
+    private CustomCompComboBox<Defect.REMOVAL> rmvCombo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JSpinner rmvDate;
+    private javax.swing.JTextPane notes;
+    private javax.swing.JSpinner manHours;
+    // End of variables declaration                   
+	
     /**
      * Creates new form CompletedJBox
      */
@@ -35,7 +58,7 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        rmvCombo = new javax.swing.JComboBox<Defect.REMOVAL>(Defect.REMOVAL.values());
+        rmvCombo = new CustomCompComboBox<Defect.REMOVAL>(Defect.REMOVAL.values());
         manHours = new javax.swing.JSpinner();
         notes = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
@@ -43,6 +66,13 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        
+        rmvCombo.setRenderer(new ComboBoxRenderer(REMTITLE));
+        rmvCombo.setToolTipText(REMTITLE);
+        rmvCombo.setSelectedIndex(-1);
+        rmvCombo.setEditable(false);
+        rmvCombo.removeItem(Defect.REMOVAL.OPEN);
+        
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -262,19 +292,70 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
             }
         });
     }
+    
+    /**
+     * Allow titles to be displayed for the boxes
+     * Edited for the complete values
+     * 
+     * @author Douglas Carroll
+     */
+    class ComboBoxRenderer extends BasicComboBoxRenderer {
 
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<Defect.REMOVAL> rmvCombo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JSpinner rmvDate;
-    private javax.swing.JTextPane notes;
-    private javax.swing.JSpinner manHours;
-    // End of variables declaration                   
+		private static final long serialVersionUID = 1L;
+		private String boxTitle;
+    	
+    	public ComboBoxRenderer(String title){
+    		boxTitle = title;
+    	}
+    	
+    	// Override cell renderer
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			
+			// Keep selected coloring
+			if (isSelected) {
+	            setBackground(list.getSelectionBackground());
+	            setForeground(list.getSelectionForeground());
+	        } else {
+	            setBackground(list.getBackground());
+	            setForeground(list.getForeground());
+	        }
+			
+			// Set title
+			if(index == -1 && value == null){
+				setText(boxTitle);
+			}
+			else{
+				setText(value.toString());
+			}
+			return this;
+		}
+    	
+    }
+    
+    /**
+     * This will ensure that the first value is returned if title is selected
+     * 
+     * @author Douglas Carroll
+     */
+    class CustomCompComboBox<T> extends JComboBox<Object>{
+    	
+		private static final long serialVersionUID = 1L;
+
+		public CustomCompComboBox(T objs[]){
+    		super(objs);
+    	}
+    	
+    	public Object getItem(){
+    		Object item = getSelectedItem();
+    		
+    		if(item == null){
+    			item = getItemAt(0);
+    		}
+    		
+    		return item;
+    	}
+    }
+
 }

@@ -35,7 +35,7 @@ public class SetApplicationPanel extends JPanel {
     TitledBorder titledBorder2;
     JLabel argHelpLabel = new JLabel();
     public File d = null;
-    
+    //test
     public SetApplicationPanel() {
         try {
             jbInit();
