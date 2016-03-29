@@ -2,10 +2,12 @@ package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -242,6 +244,8 @@ public class PieChart extends JPanel{
 	 * Allows user to save the file as a png.
 	 */
 	public void exportPNG(){
+		String path = "(Path undefined)"; // Start with invalid path label.
+		
 		try{
 			JFileChooser fc = new JFileChooser();
 			fc.addChoosableFileFilter(new FileNameExtensionFilter("png", "png"));
@@ -249,16 +253,35 @@ public class PieChart extends JPanel{
 			int res = fc.showOpenDialog(App.getFrame());
 			
 			if(res == JFileChooser.APPROVE_OPTION){
-				File selection = new File(fc.getSelectedFile() + ".png");
+				path = fc.getSelectedFile() + ".png";
+				File selection = new File(path);
 				// API utility to save to PNG
 				ChartUtilities.saveChartAsPNG(selection, pie, PNGWIDTH, PNGHEIGHT);
 				// Confirm box
 				JOptionPane.showMessageDialog(App.getFrame(), 
 						"File Saved to " + fc.getSelectedFile());
 			}
+		} catch (NullPointerException e) {
+			// Use the memoranda exception dialog to inform the user
+            new ExceptionDialog(
+	                    e,
+	                    "Failed to create file at" + path + ".",
+	                    "Please try again."
+                    );
+		} catch (HeadlessException e) {
+			// Use the memoranda exception dialog to inform the user
+            new ExceptionDialog(
+	                    e,
+	                    "Failed to open dialog.",
+	                    ""
+                    );
 		} catch (IOException e) {
-			System.out.println("Exporting PNG failed!");
-			e.printStackTrace();
+			// Use the memoranda exception dialog to inform the user
+            new ExceptionDialog(
+	                    e,
+	                    "Exporting PNG to " + path + " failed.",
+	                    "Please try again."
+                    );
 		}
 		
 	}
@@ -328,8 +351,21 @@ public class PieChart extends JPanel{
 			trans = ((float)percent) / 100;
 			
 		} catch(IllegalArgumentException e) {
-			System.out.println("Invalid percentage!");
-			e.printStackTrace();
+			// Use the memoranda exception dialog to inform the user
+            new ExceptionDialog(
+	                    e,
+	                    "Invalid value recorded for the pie chart.",
+	                    ""
+                    );
+		} catch(Exception e) {
+			// Use the memoranda exception dialog to inform the user
+            new ExceptionDialog(
+	                    e,
+	                    "Error! Invalid pie chart data.",
+	                    ""
+                    );
+            // Make sure trans is set to zero in case there was some arithmetic error
+            trans = 0.0f; 
 		}
 		
 		return trans;
