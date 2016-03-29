@@ -62,8 +62,9 @@ public class DefectImpl implements Defect {
 		String str = getAttr(OPEN);
 		boolean res = false;
 		
-		if(str.equals("true"))
+		if(str.equals("true")){
 			res = true;
+		}
 		
 		return res;
 	}
@@ -80,43 +81,43 @@ public class DefectImpl implements Defect {
 	
 	// Translates to the enum value
 	@Override
-	public SEVERITY getSeverity() {
+	public Severity getSeverity() {
 		String name = getAttr(SEV);
-		SEVERITY s = SEVERITY.valueOf(SEVERITY.class, name);
+		Severity s = Severity.valueOf(Severity.class, name);
 		return s;
 	}
 
 
 	@Override
-	public void setSeverity(SEVERITY s) {
+	public void setSeverity(Severity s) {
 		setAttr(SEV, s.toString());
 	}
 
 
 	@Override
-	public TYPE getType() {
+	public Type getType() {
 		String name = getAttr(TP);
-		TYPE t = TYPE.valueOf(TYPE.class, name);
+		Type t = Type.valueOf(Type.class, name);
 		return t;
 	}
 
 
 	@Override
-	public void setType(TYPE tp) {
+	public void setType(Type tp) {
 		setAttr(TP, tp.name());
 	}
 
 
 	@Override
-	public DISCOVERY getDiscovery() {
+	public Discovery getDiscovery() {
 		String name = getAttr(DIS);
-		DISCOVERY d = DISCOVERY.valueOf(DISCOVERY.class, name);
+		Discovery d = Discovery.valueOf(Discovery.class, name);
 		return d;
 	}
 
 
 	@Override
-	public void setDiscovery(DISCOVERY d) {
+	public void setDiscovery(Discovery d) {
 		setAttr(DIS, d.name());
 	}
 
@@ -141,24 +142,24 @@ public class DefectImpl implements Defect {
 	}
 
 	@Override
-	public INJECTION getInj() {
+	public Injection getInj() {
 		String name = getAttr(INJ);
-		INJECTION i = INJECTION.valueOf(INJECTION.class, name);
+		Injection i = Injection.valueOf(Injection.class, name);
 		return i;
 	}
 
 	@Override
-	public void setInj(INJECTION inj) {
+	public void setInj(Injection inj) {
 		setAttr(INJ, inj.name());
 	}
 
 	@Override
-	public String getID() {
+	public String getId() {
 		return getAttr(ID);
 	}
 
 	@Override
-	public void setID(String id) {
+	public void setId(String id) {
 		setAttr(ID, id);
 	}
 
@@ -170,10 +171,11 @@ public class DefectImpl implements Defect {
 	// Reused code from TaskImpl
     private void setAttr(String a, String value) {
         Attribute attr = element.getAttribute(a);
-        if (attr == null)
+        if (attr == null){
            element.addAttribute(new Attribute(a, value));
-        else
+        } else {
             attr.setValue(value);
+        }
     }
     
     // Get attribute for convenience
@@ -182,14 +184,14 @@ public class DefectImpl implements Defect {
     }
 
 	@Override
-	public REMOVAL getRemoval() {
+	public Removal getRemoval() {
 		String rem = getAttr(REM);
-		REMOVAL result = REMOVAL.valueOf(REMOVAL.class, rem);
+		Removal result = Removal.valueOf(Removal.class, rem);
 		return result;
 	}
 
 	@Override
-	public void setRemoval(REMOVAL r) {
+	public void setRemoval(Removal r) {
 		setAttr(REM, r.name());
 	}
 }

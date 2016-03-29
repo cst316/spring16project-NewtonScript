@@ -65,17 +65,17 @@ public class DefectFunctionality {
      * @param table
      */
 
-	public void addRow(CustomComboBox<Defect.DISCOVERY> newDefectDiscovery, 
-			CustomComboBox<Defect.INJECTION> newDefectInjection, JSpinner newDefectDate, 
-			CustomComboBox<Defect.SEVERITY> newDefectSeverity, CustomComboBox<Defect.TYPE> newDefectType, 
+	public void addRow(CustomComboBox<Defect.Discovery> newDefectDiscovery, 
+			CustomComboBox<Defect.Injection> newDefectInjection, JSpinner newDefectDate, 
+			CustomComboBox<Defect.Severity> newDefectSeverity, CustomComboBox<Defect.Type> newDefectType, 
 			JTextPane newDefectDescription) {
         
 		DefectList dl = CurrentProject.getDefectList();
-		String id =  Integer.toString(dl.getNextID());
-		Defect.TYPE type = (Defect.TYPE) newDefectType.getItem();
-		Defect.DISCOVERY dis = (Defect.DISCOVERY) newDefectDiscovery.getItem();
-		Defect.INJECTION inj = (Defect.INJECTION) newDefectInjection.getItem();
-		Defect.SEVERITY sev = (Defect.SEVERITY) newDefectSeverity.getItem();
+		String id =  Integer.toString(dl.getNextid());
+		Defect.Type type = (Defect.Type) newDefectType.getItem();
+		Defect.Discovery dis = (Defect.Discovery) newDefectDiscovery.getItem();
+		Defect.Injection inj = (Defect.Injection) newDefectInjection.getItem();
+		Defect.Severity sev = (Defect.Severity) newDefectSeverity.getItem();
 		CalendarDate date = new CalendarDate((Date) newDefectDate.getModel().getValue());
 		String desc = String.valueOf(newDefectDescription.getText());
 		
@@ -136,7 +136,7 @@ public class DefectFunctionality {
 		for(Defect d : list){
 			if(d.isOpen()){
 				 modelOpen.addRow(new String[]{
-						 d.getID(), 
+						 d.getId(), 
 						 d.getType().toString(), 
 						 d.getDiscovery().toString(), 
 						 d.getInj().toString(), 
@@ -147,7 +147,7 @@ public class DefectFunctionality {
 			}
 			else{
 				 modelClosed.addRow(new String[]{
-						 d.getID(), 
+						 d.getId(), 
 						 d.getType().toString(), 
 						 d.getInj().toString(), 
 		 				 d.getDate().getShortDateString(), 
@@ -160,19 +160,19 @@ public class DefectFunctionality {
 		 		  });
 			}
 			 
-			 System.out.println("Added defect " + d.getID() + " to table.");
+			 System.out.println("Added defect " + d.getId() + " to table.");
 		}
 	}
 	
 	
-	public void addCompletedRow(String id,Defect.DISCOVERY newDefectDiscovery, 
-			Defect.INJECTION newDefectInjection, CalendarDate date, 
-			Defect.SEVERITY newDefectSeverity, Defect.TYPE newDefectType, 
-			String newDefectDescription, CustomCompComboBox<Defect.REMOVAL> newDefectRemoval, JSpinner newRemovalDate, 
+	public void addCompletedRow(String id,Defect.Discovery newDefectDiscovery, 
+			Defect.Injection newDefectInjection, CalendarDate date, 
+			Defect.Severity newDefectSeverity, Defect.Type newDefectType, 
+			String newDefectDescription, CustomCompComboBox<Defect.Removal> newDefectRemoval, JSpinner newRemovalDate, 
 			JTextPane notes, JSpinner manHours) {
         
 		DefectList dl = CurrentProject.getDefectList();
-		Defect.REMOVAL rmv = (Defect.REMOVAL) newDefectRemoval.getItem();
+		Defect.Removal rmv = (Defect.Removal) newDefectRemoval.getItem();
 		CalendarDate rmvDate = new CalendarDate((Date) newRemovalDate.getModel().getValue());
 		String rmvNotes = String.valueOf(notes.getText());
 
@@ -212,7 +212,7 @@ public class DefectFunctionality {
 		// Sort by the string values of the ID, safer then converting to int I think.
 		@Override
 		public int compare(Defect o1, Defect o2) {
-			return o1.getID().compareTo(o2.getID());
+			return o1.getId().compareTo(o2.getId());
 		}
 		
 	}

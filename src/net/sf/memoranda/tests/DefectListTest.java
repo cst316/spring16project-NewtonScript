@@ -9,11 +9,11 @@ import net.sf.memoranda.DefectImpl;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.DefectListImpl;
 import net.sf.memoranda.ProjectManager;
-import net.sf.memoranda.Defect.DISCOVERY;
-import net.sf.memoranda.Defect.INJECTION;
-import net.sf.memoranda.Defect.REMOVAL;
-import net.sf.memoranda.Defect.SEVERITY;
-import net.sf.memoranda.Defect.TYPE;
+import net.sf.memoranda.Defect.Discovery;
+import net.sf.memoranda.Defect.Injection;
+import net.sf.memoranda.Defect.Removal;
+import net.sf.memoranda.Defect.Severity;
+import net.sf.memoranda.Defect.Type;
 import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Element;
 
@@ -45,7 +45,7 @@ public class DefectListTest {
 		String desc = "Test description";
 		Element e = new Element("Defect");
 		Defect def = new DefectImpl(e);
-		def.setID(id);
+		def.setId(id);
 		def.setDesc(desc);
 		
 		dl.createDefect(def.getContent());
@@ -61,7 +61,7 @@ public class DefectListTest {
 		String id = "1234";
 		Element e = new Element("Defect");
 		Defect def = new DefectImpl(e);
-		def.setID(id);
+		def.setId(id);
 		
 		dl.createDefect(def.getContent());
 		
@@ -77,11 +77,11 @@ public class DefectListTest {
 		Element e = new Element("Defect");
 		Defect def = new DefectImpl(e);
 		Defect testDef;
-		def.setID(id);
+		def.setId(id);
 		
 		testDef = dl.createDefect(def.getContent());
 		
-		assertEquals(def.getID(), testDef.getID());
+		assertEquals(def.getId(), testDef.getId());
 	}
 
 	/**
@@ -91,15 +91,15 @@ public class DefectListTest {
 	public void testCreateDefectParms() {
 		String id = "1234";
 		String desc = "TestDesc"; 
-		INJECTION inj = Defect.INJECTION.REQUIREMENTS; 
-		DISCOVERY dis = Defect.DISCOVERY.IMPLEMENTATION; 
-		SEVERITY sev = Defect.SEVERITY.MEDIUM; 
-		TYPE type = Defect.TYPE.INTERFACE; 
+		Injection inj = Defect.Injection.REQUIREMENTS; 
+		Discovery dis = Defect.Discovery.IMPLEMENTATION; 
+		Severity sev = Defect.Severity.MEDIUM; 
+		Type type = Defect.Type.INTERFACE; 
 		CalendarDate date = new CalendarDate(3, 20, 2016);
 		
 		Defect def = dl.createDefect(id, desc, inj, dis, sev, type, date);
 		
-		assertEquals(def.getID(), id);
+		assertEquals(def.getId(), id);
 		assertEquals(def.getDesc(), desc);
 		assertEquals(def.getInj(), inj);
 		assertEquals(def.getDiscovery(), dis);
@@ -120,8 +120,8 @@ public class DefectListTest {
 		CalendarDate remDate = new CalendarDate(3, 20, 2016);
 		String notes = "Test Notes.";  
 		int hours = 56; 
-		REMOVAL rem = Defect.REMOVAL.REQUIREMENTS;
-		def.setID(id);
+		Removal rem = Defect.Removal.REQUIREMENTS;
+		def.setId(id);
 		dl.createDefect(e);
 		
 		dl.closeDefect(id, remDate, notes, hours, rem);
@@ -140,7 +140,7 @@ public class DefectListTest {
 		String id = "1234";
 		Element e = new Element("Defect");
 		Defect def = new DefectImpl(e);
-		def.setID(id);
+		def.setId(id);
 		dl.createDefect(e);
 		// Make sure array is populated, so we don't get false positives below
 		assertNotNull(dl.getDefect(id).getContent());
@@ -163,7 +163,7 @@ public class DefectListTest {
 			Element e = new Element("Defect");
 			String id = Integer.toString(i);
 			Defect def = new DefectImpl(e);
-			def.setID(id);
+			def.setId(id);
 			dl.createDefect(e);
 		}
 		
@@ -174,8 +174,8 @@ public class DefectListTest {
 		
 		// Go through the list and ensure everything is there.
 		for(int j = 0; j < defectNum; j++){
-			System.out.println(defList.get(j).getID());
-			assertEquals((Integer.toString(j)), defList.get(j).getID());
+			System.out.println(defList.get(j).getId());
+			assertEquals((Integer.toString(j)), defList.get(j).getId());
 		}
 	}
 
@@ -191,11 +191,11 @@ public class DefectListTest {
 			String id = Integer.toString(i);
 			Element e = new Element("Defect");
 			Defect def = new DefectImpl(e);
-			def.setID(id);
+			def.setId(id);
 			dl.createDefect(e);
 		}
 		
-		assertEquals(dl.getNextID(), (defectNum + 1));
+		assertEquals(dl.getNextid(), (defectNum + 1));
 		
 	}
 
