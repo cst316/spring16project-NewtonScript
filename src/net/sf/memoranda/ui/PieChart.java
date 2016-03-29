@@ -82,6 +82,7 @@ public class PieChart extends JPanel{
 		plot = (PiePlot3D) pie.getPlot();
 		plot.setStartAngle(ANGLE);
 		plot.setCircular(true);
+		rotator = new PieRotator(plot);
 		this.setLayout(new BorderLayout());
 		this.add(chartPanel, BorderLayout.CENTER);
 		this.setVisible(true);
@@ -110,9 +111,6 @@ public class PieChart extends JPanel{
 	 * @param res
 	 */
 	public void toggleRotation(boolean res){
-		if(rotator == null)
-			rotator = new PieRotator(plot);
-		
 		if(res){
 			pieAngle = plot.getStartAngle();
 			rotator.start();
