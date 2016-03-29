@@ -1,5 +1,10 @@
 package net.sf.memoranda.ui;
 
+import javax.swing.JTable;
+
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Defect;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -52,9 +57,9 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel14 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        description = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        notes = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
@@ -90,6 +95,25 @@ public class DefectInspectDialog extends javax.swing.JDialog {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
+        
+        JTable table = DefectTable.getOpenTable();
+        
+    	int row = table.getSelectedRow();
+        String id = (String)table.getValueAt(row,0);
+        Defect compD = CurrentProject.getDefectList().getDefect(id);
+        
+        
+        JTable table2 = DefectTable.getClosedDefectTable();
+        int rowSet2 = table2.getSelectedRow();
+        
+        String hours = "";
+        
+        if(rowSet2 > 0){
+            String id2 = (String)table2.getValueAt(rowSet2, 0);
+            Defect inspect = CurrentProject.getDefectList().getDefect(id2);
+            //hours = Integer.toString(inspect.getHours());
+            //System.out.println(hours);
+        }
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0), new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0)));
@@ -98,13 +122,13 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel3.setText("Syntax");
 
         jLabel4.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel4.setText("Defect Removal: ");
+        jLabel4.setText("Severity: ");
 
         jLabel5.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel5.setText("Code");
+        jLabel5.setText(compD.getInj().toString());
 
         jLabel6.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel6.setText("12/17/2015");
+        jLabel6.setText(compD.getDate().toString());
 
         jLabel7.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
         jLabel7.setText("Removal Date:");
@@ -125,10 +149,10 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel12.setText("Defect Injection:");
 
         jLabel13.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel13.setText("Evolution");
+        jLabel13.setText(compD.getSeverity().toString());
 
         jLabel15.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel15.setText("01/13/2016");
+        jLabel15.setText("");
 
         jLabel17.setFont(new java.awt.Font("Hiragino Sans GB", 1, 14)); // NOI18N
         jLabel17.setText("Description");
@@ -140,15 +164,26 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel14.setText("Man Hours");
 
         jLabel20.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel20.setText("4");
+        jLabel20.setText(hours);
+        
+        /**************************************************************************/
+        
 
-        jTextPane1.setEditable(false);
-        jTextPane1.setText("Multiple returns out of a method causing unpredictable behavior.");
-        jScrollPane1.setViewportView(jTextPane1);
+        description.setEditable(false);
+        description.setText(compD.getDesc());
+        jScrollPane1.setViewportView(description);
 
-        jTextPane2.setEditable(false);
-        jTextPane2.setText("Changed method to a switch/case setting the local variable adn returning the value to the user with a single return statement.");
-        jScrollPane2.setViewportView(jTextPane2);
+        notes.setEditable(false);
+        /*
+        if (compD.getNote().toString() != null)
+        	notes.setText(compD.getNote().toString());
+        else
+        	notes.setText("");
+        */
+        
+        notes.setText("");
+        
+        jScrollPane2.setViewportView(notes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -337,8 +372,8 @@ public class DefectInspectDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JTextPane description;
+    private javax.swing.JTextPane notes;
     // End of variables declaration                   
 }
 

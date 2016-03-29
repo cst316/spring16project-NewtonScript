@@ -334,7 +334,7 @@ public class DefectTable extends javax.swing.JPanel {
    private void inspectDefectActionPerformed(java.awt.event.ActionEvent evt) {
        
    	
-   	//openDefectTable.
+   
        DefectInspectDialog inspectDefect = new DefectInspectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
        inspectDefect.setVisible(true);
    }                                             

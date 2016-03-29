@@ -175,11 +175,15 @@ public class DefectFunctionality {
 		Defect.REMOVAL rmv = (Defect.REMOVAL) newDefectRemoval.getItem();
 		CalendarDate rmvDate = new CalendarDate((Date) newRemovalDate.getModel().getValue());
 		String rmvNotes = String.valueOf(notes.getText());
-		String hours = String.valueOf((int)manHours.getModel().getValue());
+
+		String hours = Integer.toString((int) manHours.getModel().getValue());
+        
+
  
 		DefaultTableModel closedTable = (DefaultTableModel) DefectTable.getClosedDefectTable().getModel();
 		JTable openTable = DefectTable.getOpenTable();
 		DefaultTableModel openModel = (DefaultTableModel) openTable.getModel();
+
 
 		
 	
