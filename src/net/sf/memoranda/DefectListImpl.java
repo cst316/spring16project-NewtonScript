@@ -1,7 +1,10 @@
 package net.sf.memoranda;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
+
 import net.sf.memoranda.Defect.DISCOVERY;
 import net.sf.memoranda.Defect.INJECTION;
 import net.sf.memoranda.Defect.REMOVAL;
@@ -125,6 +128,15 @@ public class DefectListImpl implements DefectList{
 		for(Element e : elems){
 			list.add(new DefectImpl(e));
 		}
+		
+		// Sorting added after unit test failure
+		Collections.sort(list, new Comparator<Defect>(){
+			@Override
+			public int compare(Defect o1, Defect o2) {
+				return Integer.compare(Integer.parseInt(o1.getID()), 
+						Integer.parseInt(o2.getID()));
+			}
+		});
 		
 		return list;
 	}
