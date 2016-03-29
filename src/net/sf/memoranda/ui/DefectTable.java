@@ -29,7 +29,12 @@ public class DefectTable extends javax.swing.JPanel {
     }
 
     
-    public static DefectFunctionality getFunctionality(){
+    public static javax.swing.JTabbedPane getjTabbedPane() {
+		return jTabbedPane1;
+	}
+
+
+	public static DefectFunctionality getFunctionality(){
     	return func;
     } 
     /**
@@ -377,7 +382,7 @@ public class DefectTable extends javax.swing.JPanel {
    private javax.swing.JScrollPane jScrollPane2;
    private javax.swing.JScrollPane jScrollPane3;
    private javax.swing.JScrollPane jScrollPane4;
-   private javax.swing.JTabbedPane jTabbedPane1;
+   private static javax.swing.JTabbedPane jTabbedPane1;
    private static javax.swing.JTable openDefectTable;
    private javax.swing.JTable jTable2;
    private javax.swing.JTable jTable3;
