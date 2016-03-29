@@ -34,7 +34,6 @@ public class WorkPanel extends JPanel {
 	public JButton notesB = new JButton();
 	public TimeSheetPanel timeSheetPanel = new TimeSheetPanel();
 	public DailyItemsPanel dailyItemsPanel = new DailyItemsPanel(this);
-	public StatsPanel statsPanel = new StatsPanel();
 	public ResourcesPanel filesPanel = new ResourcesPanel();
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
@@ -352,7 +351,6 @@ public class WorkPanel extends JPanel {
 		panel.add(dailyItemsPanel, "DAILYITEMS");
 		panel.add(testCasePanel, "TESTCASES");
 		panel.add(filesPanel, "FILES");
-		panel.add(statsPanel, "STATS");
 		toolBar.add(agendaB, null);
 		toolBar.add(eventsB, null);
 		toolBar.add(tasksB, null);
@@ -456,7 +454,8 @@ public class WorkPanel extends JPanel {
 		Context.put("CURRENT_PANEL", "TESTCASES");
 	}
 	public void statsB_actionPerformed(ActionEvent e) {
-		cardLayout1.show(panel, "STATS");
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("STATS");
 		setCurrentButton(statsB);
 		Context.put("CURRENT_PANEL", "STATS");
 	}
