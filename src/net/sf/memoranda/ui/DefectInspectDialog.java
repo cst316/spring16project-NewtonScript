@@ -97,23 +97,23 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         );
         
         JTable table = DefectTable.getOpenTable();
+        String id;
+        String hours = "N/A";
         
-    	int row = table.getSelectedRow();
-        String id = (String)table.getValueAt(row,0);
-        Defect compD = CurrentProject.getDefectList().getDefect(id);
-        
-        
-        JTable table2 = DefectTable.getClosedDefectTable();
-        int rowSet2 = table2.getSelectedRow();
-        
-        String hours = "";
-        
-        if(rowSet2 > 0){
-            String id2 = (String)table2.getValueAt(rowSet2, 0);
-            Defect inspect = CurrentProject.getDefectList().getDefect(id2);
-            //hours = Integer.toString(inspect.getHours());
-            //System.out.println(hours);
+        if(DefectTable.getjTabbedPane().getSelectedIndex() == 0){
+	    	int row = table.getSelectedRow();
+	        id = (String)table.getValueAt(row,0);
         }
+        else{
+	        JTable table2 = DefectTable.getClosedDefectTable();
+	        int rowSet2 = table2.getSelectedRow();
+	        
+            id = (String)table2.getValueAt(rowSet2, 0);
+            Defect inspect = CurrentProject.getDefectList().getDefect(id);
+            hours = Integer.toString(inspect.getHours());
+        }
+        Defect compD = CurrentProject.getDefectList().getDefect(id);
+     
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0), new java.awt.Color(204, 204, 204), new java.awt.Color(0, 0, 0)));
@@ -161,7 +161,7 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jLabel19.setText("Notes");
 
         jLabel14.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
-        jLabel14.setText("Man Hours");
+        jLabel14.setText("Man Hours:");
 
         jLabel20.setFont(new java.awt.Font("Hiragino Sans GB", 1, 18)); // NOI18N
         jLabel20.setText(hours);

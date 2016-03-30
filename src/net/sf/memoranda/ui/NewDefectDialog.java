@@ -40,10 +40,10 @@ public class NewDefectDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private JSpinner newDefectDate;
     private javax.swing.JTextPane newDefectDescription;
-    private CustomComboBox<Defect.DISCOVERY> newDefectDiscovery;
-    private CustomComboBox<Defect.INJECTION> newDefectInjection;
-    private CustomComboBox<Defect.SEVERITY> newDefectSeverity;
-    private CustomComboBox<Defect.TYPE> newDefectType;
+    private CustomComboBox<Defect.Discovery> newDefectDiscovery;
+    private CustomComboBox<Defect.Injection> newDefectInjection;
+    private CustomComboBox<Defect.Severity> newDefectSeverity;
+    private CustomComboBox<Defect.Type> newDefectType;
     // End of variables declaration 
 	
 	// Do not remove carrots without editing the custom combo box class
@@ -86,49 +86,49 @@ public class NewDefectDialog extends javax.swing.JDialog {
 
 
 
-	public CustomComboBox<Defect.DISCOVERY> getNewDefectDiscovery() {
+	public CustomComboBox<Defect.Discovery> getNewDefectDiscovery() {
 		return newDefectDiscovery;
 	}
 
 
 
-	public void setNewDefectDiscovery(CustomComboBox<Defect.DISCOVERY> newDefectDiscovery) {
+	public void setNewDefectDiscovery(CustomComboBox<Defect.Discovery> newDefectDiscovery) {
 		this.newDefectDiscovery = newDefectDiscovery;
 	}
 
 
 
-	public CustomComboBox<Defect.INJECTION> getNewDefectInjection() {
+	public CustomComboBox<Defect.Injection> getNewDefectInjection() {
 		return newDefectInjection;
 	}
 
 
 
-	public void setNewDefectInjection(CustomComboBox<Defect.INJECTION> newDefectInjection) {
+	public void setNewDefectInjection(CustomComboBox<Defect.Injection> newDefectInjection) {
 		this.newDefectInjection = newDefectInjection;
 	}
 
 
 
-	public CustomComboBox<Defect.SEVERITY> getNewDefectSeverity() {
+	public CustomComboBox<Defect.Severity> getNewDefectSeverity() {
 		return newDefectSeverity;
 	}
 
 
 
-	public void setNewDefectSeverity(CustomComboBox<Defect.SEVERITY> newDefectSeverity) {
+	public void setNewDefectSeverity(CustomComboBox<Defect.Severity> newDefectSeverity) {
 		this.newDefectSeverity = newDefectSeverity;
 	}
 
 
 
-	public CustomComboBox<Defect.TYPE> getNewDefectType() {
+	public CustomComboBox<Defect.Type> getNewDefectType() {
 		return newDefectType;
 	}
 
 
 
-	public void setNewDefectType(CustomComboBox<Defect.TYPE> newDefectType) {
+	public void setNewDefectType(CustomComboBox<Defect.Type> newDefectType) {
 		this.newDefectType = newDefectType;
 	}
 
@@ -148,10 +148,10 @@ public class NewDefectDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        newDefectType = new CustomComboBox<Defect.TYPE>(Defect.TYPE.values());
-        newDefectDiscovery = new CustomComboBox<Defect.DISCOVERY>(Defect.DISCOVERY.values());
-        newDefectInjection = new CustomComboBox<Defect.INJECTION>(Defect.INJECTION.values());
-        newDefectSeverity = new CustomComboBox<Defect.SEVERITY>(Defect.SEVERITY.values());
+        newDefectType = new CustomComboBox<Defect.Type>(Defect.Type.values());
+        newDefectDiscovery = new CustomComboBox<Defect.Discovery>(Defect.Discovery.values());
+        newDefectInjection = new CustomComboBox<Defect.Injection>(Defect.Injection.values());
+        newDefectSeverity = new CustomComboBox<Defect.Severity>(Defect.Severity.values());
         jScrollPane1 = new javax.swing.JScrollPane();
         newDefectDescription = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();

@@ -5,28 +5,28 @@ import nu.xom.Element;
 
 
 /**
- * Interface for defects
+ * Interface for defects.
  * 
  * @author Douglas Carroll
  */
 public interface Defect {
 	
 	// Reference strings for element keys
-	public static final String TP = "type";
-	public static final String DIS = "discovery";
-	public static final String INJ = "injection";
-	public static final String SEV = "severity";
-	public static final String REM = "removal";
-	public static final String DESC = "description";
-	public static final String HOURS = "hours";
-	public static final String ID = "id";
-	public static final String OPEN = "open";
-	public static final String DATE = "date";
-	public static final String REMDATE = "remDate";
-	public static final String NOTES = "notes";
+	String TP = "type";
+	String DIS = "discovery";
+	String INJ = "injection";
+	String SEV = "severity";
+	String REM = "removal";
+	String DESC = "description";
+	String HOURS = "hours";
+	String ID = "id";
+	String OPEN = "open";
+	String DATE = "date";
+	String REMDATE = "remDate";
+	String NOTES = "notes";
 	
 	// Enums for defect values
-	public static enum TYPE { 
+	enum Type { 
 		DOCUMENTATION("Documentation"),
 		SYNTAX("Syntax"),
 		BUILD("Build"),
@@ -41,7 +41,7 @@ public interface Defect {
 		
 		private String name;
 		
-		TYPE(String name){
+		Type(String name){
 			this.name = name;
 		}
 		
@@ -51,7 +51,7 @@ public interface Defect {
 		}
 	}
 	
-	public static enum INJECTION { 
+	enum Injection { 
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
 		IMPLEMENTATION("Implementation"),
@@ -59,7 +59,7 @@ public interface Defect {
 		
 		private String name;
 		
-		INJECTION(String name){
+		Injection(String name){
 			this.name = name;
 		}
 		
@@ -69,7 +69,7 @@ public interface Defect {
 		}
 	}
 	
-	public static enum DISCOVERY { 
+	enum Discovery { 
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
 		IMPLEMENTATION("Implementation"),
@@ -77,7 +77,7 @@ public interface Defect {
 		
 		private String name;
 		
-		DISCOVERY(String name){
+		Discovery(String name){
 			this.name = name;
 		}
 		
@@ -87,14 +87,14 @@ public interface Defect {
 		}
 	}
 	
-	public static enum SEVERITY {
+	enum Severity {
 		LOW("Low"),
 		MEDIUM("Medium"),
 		HIGH("High");
 		
 		private String name;
 		
-		SEVERITY(String name){
+		Severity(String name){
 			this.name = name;
 		}
 		
@@ -104,7 +104,7 @@ public interface Defect {
 		}
 	}
 	
-	public static enum REMOVAL { 
+	enum Removal { 
 		OPEN("Open"),
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
@@ -113,7 +113,7 @@ public interface Defect {
 		
 		private String name;
 		
-		REMOVAL(String name){
+		Removal(String name){
 			this.name = name;
 		}
 		
@@ -124,182 +124,182 @@ public interface Defect {
 	}
 	
 	/**
-	 * Get the removal note for the defect
+	 * Get the removal note for the defect.
 	 * 
 	 * @return String note for defect
 	 */
-	public String getNote();
+	String getNote();
 	
 	/**
-	 * Set the removel note for the defect
+	 * Set the removel note for the defect.
 	 * 
 	 * @param note
 	 */
-	public void setNote(String note);
+	void setNote(String note);
 	
 	/**
-	 * Get the removal date, returns null if no removal date is applied
+	 * Get the removal date, returns null if no removal date is applied.
 	 * 
 	 * @return CalendarDate or null if there is no removal date
 	 */
-	public CalendarDate getRemDate();
+	CalendarDate getRemDate();
 	
 	/**
-	 * Set the removal date
+	 * Set the removal date.
 	 * 
 	 * @param rd
 	 */
-	public void setRemDate(CalendarDate rd);
+	void setRemDate(CalendarDate rd);
 	
 	/**
-	 * Open the defect
+	 * Open the defect.
 	 * 
 	 */
-	public void open();
+	void open();
 	
 	/**
-	 * Close the defect
+	 * Close the defect.
 	 * 
 	 */
-	public void close(CalendarDate date);
+	void close(CalendarDate date);
 	
 	/**
 	 * Returns true if the defect is open, false if not.
 	 * 
 	 * @return true if the defect is open
 	 */
-	public boolean isOpen();
+	boolean isOpen();
 	
 	/**
-	 * Get the creation date for the defect
+	 * Get the creation date for the defect.
 	 * 
 	 * @return CalendarDate 
 	 */
-	public CalendarDate getDate();
+	CalendarDate getDate();
 	
 	/**
-	 * Set the creation date of the defect
+	 * Set the creation date of the defect.
 	 * 
 	 * @param date
 	 */
-	public void setDate(CalendarDate date);
+	void setDate(CalendarDate date);
 	
 	/**
-	 * Returns the severity for this defect
+	 * Returns the severity for this defect.
 	 * 
 	 * @return SEVERITY type of severity
 	 */
-	public SEVERITY getSeverity();
+	Severity getSeverity();
 	
 	/**
-	 * Set the severity for the defect
+	 * Set the severity for the defect.
 	 * 
 	 * @param s Severity of the defect
 	 */
-	public void setSeverity(SEVERITY s);
+	void setSeverity(Severity s);
 	
 	/**
-	 * Get the defects section
+	 * Get the defects section.
 	 * 
 	 * @return TYPE Section
 	 */
-	public TYPE getType();
+	Type getType();
 	
 	/**
-	 * Set the defects section
+	 * Set the defects section.
 	 * 
 	 * @param ty Section
 	 */
-	public void setType(TYPE ty);
+	void setType(Type ty);
 	
 	/**
-	 * Get the progress for this defect
+	 * Get the progress for this defect.
 	 * 
 	 * @return DISCOVERY Progress
 	 */
-	public DISCOVERY getDiscovery();
+	Discovery getDiscovery();
 	
 	/**
-	 * Set defect discovery
+	 * Set defect discovery.
 	 * 
 	 * @param d Progress
 	 */
-	public void setDiscovery(DISCOVERY d);
+	void setDiscovery(Discovery d);
 	
 	/**
-	 * Get the description for this defect
+	 * Get the description for this defect.
 	 * 
 	 * @return String description
 	 */
-	public String getDesc();
+	String getDesc();
 	
 	/**
-	 * Set the description for the defect
+	 * Set the description for the defect.
 	 * 
 	 * @param desc Description
 	 */
-	public void setDesc(String desc);
+	void setDesc(String desc);
 	
 	/**
-	 * Get the hours for this defect
+	 * Get the hours for this defect.
 	 * 
 	 * @return int Hours
 	 */
-	public int getHours();
+	int getHours();
 	
 	/**
-	 * Set hours for the defect
+	 * Set hours for the defect.
 	 * 
 	 * @param hours Hours for the defect
 	 */
-	public void setHours(int hours);
+	void setHours(int hours);
 	
 	/**
-	 * Get the injection of the defect
+	 * Get the injection of the defect.
 	 * 
 	 * @return String Injection
 	 */
-	public INJECTION getInj();
+	Injection getInj();
 	
 	/**
-	 * Set the injection for the defect
+	 * Set the injection for the defect.
 	 * 
 	 * @param inj
 	 */
-	public void setInj(INJECTION inj);
+	void setInj(Injection inj);
 	
 	/**
-	 * Get the ID of the defect
+	 * Get the ID of the defect.
 	 * 
 	 * @return String ID
 	 */
-	public String getID();
+	String getId();
 	
 	/**
-	 * Set the ID for the defect
+	 * Set the ID for the defect.
 	 * 
 	 * @param id ID
 	 */
-	public void setID(String id);
+	void setId(String id);
 	
 	/**
-	 * Get the removal stage of this defect
+	 * Get the removal stage of this defect.
 	 * 
 	 * @return
 	 */
-	public REMOVAL getRemoval();
+	Removal getRemoval();
 	
 	/**
-	 * Set the removal stage for this defect
+	 * Set the removal stage for this defect.
 	 * 
 	 * @param r
 	 */
-	public void setRemoval(REMOVAL r);
+	void setRemoval(Removal r);
 	/**
-	 * Get the element for the defect
+	 * Get the element for the defect.
 	 * 
 	 * @return nu.xom.Element
 	 */
-	public Element getContent();
+	Element getContent();
 	
 }

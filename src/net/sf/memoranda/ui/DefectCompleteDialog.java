@@ -24,7 +24,7 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
 	
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
-    private CustomCompComboBox<Defect.REMOVAL> rmvCombo;
+    private CustomCompComboBox<Defect.Removal> rmvCombo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -58,7 +58,7 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        rmvCombo = new CustomCompComboBox<Defect.REMOVAL>(Defect.REMOVAL.values());
+        rmvCombo = new CustomCompComboBox<Defect.Removal>(Defect.Removal.values());
         manHours = new javax.swing.JSpinner();
         notes = new javax.swing.JTextPane();
         jLabel2 = new javax.swing.JLabel();
@@ -71,7 +71,7 @@ public class DefectCompleteDialog extends javax.swing.JDialog {
         rmvCombo.setToolTipText(REMTITLE);
         rmvCombo.setSelectedIndex(-1);
         rmvCombo.setEditable(false);
-        rmvCombo.removeItem(Defect.REMOVAL.OPEN);
+        rmvCombo.removeItem(Defect.Removal.OPEN);
         
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
