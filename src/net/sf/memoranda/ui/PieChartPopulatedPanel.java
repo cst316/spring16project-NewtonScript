@@ -81,6 +81,16 @@ public class PieChartPopulatedPanel extends PieChart {
 		rightPanel.add(optionsPanel, BorderLayout.EAST);
 		add(rightPanel, BorderLayout.EAST);
 	}
+
+	/**
+	 * Enable or disable options buttons on populated panel.
+	 * Enabled by default.
+	 * 
+	 * @param enb true to enable, false to diable
+	 */
+	public void enableOptions(boolean enb){
+		rightPanel.setVisible(enb);
+	}
 	
 	// Handles rotation button functionality
 	private void toggleRotate_Action(ItemEvent e){

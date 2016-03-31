@@ -50,7 +50,6 @@ public class TestCasePieChart extends PieChartPopulatedPanel{
 		
 		setTransparency(60);
 		setBackgroundGap(5);
-		setBorderPaint(UIManager.getColor("Panel.background"));
 		getPlot().setNoDataMessage("No Test Cases");
 		
 		// Label settings

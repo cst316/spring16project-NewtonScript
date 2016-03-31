@@ -68,7 +68,7 @@ public class DailyItemsPanel extends JPanel {
     TaskPanel tasksPanel = new TaskPanel(this);
     EventsPanel eventsPanel = new EventsPanel(this);
     AgendaPanel agendaPanel = new AgendaPanel(this);
-    StatsPanel statsPanel = new StatsPanel();
+    public static StatsPanel statsPanel = new StatsPanel();
     ImageIcon expIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/exp_right.png"));
     ImageIcon collIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/exp_left.png"));
     ImageIcon bookmarkIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/star8.png"));
@@ -115,7 +115,10 @@ public class DailyItemsPanel extends JPanel {
             new ExceptionDialog(ex);
         }
     }
-    void jbInit() throws Exception {
+    public static StatsPanel getStatsPanel() {
+		return statsPanel;
+	}
+	void jbInit() throws Exception {
         border1 = BorderFactory.createEtchedBorder(Color.white, Color.gray);
         border2 = BorderFactory.createEtchedBorder(Color.white, new Color(161, 161, 161));
         this.setLayout(borderLayout1);
@@ -230,7 +233,7 @@ public class DailyItemsPanel extends JPanel {
             public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
 //            	Util.debug("DailyItemsPanel Project Listener: Project is going to be changed!");				
 //            	Util.debug("current project is " + CurrentProject.get().getTitle());
-
+            	
             	currentProjectChanged(p, nl, tl, rl, ph, tc);
             }
             public void projectWasChanged() {
@@ -387,7 +390,6 @@ public class DailyItemsPanel extends JPanel {
                 addedToHistory = true;
             }
         }*/
-        
         updateIndicators(CurrentDate.get(), tl);
         App.getFrame().setCursor(cur);
     }

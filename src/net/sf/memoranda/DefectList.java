@@ -88,6 +88,20 @@ public interface DefectList {
 	public ArrayList<Defect> getAllDefects();
 	
 	/**
+	 * Get the number of defects.
+	 * 
+	 * @return total number of defects
+	 */
+	public int getDefectNum();
+	
+	/**
+	 * Get the number of open defects
+	 * 
+	 * @return
+	 */
+	public int getOpenDefectNum();
+	
+	/**
 	 * Get the XML content for this list
 	 * 
 	 * @return Document XML document

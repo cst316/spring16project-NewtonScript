@@ -31,7 +31,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 	public static final int STARTVAL = 0; // Starting value for each section
 	
 	// High level Categories
-	public static enum CATEGORY { 
+	public static enum Category { 
 		TYPE("Type"),
 		DIS("Discovery"),
 		INJ("Injection"),
@@ -40,7 +40,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		private String name;
 		
-		CATEGORY(String name){
+		Category(String name){
 			this.name = name;
 		}
 		
@@ -65,7 +65,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 			Color.BLACK,
 			Color.ORANGE
 			};
-	private CATEGORY cat;
+	private Category cat;
 	private JToggleButton typeButton;
 	private JToggleButton disButton;
 	private JToggleButton injButton;
@@ -74,14 +74,26 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 	
 	public DefectPieChart() {
 		super(TITLE);
+		cat = Category.TYPE;
 		this.init();
 	}
 	
-	public CATEGORY getCat() {
+	/**
+	 * Constructor to set the type of chart displayed by default
+	 * 
+	 * @param c
+	 */
+	public DefectPieChart(Category c) {
+		super(TITLE);
+		cat = c;
+		this.init();
+	}
+	
+	public Category getCat() {
 		return cat;
 	}
 
-	public void setCat(CATEGORY cat) {
+	public void setCat(Category cat) {
 		this.cat = cat;
 	}
 
@@ -93,9 +105,6 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		injButton = new JToggleButton();
 		sevButton = new JToggleButton();
 		ocButton = new JToggleButton();
-		
-
-		cat = CATEGORY.TYPE;
 		
 		// Toggle rotation off
 		toggleRotation(false);
@@ -114,7 +123,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		// Setup buttons
 		typeButton.setSelected(true);
-		typeButton.setToolTipText(CATEGORY.TYPE.toString());
+		typeButton.setToolTipText(Category.TYPE.toString());
 		typeButton.setIcon(
 	            new ImageIcon(
 	            		net.sf.memoranda.ui.AppFrame.class.getResource(
@@ -124,12 +133,12 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		typeButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   clearButtons(typeButton);
-				   cat = CATEGORY.TYPE;
+				   cat = Category.TYPE;
 				   updatePie();
 			   }
 		});
 		
-		disButton.setToolTipText(CATEGORY.DIS.toString());
+		disButton.setToolTipText(Category.DIS.toString());
 		disButton.setIcon(
 	            new ImageIcon(
 	            		net.sf.memoranda.ui.AppFrame.class.getResource(
@@ -139,12 +148,12 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		disButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   clearButtons(disButton);
-				   cat = CATEGORY.DIS;
+				   cat = Category.DIS;
 				   updatePie();
 			   }
 		});
 		
-		injButton.setToolTipText(CATEGORY.INJ.toString());
+		injButton.setToolTipText(Category.INJ.toString());
 		injButton.setIcon(
 	            new ImageIcon(
 	            		net.sf.memoranda.ui.AppFrame.class.getResource(
@@ -154,12 +163,12 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		injButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   clearButtons(injButton);
-				   cat = CATEGORY.INJ;
+				   cat = Category.INJ;
 				   updatePie();
 			   }
 		});
 		
-		sevButton.setToolTipText(CATEGORY.SEV.toString());
+		sevButton.setToolTipText(Category.SEV.toString());
 		sevButton.setIcon(
 	            new ImageIcon(
 	            		net.sf.memoranda.ui.AppFrame.class.getResource(
@@ -169,12 +178,12 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		sevButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   clearButtons(sevButton);
-				   cat = CATEGORY.SEV;
+				   cat = Category.SEV;
 				   updatePie();
 			   }
 		});
 		
-		ocButton.setToolTipText(CATEGORY.OC.toString());
+		ocButton.setToolTipText(Category.OC.toString());
 		ocButton.setIcon(
 	            new ImageIcon(
 	            		net.sf.memoranda.ui.AppFrame.class.getResource(
@@ -184,7 +193,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		ocButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   clearButtons(ocButton);
-				   cat = CATEGORY.OC;
+				   cat = Category.OC;
 				   updatePie();
 			   }
 		});
@@ -336,9 +345,9 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		String closed = "Closed";
 		
 		insertNewData(open, STARTVAL);
-		setColor(open, Color.GREEN);
+		setColor(open, Color.WHITE);
 		insertNewData(closed, STARTVAL);
-		setColor(closed, Color.RED);
+		setColor(closed, Color.GREEN);
 		
 		// Load values
 		for(Defect d : dl){

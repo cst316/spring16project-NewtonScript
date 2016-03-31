@@ -126,6 +126,23 @@ public class DefectListImpl implements DefectList{
 		return list;
 	}
 	
+	public int getDefectNum(){
+		return elements.size();
+	}
+	
+	public int getOpenDefectNum(){
+		ArrayList<Defect> dl = getAllDefects();
+		int res = 0;
+		
+		for(Defect d : dl){
+			if(d.isOpen()){
+				res++;
+			}
+		}
+		
+		return res;
+	}
+	
 
 	@Override
 	public Document getXMLContent() {

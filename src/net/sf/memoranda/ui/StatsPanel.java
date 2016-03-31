@@ -51,6 +51,7 @@ public class StatsPanel extends JPanel {
 	private JMenuItem png;
 	private TestCasePieChart testCasePie;
 	private DefectPieChart defectPie;
+	private StatsOverviewPanel innerOverviewPanel;
 	
 	public StatsPanel(){
 		initComponents();
@@ -99,7 +100,9 @@ public class StatsPanel extends JPanel {
         });
 		
 		// Overview tab
+		innerOverviewPanel = new StatsOverviewPanel(titleFont);
 		overviewPanel.setLayout(new BorderLayout());
+		overviewPanel.add(innerOverviewPanel, BorderLayout.CENTER);
 		tabbedPane.addTab("Overview", overviewPanel);
 		tabbedPane.setComponentAt(OVERVIEWINDEX, overviewPanel);
 		
@@ -131,6 +134,7 @@ public class StatsPanel extends JPanel {
 		add(northPanel, BorderLayout.NORTH);
 		add(tabbedPane, BorderLayout.CENTER);
 		testCasePie.setPreferredSize(new Dimension());
+		updateCharts();
 	}
 	
 	// Loads the title font
@@ -167,6 +171,15 @@ public class StatsPanel extends JPanel {
 		}
 		
 		
+	}
+	
+	/**
+	 * Updates the stats panel
+	 */
+	public void updateCharts(){
+		innerOverviewPanel.update();
+		testCasePie.updatePie();
+		defectPie.updatePie();
 	}
 	
 }
