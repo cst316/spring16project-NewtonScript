@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.DefectList;
 import net.sf.memoranda.NoteList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.Project;
@@ -73,8 +74,9 @@ public class TestCasePanel extends JPanel {
             }
         });
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl,
-                    ResourcesList rl, PhaseList ph, TestCaseList tc) {
+            public void projectChange(Project p, NoteList nl, TaskList tl, 
+            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+
             }
 
             public void projectWasChanged() {

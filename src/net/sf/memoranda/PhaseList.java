@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
@@ -264,6 +265,60 @@ public class PhaseList {
 			res = true;
 		}
 		return res;	
+	}
+	
+	/**
+	 * Get the number of active phases.
+	 * 
+	 * @return number of active phases.
+	 */
+	public int getActivePhaseNum(){
+		int res = 0;
+		
+		for(Phase ph : phases){
+			if(ph.getStatus(CurrentDate.get()) == Task.ACTIVE){
+				res++;
+			}
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * Get total number of all active tasks.
+	 * 
+	 * @return total number of all active tasks
+	 */
+	public int getActiveTaskNum(){
+		Collection tl = getAllActiveTasks(null, CurrentDate.get());
+		return tl.size();
+	}
+	
+	/**
+	 * Get the total number of tasks.
+	 * 
+	 * @return the total number of tasks
+	 */
+	public int getTaskNum(){
+		ArrayList<Task> tl = getAllTaskslist();
+		return tl.size() - phases.size(); 
+	}
+	
+	/**
+	 * Get total number of all tasks with progress > 0
+	 * 
+	 * @return
+	 */
+	public int getStartedTaskNum(){
+		ArrayList<Task> tl = getAllTaskslist();
+		int result = 0;
+		for(Task t : tl){
+			if(t.getProgress() > 0 && !(t.isPhase())){
+				result++;
+			}
+		}
+		
+		return result;
 	}
 	
 }
