@@ -294,7 +294,7 @@ public class WorkPanel extends JPanel {
 		statsB.setIcon(
 			new ImageIcon(
 				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/bug3.png")));
+					"resources/icons/statistics_icon.png")));
 		statsB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		statsB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
