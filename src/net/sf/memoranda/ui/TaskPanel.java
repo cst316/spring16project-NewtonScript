@@ -504,11 +504,8 @@ public class TaskPanel extends JPanel {
 	        dlg.endDate.getModel().setValue(t.getEndDate().getDate());
 	        dlg.priorityCB.setSelectedIndex(t.getPriority());                
 	        dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
-
-	      //Shows the current owner of task in Edit Task
-	        dlg.ownerCB.setSelectedItem(t.getOwner());
-	        if(!dlg.ownerCB.getSelectedItem().equals(t.getOwner())) {
-	        	dlg.ownerCB.addItem(t.getOwner());
+	        //Shows the current owner of task in Edit Task
+	        if(t.getOwner() != "" && t.getOwner().length() > 0) {
 	        	dlg.ownerCB.setSelectedItem(t.getOwner());
 	        }
 			if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
@@ -553,6 +550,14 @@ public class TaskPanel extends JPanel {
 	        
 	        // Make sure all the sub task dates are still valid after a parent edit
 	        adjustSubDates(t);
+	        if(dlg.getSelectedOwner() != null) {
+	        	t.setOwner(dlg.getSelectedOwner());
+	        } else {
+	        	t.setOwner("");
+	        }
+	     
+	        t.setPhaseTitle(dlg.getSelectedPhase().getText()); // Set the phase for this task
+	        t.setPhaseElem(CurrentProject.getPhaseList().getPhaseElem(dlg.getSelectedPhase().getText()));
 	        
 	//		CurrentProject.getTaskList().adjustParentTasks(t);
     	}
@@ -597,7 +602,12 @@ public class TaskPanel extends JPanel {
 		//XXX Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
         Phase ph = dlg.getSelectedPhase();
 		Task newTask = ph.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(), ph.getID(), ph.toString());
-//		CurrentProject.getTaskList().adjustParentTasks(newTask);
+		//		CurrentProject.getTaskList().adjustParentTasks(newTask);
+		if(dlg.getSelectedOwner() != null) {
+			newTask.setOwner(dlg.getSelectedOwner());
+        } else {
+        	newTask.setOwner("");
+        }
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
 		newTask.setDefaultDates();
 		ph.setPhaseDates(); // Reset the start/end date for the new phase

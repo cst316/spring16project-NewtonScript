@@ -479,7 +479,6 @@ public class WorkPanel extends JPanel {
 		Context.put("CURRENT_PANEL", "USERS");
 		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
     	sysUser.requestFocus();
-    	userList.addArray(sysUser.getUsersArray());
 	}
 	public void testcaseB_actionPerformed(ActionEvent e) {
 		cardLayout1.show(panel, "TESTCASES");

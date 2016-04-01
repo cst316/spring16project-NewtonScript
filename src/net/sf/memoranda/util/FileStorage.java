@@ -48,6 +48,7 @@ import net.sf.memoranda.ui.DailyItemsPanel;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.TimeSheetPanel;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
+import net.sf.memoranda.ui.UsersList;
 import nu.xom.Builder;
 import nu.xom.DocType;
 import nu.xom.Document;

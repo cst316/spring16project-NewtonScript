@@ -343,11 +343,10 @@ public class TaskImpl implements Task, Comparable {
             attr.setValue(value);
     }
     public void setOwner(String owner) {
-    	//setAttr("owner", owner);
+    	setAttr("owner", owner);
     }
     public String getOwner() {
-    	//return _element.getAttribute("owner").getValue().toString();
-    	return "  ";
+    	return _element.getAttribute("owner").getValue().toString();
     }
 
 	/**
