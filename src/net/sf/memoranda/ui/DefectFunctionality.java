@@ -94,7 +94,7 @@ public class DefectFunctionality {
 	 * Setter method for the variable defectID.
 	 * @param id
 	 */
-	private void setDefectID(int id){
+	public static void setDefectID(int id){
 	    DefectFunctionality.defectID = id;
 	}
 	/**
@@ -102,7 +102,7 @@ public class DefectFunctionality {
 	 * 
 	 * @return
 	 */
-	private int getDefectID(){
+	public int getDefectID(){
 		
 		return DefectFunctionality.defectID;
 	}

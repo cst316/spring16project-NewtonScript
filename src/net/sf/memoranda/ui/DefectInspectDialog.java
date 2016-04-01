@@ -99,6 +99,7 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         JTable table = DefectTable.getOpenTable();
         String id;
         String hours = "N/A";
+        String dialogNotes = "";
         
         if(DefectTable.getjTabbedPane().getSelectedIndex() == 0){
 	    	int row = table.getSelectedRow();
@@ -108,9 +109,12 @@ public class DefectInspectDialog extends javax.swing.JDialog {
 	        JTable table2 = DefectTable.getClosedDefectTable();
 	        int rowSet2 = table2.getSelectedRow();
 	        
+	        
+	        
             id = (String)table2.getValueAt(rowSet2, 0);
             Defect inspect = CurrentProject.getDefectList().getDefect(id);
             hours = Integer.toString(inspect.getHours());
+            dialogNotes = inspect.getNote();
         }
         Defect compD = CurrentProject.getDefectList().getDefect(id);
      
@@ -174,14 +178,7 @@ public class DefectInspectDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(description);
 
         notes.setEditable(false);
-        /*
-        if (compD.getNote().toString() != null)
-        	notes.setText(compD.getNote().toString());
-        else
-        	notes.setText("");
-        */
-        
-        notes.setText("");
+        notes.setText(dialogNotes);
         
         jScrollPane2.setViewportView(notes);
 
