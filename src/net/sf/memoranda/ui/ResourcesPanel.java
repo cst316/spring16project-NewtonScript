@@ -9,7 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -203,8 +207,8 @@ public class ResourcesPanel extends JPanel {
                 if (mt == null)
                     return;
             }
-            if (!checkApp(mt))
-                return;
+            //if (!checkApp(mt))
+            //    return;
             // if file if projectFile, than copy the file and change url.
             if (dlg.projectFileCB.isSelected()) {
             	fpath = copyFileToProjectDir(fpath);
@@ -216,8 +220,10 @@ public class ResourcesPanel extends JPanel {
             resourcesTable.tableChanged();
         }
         else {
-            if (!Util.checkBrowser())
-                return;
+            /* This asks for an executable for the browser, but it won't be needed anymore.
+             * Due to a new implementation.
+             * if (!Util.checkBrowser())
+                return; */
             CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
             resourcesTable.tableChanged();
         }
@@ -317,7 +323,34 @@ public class ResourcesPanel extends JPanel {
     
 
     void runApp(String fpath) {
-        MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
+    	if(Desktop.isDesktopSupported()){
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.open(new File(fpath));
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open file.");
+            }
+    	} else {
+    		//Browser for Linux and mac
+            Runtime runtime = Runtime.getRuntime();
+            if (System.getProperty("os.name").contains("OS X")){
+            	try {
+                    runtime.exec("open " + fpath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open file.");
+                }
+            } else {
+            	try {
+                    runtime.exec("xdg-open " + fpath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open file.");
+                }
+            }
+        }
+        /*MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
         if (mt.getMimeTypeId().equals("__UNKNOWN")) {
             mt = addResourceType(fpath);
             if (mt == null)
@@ -328,7 +361,7 @@ public class ResourcesPanel extends JPanel {
         String[] command = MimeTypesList.getAppList().getCommand(mt.getAppId(), fpath);
         if (command == null)
             return;
-        /*DEBUG*/
+        //DEBUG
         System.out.println("Run: " + command[0]);
         try {
             Runtime.getRuntime().exec(command);
@@ -337,11 +370,37 @@ public class ResourcesPanel extends JPanel {
             new ExceptionDialog(ex, "Failed to run an external application <br><code>"
                     +command[0]+"</code>", "Check the application path and command line parameters for this resource type " +
                     		"(File-&gt;Preferences-&gt;Resource types).");
-        }
+        }*/
     }
 
     void runBrowser(String url) {
-        Util.runBrowser(url);
+    	if(Desktop.isDesktopSupported()){
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI(url));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open URL.");
+            }
+        }else{
+        	//Browser for Linux and mac
+            Runtime runtime = Runtime.getRuntime();
+            if (System.getProperty("os.name").contains("OS X")){
+            	try {
+                    runtime.exec("open " + url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open URL.");
+                }
+            } else {
+            	try {
+                    runtime.exec("xdg-open " + url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(App.getFrame(), "Couldn't open URL.");
+                }
+            }
+        }
     }
 
     class PopupListener extends MouseAdapter {

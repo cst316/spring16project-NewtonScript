@@ -78,6 +78,34 @@ public interface TestCaseList {
 	public boolean hasTestCase(String id);
 	
 	/**
+	 * Get total test case number.
+	 * 
+	 * @return
+	 */
+	public int getTestCaseNum();
+	
+	/**
+	 * Get total number of in progress test cases.
+	 * 
+	 * @return
+	 */
+	public int getInProgNum();
+	
+	/**
+	 * Get number of failed test cases.
+	 * 
+	 * @return
+	 */
+	public int getFailedNum();
+	
+	/**
+	 * Get total number of passed test cases.
+	 * 
+	 * @return
+	 */
+	public int getPassedNum();
+	
+	/**
 	 * Get the XML content for this list
 	 * 
 	 * @return Document XML document

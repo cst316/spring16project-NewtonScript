@@ -121,4 +121,51 @@ public class TestCaseListImpl implements TestCaseList {
 	public Document getXMLContent() {
 		return doc;
 	}
+
+	@Override
+	public int getTestCaseNum() {
+		return getAllTestCases().size();
+	}
+
+	@Override
+	public int getInProgNum() {
+		ArrayList<TestCase> tl = getAllTestCases();
+		int res = 0;
+		
+		for(TestCase tc : tl){
+			if(tc.getStatus() == TestCase.STATUS.INPROGRESS){
+				res++;
+			}
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int getFailedNum() {
+		ArrayList<TestCase> tl = getAllTestCases();
+		int res = 0;
+		
+		for(TestCase tc : tl){
+			if(tc.getStatus() == TestCase.STATUS.FAILED){
+				res++;
+			}
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int getPassedNum() {
+		ArrayList<TestCase> tl = getAllTestCases();
+		int res = 0;
+		
+		for(TestCase tc : tl){
+			if(tc.getStatus() == TestCase.STATUS.PASSED){
+				res++;
+			}
+		}
+		
+		return res;
+	}
 }

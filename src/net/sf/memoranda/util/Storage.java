@@ -8,6 +8,7 @@
  */
 package net.sf.memoranda.util;
 
+import net.sf.memoranda.DefectList;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
 import net.sf.memoranda.PhaseList;
@@ -53,6 +54,17 @@ public interface Storage {
     void storeContext();
     
     /**
+     * Used to open the defect list from the XML file
+     * @return 
+     */
+    DefectList openDefectList(Project pr);
+    
+    /**
+     * Used to save the defect list to an XML file
+     */
+    void storeDefectList(DefectList dl, Project pr);
+
+    /**
      * Used to open the TestCase list from the XML file
      * @return 
      */
@@ -62,6 +74,7 @@ public interface Storage {
      * Used to save the TestCase list to an XML file
      */
     void storeTestCaseList(TestCaseList dl, Project pr);
+
     
     /**
      * Load time sheet panel from the serialized object file
@@ -77,6 +90,5 @@ public interface Storage {
      * @param tsp
      * @param prj
      */
-    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);
-       
+    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);       
 }

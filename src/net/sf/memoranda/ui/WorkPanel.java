@@ -39,12 +39,14 @@ public class WorkPanel extends JPanel {
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
 	public DefectLogPanel defectLogPanel = new DefectLogPanel();
+	public DefectTable defectTable = new DefectTable();
 	public TestCasePanel testCasePanel = new TestCasePanel();
 	public JButton eventsB = new JButton();
 	public JButton filesB = new JButton();
 	public JButton timesheetB = new JButton();
 	public JButton defectlogB = new JButton();
 	public JButton testcaseB = new JButton();
+	public JButton statsB = new JButton();
 	
 	public JButton usersB = new JButton(); //Button for system users
 	SystemUsersDialog sysUser; // System Users dialog
@@ -319,6 +321,32 @@ public class WorkPanel extends JPanel {
 		defectlogB.setBackground(Color.red);
 
 		/*--------------------------------------------------------------------------*/
+		
+		statsB.setSelected(true);
+		statsB.setMargin(new Insets(0, 0, 0, 0));
+		statsB.setIcon(
+			new ImageIcon(
+				net.sf.memoranda.ui.AppFrame.class.getResource(
+					"resources/icons/statistics_icon.png")));
+		statsB.setVerticalTextPosition(SwingConstants.BOTTOM);
+		statsB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				statsB_actionPerformed(e);
+			}
+		});
+		statsB.setFont(new java.awt.Font("Dialog", 1, 10));
+		statsB.setVerticalAlignment(SwingConstants.TOP);
+		statsB.setText(Local.getString("Stats"));
+		statsB.setHorizontalTextPosition(SwingConstants.CENTER);
+		statsB.setFocusPainted(false);
+		statsB.setBorderPainted(false);
+		statsB.setContentAreaFilled(false);
+		statsB.setPreferredSize(new Dimension(50, 50));
+		statsB.setMinimumSize(new Dimension(30, 30));
+		statsB.setOpaque(false);
+		statsB.setMaximumSize(new Dimension(60, 80));
+		statsB.setBackground(Color.red);
+		
 		/*---------------------------------------------------------------------------*/
 		testcaseB.setSelected(true);
 		testcaseB.setMargin(new Insets(0, 0, 0, 0));
@@ -329,6 +357,8 @@ public class WorkPanel extends JPanel {
 		testcaseB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		testcaseB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				testcaseB_actionPerformed(null);
 				testcaseB_actionPerformed(e);
 			}
 		});
@@ -349,7 +379,7 @@ public class WorkPanel extends JPanel {
 		filesB.setBackground(Color.red);
 		this.add(toolBar, BorderLayout.WEST);
 		this.add(panel, BorderLayout.CENTER);
-		panel.add(defectLogPanel, "DEFECTLOG");
+		panel.add(defectTable, "DEFECTLOG");
 		panel.add(timeSheetPanel, "TIMESHEET");
 		panel.add(dailyItemsPanel, "DAILYITEMS");
 		panel.add(testCasePanel, "TESTCASES");
@@ -363,6 +393,7 @@ public class WorkPanel extends JPanel {
 		toolBar.add(defectlogB, null);
 		toolBar.add(testcaseB, null);
 		toolBar.add(usersB, null);
+		toolBar.add(statsB, null);
 		currentB = agendaB;
 		// Default blue color
 		currentB.setBackground(new Color(215, 225, 250));
@@ -393,6 +424,8 @@ public class WorkPanel extends JPanel {
 				testcaseB_actionPerformed(null);
 			else if (pan.equals("USERS"))
 				usersB_actionPerformed(null);
+			else if (pan.equals("STATS"))
+				statsB_actionPerformed(null);
 		}
 	}
 
@@ -452,6 +485,12 @@ public class WorkPanel extends JPanel {
 		cardLayout1.show(panel, "TESTCASES");
 		setCurrentButton(testcaseB);
 		Context.put("CURRENT_PANEL", "TESTCASES");
+	}
+	public void statsB_actionPerformed(ActionEvent e) {
+		cardLayout1.show(panel, "DAILYITEMS");
+		dailyItemsPanel.selectPanel("STATS");
+		setCurrentButton(statsB);
+		Context.put("CURRENT_PANEL", "STATS");
 	}
 
 	void setCurrentButton(JButton cb) {
