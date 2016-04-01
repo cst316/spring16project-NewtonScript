@@ -16,6 +16,9 @@ import javax.swing.JToggleButton;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Defect;
+import net.sf.memoranda.Defect.Discovery;
+import net.sf.memoranda.Defect.Injection;
+import net.sf.memoranda.Defect.Type;
 
 /**
  * Pie chart for defect data
@@ -258,7 +261,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		int i = 0;
 		// Load pie data sets and set to empty
-		for(Defect.TYPE ty : Defect.TYPE.values()){
+		for(Defect.Type ty : Defect.Type.values()){
 			insertNewData(ty.toString(), STARTVAL);
 			setColor(ty.toString(), colors[i]);
 			i++;
@@ -266,7 +269,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		// Load values
 		for(Defect d : dl){
-			Defect.TYPE type = d.getType();
+			Type type = d.getType();
 			addValue(type.toString(), 1);
 		}
 		
@@ -279,7 +282,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		int i = 0;
 		// Load pie data sets and set to empty
-		for(Defect.DISCOVERY dis : Defect.DISCOVERY.values()){
+		for(Discovery dis : Defect.Discovery.values()){
 			insertNewData(dis.toString(), STARTVAL);
 			setColor(dis.toString(), colors[i]);
 			i++;
@@ -287,7 +290,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		// Load values
 		for(Defect d : dl){
-			Defect.DISCOVERY dis = d.getDiscovery();
+			Defect.Discovery dis = d.getDiscovery();
 			addValue(dis.toString(), 1);
 		}
 		
@@ -299,7 +302,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		int i = 0;
 		// Load pie data sets and set to empty
-		for(Defect.INJECTION inj : Defect.INJECTION.values()){
+		for(Injection inj : Defect.Injection.values()){
 			insertNewData(inj.toString(), STARTVAL);
 			setColor(inj.toString(), colors[i]);
 			i++;
@@ -307,7 +310,7 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 		// Load values
 		for(Defect d : dl){
-			Defect.INJECTION inj = d.getInj();
+			Defect.Injection inj = d.getInj();
 			addValue(inj.toString(), 1);
 		}
 		
@@ -319,18 +322,18 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		setTitle("Defects by Severity");
 		
 		// Load pie data sets and set to empty
-		for(Defect.SEVERITY sev : Defect.SEVERITY.values()){
+		for(Defect.Severity sev : Defect.Severity.values()){
 			insertNewData(sev.toString(), STARTVAL);
 		}
 		
 		// Set colors for severity
-		setColor(Defect.SEVERITY.LOW.toString(), Color.yellow);
-		setColor(Defect.SEVERITY.MEDIUM.toString(), Color.orange);
-		setColor(Defect.SEVERITY.HIGH.toString(), Color.red);
+		setColor(Defect.Severity.LOW.toString(), Color.yellow);
+		setColor(Defect.Severity.MEDIUM.toString(), Color.orange);
+		setColor(Defect.Severity.HIGH.toString(), Color.red);
 		
 		// Load values
 		for(Defect d : dl){
-			Defect.SEVERITY sev = d.getSeverity();
+			Defect.Severity sev = d.getSeverity();
 			addValue(sev.toString(), 1);
 		}
 		
