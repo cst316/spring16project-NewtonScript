@@ -102,7 +102,7 @@ public class DefectFunctionality {
 	 * 
 	 * @return
 	 */
-	public int getDefectID(){
+	public static int getDefectID(){
 		
 		return DefectFunctionality.defectID;
 	}
