@@ -565,24 +565,44 @@ public class FileStorage implements Storage {
     public TimeSheetPanel loadTimeSheet(Project prj){
     	String fn = JN_DOCPATH + prj.getID() + File.separator + ".timeSheet.ser";
     	TimeSheetPanel panel = null;
-    	try {
-			InputStream is = new FileInputStream(fn);
-			InputStream buff = new BufferedInputStream(is);
-			ObjectInput in = new ObjectInputStream(buff);
-			panel = (TimeSheetPanel) in.readObject();
-			System.out.println("[DEBUG] Open time sheet: " + fn);
-		} catch (FileNotFoundException e) {
-			System.out.print("[DEBUG] FAILED to load time sheet page.\n");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.print("[DEBUG] FAILED to load time sheet page.\n");
-			System.out.print("[DEBUG] Object import failed.\n");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.print("[DEBUG] FAILED to load time sheet page.\n");
-			System.out.print("[DEBUG] Object deserialize failed.\n");
-			e.printStackTrace();
-		}
+    	InputStream is = null;
+    	File file = new File(fn);
+    	if(file.exists()){
+	    	try {
+	    		is = new FileInputStream(fn);
+				InputStream buff = new BufferedInputStream(is);
+				ObjectInput in = new ObjectInputStream(buff);
+				panel = (TimeSheetPanel) in.readObject();
+				System.out.println("[DEBUG] Open time sheet: " + fn);
+			} catch (FileNotFoundException e) {
+				System.out.print("[DEBUG] FAILED to load time sheet page.\n");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.print("[DEBUG] FAILED to load time sheet page.\n");
+				System.out.print("[DEBUG] Object import failed.\n");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.print("[DEBUG] FAILED to load time sheet page.\n");
+				System.out.print("[DEBUG] Object deserialize failed.\n");
+				e.printStackTrace();
+			} finally {
+					try {
+						if(is != null)
+							is.close();
+					} catch (IOException e) {
+						System.out.print("[DEBUG] FAILED to close file.\n");
+						e.printStackTrace();
+					}
+			}
+    	}
+    	else{
+    		try {
+				file.createNewFile();
+			} catch (IOException e) {
+				System.out.print("[DEBUG] FAILED to create ser file.\n");
+				e.printStackTrace();
+			}
+    	}
     	
     	return panel;
     }
@@ -593,7 +613,6 @@ public class FileStorage implements Storage {
     	String fn = JN_DOCPATH + prj.getID() + File.separator + ".timeSheet.ser";
     	ObjectOutput out;
     	try {
-    		
 			OutputStream os = new FileOutputStream(fn);
 			OutputStream buff = new BufferedOutputStream(os);
 			out = new ObjectOutputStream(buff);
