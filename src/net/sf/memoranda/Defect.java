@@ -26,7 +26,7 @@ public interface Defect {
 	String NOTES = "notes";
 	
 	// Enums for defect values
-	enum Type { 
+	public enum Type { 
 		DOCUMENTATION("Documentation"),
 		SYNTAX("Syntax"),
 		BUILD("Build"),
@@ -51,7 +51,7 @@ public interface Defect {
 		}
 	}
 	
-	enum Injection { 
+	public enum Injection { 
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
 		IMPLEMENTATION("Implementation"),
@@ -69,7 +69,7 @@ public interface Defect {
 		}
 	}
 	
-	enum Discovery { 
+	public enum Discovery { 
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
 		IMPLEMENTATION("Implementation"),
@@ -87,7 +87,7 @@ public interface Defect {
 		}
 	}
 	
-	enum Severity {
+	public enum Severity {
 		LOW("Low"),
 		MEDIUM("Medium"),
 		HIGH("High");
@@ -104,7 +104,7 @@ public interface Defect {
 		}
 	}
 	
-	enum Removal { 
+	public enum Removal { 
 		OPEN("Open"),
 		REQUIREMENTS("Requirements"),
 		DESIGN("Design"),
