@@ -109,6 +109,7 @@ public class App {
 	  anFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if(anFrame.getState() != Frame.ICONIFIED)
 			    	System.exit(0); // Runs the shutdown hook.
 		    	}
 		    });
