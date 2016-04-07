@@ -305,7 +305,7 @@ public class AgendaGenerator {
 		
 		String MOTD = "None";
 		try {
-			MOTD = ClientComm.getServer().getMOTD();
+			MOTD = ClientComm.getInstance().getServer().getMOTD();
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}

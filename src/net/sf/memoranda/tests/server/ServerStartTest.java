@@ -15,13 +15,15 @@ import org.junit.Test;
  */
 public class ServerStartTest {
 
+	ServerStart server;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 		String[] args = null;
-		ServerStart.main(args);
+		server = ServerStart.getInstance();
 	}
 
 	/**
