@@ -85,7 +85,7 @@ public class Phase implements Task{
 		String str = phaseElement.getAttribute("startDate").getValue();
 		CalendarDate cal;
 		if(str.isEmpty()){
-			cal = null;
+			cal = CurrentProject.get().getStartDate();
 		} else {
 			cal = new CalendarDate(str);
 		}
@@ -191,7 +191,7 @@ public class Phase implements Task{
 		String str = phaseElement.getAttribute("endDate").getValue();
 		CalendarDate cal;
 		if(str.isEmpty()) {
-			cal = null;
+			cal = CurrentProject.get().getEndDate();
 		} else {
 			cal = new CalendarDate(str);
 		}

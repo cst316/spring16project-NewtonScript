@@ -246,6 +246,7 @@ public class PieChart extends JPanel{
 		
 		try{
 			JFileChooser fc = new JFileChooser();
+			fc.setDialogType(JFileChooser.SAVE_DIALOG);
 			fc.addChoosableFileFilter(new FileNameExtensionFilter("png", "png"));
 			fc.setFileHidingEnabled(true); // Hide the users hidden files
 			int res = fc.showOpenDialog(App.getFrame());

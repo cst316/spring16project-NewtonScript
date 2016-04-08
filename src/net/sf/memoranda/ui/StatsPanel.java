@@ -9,12 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -33,7 +35,7 @@ public class StatsPanel extends JPanel {
 	public static final int OVERVIEWINDEX = 0;
 	public static final int TESTCASEINDEX = 1;
 	public static final int DEFECTINDEX = 2;
-	public static final int TASKSINDEX = 3;
+	public static final int PHASESINDEX = 3;
 	
 	DailyItemsPanel parentPanel;
 	private JLabel title;
@@ -51,6 +53,7 @@ public class StatsPanel extends JPanel {
 	private JMenuItem png;
 	private TestCasePieChart testCasePie;
 	private DefectPieChart defectPie;
+	private PhaseGanttChart phaseChart;
 	private StatsOverviewPanel innerOverviewPanel;
 	
 	public StatsPanel(){
@@ -61,6 +64,7 @@ public class StatsPanel extends JPanel {
 	private void buildCharts() {
 		testCasePie = new TestCasePieChart();
 		defectPie = new DefectPieChart();
+		phaseChart = new PhaseGanttChart();
 	}
 	
 	// Builds the panel
@@ -120,8 +124,9 @@ public class StatsPanel extends JPanel {
 
 		// Tasks tab
 		tasksPanel.setLayout(new BorderLayout());
-		tabbedPane.addTab("Tasks", tasksPanel);
-		tabbedPane.setComponentAt(TASKSINDEX, tasksPanel);
+		tasksPanel.add(phaseChart, BorderLayout.CENTER);
+		tabbedPane.addTab("Phases", tasksPanel);
+		tabbedPane.setComponentAt(PHASESINDEX, tasksPanel);
 
 		
 		// Mend all panels/comps
@@ -157,16 +162,17 @@ public class StatsPanel extends JPanel {
 	
 		switch(index){
 		case OVERVIEWINDEX:
-			// TODO export overview here 
+			JOptionPane.showMessageDialog(this, "Cannot export a PNG of the overview panel.\n"
+					+ "Please select a tab first.");
 			break;
 		case TESTCASEINDEX:
 			testCasePie.exportPNG();
 			break;
 		case DEFECTINDEX:
-			// TODO export defect here 
+			defectPie.exportPNG();
 			break;
-		case TASKSINDEX:
-			// TODO export tasks chart here
+		case PHASESINDEX:
+			phaseChart.exportPNG();
 			break;
 		}
 		
@@ -180,6 +186,7 @@ public class StatsPanel extends JPanel {
 		innerOverviewPanel.update();
 		testCasePie.updatePie();
 		defectPie.updatePie();
+		phaseChart.updatePie();
 	}
 	
 }
