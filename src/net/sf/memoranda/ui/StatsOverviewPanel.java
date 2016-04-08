@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.DefectList;
@@ -69,6 +70,7 @@ public class StatsOverviewPanel extends JPanel {
 	private Font titleFont;
 	private TestCasePieChart tp;
 	private DefectPieChart dp;
+	private PhaseGanttChart pg;
 	
 	
 	public StatsOverviewPanel(){
@@ -103,7 +105,7 @@ public class StatsOverviewPanel extends JPanel {
 		// Update internal pie charts
 		tp.updatePie();
 		dp.updatePie();
-		// TODO update line chart here
+		pg.updateChart();
 		
 		// Update phase numbers
 		totalPhVal.setText(Integer.toString(phaseNum));
@@ -154,15 +156,20 @@ public class StatsOverviewPanel extends JPanel {
 		// Upper Right
 		tp = new TestCasePieChart();
 		tp.enableOptions(false);
+		upperRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
 		upperRight.add(tp, BorderLayout.CENTER);
 		
 		// Lower left
 		dp = new DefectPieChart(DefectPieChart.Category.OC);
 		dp.enableOptions(false);
+		lowerLeft.add(new JSeparator(), BorderLayout.NORTH);
 		lowerLeft.add(dp, BorderLayout.CENTER);
 		
 		// Lower Right
-		// TODO add phases line chart here
+		pg = new PhaseGanttChart();
+		lowerRight.add(new JSeparator(), BorderLayout.NORTH);
+		lowerRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
+		lowerRight.add(pg, BorderLayout.CENTER);
 		
 		
 		// Add panels to the grid - ORDER MATTERS

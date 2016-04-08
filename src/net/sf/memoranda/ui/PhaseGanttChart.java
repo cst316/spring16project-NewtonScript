@@ -79,7 +79,7 @@ public class PhaseGanttChart extends GanttChart{
 		update();
 	}
 	
-	public void updatePie(){
+	public void updateChart(){
 		clearData();
 		loadData();
 	}

@@ -186,7 +186,7 @@ public class StatsPanel extends JPanel {
 		innerOverviewPanel.update();
 		testCasePie.updatePie();
 		defectPie.updatePie();
-		phaseChart.updatePie();
+		phaseChart.updateChart();
 	}
 	
 }
