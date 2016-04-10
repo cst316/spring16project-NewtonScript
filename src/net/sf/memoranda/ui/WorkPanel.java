@@ -477,8 +477,6 @@ public class WorkPanel extends JPanel {
 		dailyItemsPanel.selectPanel("USERS");
 		setCurrentButton(usersB);
 		Context.put("CURRENT_PANEL", "USERS");
-		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
-    	sysUser.requestFocus();
 	}
 	public void testcaseB_actionPerformed(ActionEvent e) {
 		cardLayout1.show(panel, "TESTCASES");

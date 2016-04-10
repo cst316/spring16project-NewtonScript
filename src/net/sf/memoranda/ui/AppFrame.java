@@ -52,9 +52,9 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
+import net.sf.memoranda.UsersList;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
-import net.sf.memoranda.ui.UsersList;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
@@ -101,8 +101,6 @@ public class AppFrame extends JFrame {
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
 
     static Vector exitListeners = new Vector();
-    UsersList myUsers = UsersList.getInstance();
-    File userFile = new File("sysusers.txt"); //File that saves the users
 
     public Action prjPackAction = new AbstractAction("Pack current project") {
         public void actionPerformed(ActionEvent e) {
@@ -272,7 +270,6 @@ public class AppFrame extends JFrame {
         this.setIconImage(new ImageIcon(AppFrame.class.getResource(
                 "resources/icons/jnotes16.png"))
                 .getImage());
-        openUsersList();
         contentPane = (JPanel) this.getContentPane();
         contentPane.setLayout(borderLayout1);
         //this.setSize(new Dimension(800, 500));
@@ -636,7 +633,7 @@ public class AppFrame extends JFrame {
         CurrentProject.addProjectListener(new ProjectListener() {
 
             public void projectChange(Project p, NoteList nl, TaskList tl, 
-            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {
             }
 
             public void projectWasChanged() {
@@ -674,7 +671,6 @@ public class AppFrame extends JFrame {
         Context.put("FRAME_HEIGHT", new Integer(this.getHeight()));
         Context.put("FRAME_XPOS", new Integer(this.getLocation().x));
         Context.put("FRAME_YPOS", new Integer(this.getLocation().y));
-        storeUsersList();
         exitNotify();
         System.exit(0);
     }
@@ -941,7 +937,6 @@ public class AppFrame extends JFrame {
     			CurrentProject.save();
     			ProjectExporter.export(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml, 
     					dlg.splitChB.isSelected(), true, nument, dlg.titlesAsHeadersChB.isSelected(), false);
-    	openUsersList();
     }
 
     protected void ppImport_actionPerformed(ActionEvent e) {
@@ -1118,43 +1113,5 @@ public class AppFrame extends JFrame {
     	}catch(Exception exc){
     		exc.printStackTrace();
     	}
-    }
-
-    public void storeUsersList() {
-    	String[] userArray = myUsers.getNames();
-    	try {
-    		userFile.delete();
-    		userFile.createNewFile();
-    		FileWriter fw = new FileWriter(userFile, false);
-    		for(int i = 0; i < userArray.length; i++) {
-    			fw.write(userArray[i] + "$");
-    		}
-    		fw.close();
-    		System.out.println("[DEBUG] Saving system users...");
-    	} catch (IOException ioe ) { 
-    		ioe.printStackTrace(); 
-    	}
-    }
-    public void openUsersList() {
-    	try {
-    		Scanner reader;
-    		
-    		if(!userFile.exists()) {
-    		    userFile.createNewFile();
-    		} 
-    		reader = new Scanner(userFile);
-    		while(reader.hasNextLine()) {
-    			String tmp = reader.nextLine();
-    			String[] str = tmp.split("\\$");
-    			for(int i = 0; i < str.length; i++) {
-    				myUsers.add(str[i]);
-    			}
-    		}
-    		reader.close();
-    	} catch(FileNotFoundException fne) { 
-    		fne.printStackTrace(); 
-    	} catch(IOException ioe) {
-    		ioe.printStackTrace();
-    	} 
     }
 }

@@ -45,6 +45,8 @@ import java.util.Vector;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Phase;
 import net.sf.memoranda.PhaseList;
+import net.sf.memoranda.Users;
+import net.sf.memoranda.UsersList;
 import net.sf.memoranda.Task;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
@@ -120,8 +122,7 @@ public class TaskDialog extends JDialog {
 	JComboBox<Phase> phaseOptions;
 	public static final String SELECT = "<Select>";
 	//Button to assign owner
-	UsersList myUsers = UsersList.getInstance();
-	Vector<String> systemUsers = myUsers.getUserList();
+	Vector<String> systemUsers = CurrentProject.getUsersList().getUserNames();
 	JComboBox ownerCB = new JComboBox(systemUsers);
 	String currentOwner;
     
