@@ -270,7 +270,7 @@ public class WorkPanel extends JPanel {
 		timesheetB.setIcon(
 			new ImageIcon(
 				net.sf.memoranda.ui.AppFrame.class.getResource(
-					"resources/icons/timeSheet.png")));
+					"resources/icons/TimeSheet.png")));
 		timesheetB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		timesheetB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
