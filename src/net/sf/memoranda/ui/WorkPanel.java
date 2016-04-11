@@ -39,6 +39,7 @@ public class WorkPanel extends JPanel {
 	public JButton agendaB = new JButton();
 	public JButton tasksB = new JButton();
 	public DefectLogPanel defectLogPanel = new DefectLogPanel();
+	public UserPanel userPanel = new UserPanel();
 	public DefectTable defectTable = new DefectTable();
 	public TestCasePanel testCasePanel = new TestCasePanel();
 	public JButton eventsB = new JButton();
@@ -47,7 +48,6 @@ public class WorkPanel extends JPanel {
 	public JButton defectlogB = new JButton();
 	public JButton testcaseB = new JButton();
 	public JButton statsB = new JButton();
-	
 	public JButton usersB = new JButton(); //Button for system users
 	SystemUsersDialog sysUser; // System Users dialog
 	UsersList userList = UsersList.getInstance(); //List of system users
@@ -376,9 +376,11 @@ public class WorkPanel extends JPanel {
 		testcaseB.setBackground(Color.red);
 
 		/*--------------------------------------------------------------------------*/
+
 		filesB.setBackground(Color.red);
 		this.add(toolBar, BorderLayout.WEST);
 		this.add(panel, BorderLayout.CENTER);
+		panel.add(userPanel, "USERPANEL");
 		panel.add(defectTable, "DEFECTLOG");
 		panel.add(timeSheetPanel, "TIMESHEET");
 		panel.add(dailyItemsPanel, "DAILYITEMS");
@@ -422,7 +424,7 @@ public class WorkPanel extends JPanel {
 				defectlogB_actionPerformed(null);
 			else if (pan.equals("TESTCASES"))
 				testcaseB_actionPerformed(null);
-			else if (pan.equals("USERS"))
+			else if (pan.equals("USERPANEL"))
 				usersB_actionPerformed(null);
 			else if (pan.equals("STATS"))
 				statsB_actionPerformed(null);
@@ -473,12 +475,9 @@ public class WorkPanel extends JPanel {
 		Context.put("CURRENT_PANEL", "DEFECTLOG");
 	}
 	public void usersB_actionPerformed(ActionEvent e) {
-		cardLayout1.show(panel, "USERS");
-		dailyItemsPanel.selectPanel("USERS");
+		cardLayout1.show(panel, "USERPANEL");
 		setCurrentButton(usersB);
-		Context.put("CURRENT_PANEL", "USERS");
-		sysUser = new SystemUsersDialog(App.getFrame(), "System Users");
-    	sysUser.requestFocus();
+		Context.put("CURRENT_PANEL", "USERPANEL");
 	}
 	public void testcaseB_actionPerformed(ActionEvent e) {
 		cardLayout1.show(panel, "TESTCASES");

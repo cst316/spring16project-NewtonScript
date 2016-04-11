@@ -11,12 +11,12 @@ package net.sf.memoranda.ui;
  *
  * @author jebjohnson
  */
-public class userPanel extends javax.swing.JPanel {
+public class UserPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form UserPage
      */
-    public userPanel() {
+    public UserPanel() {
         initComponents();
     }
 
