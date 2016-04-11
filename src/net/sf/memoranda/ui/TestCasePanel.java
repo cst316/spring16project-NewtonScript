@@ -272,7 +272,7 @@ public class TestCasePanel extends JPanel {
 	}
 	
 	private void passAction(){
-int row = table.getSelectedRow();
+		int row = table.getSelectedRow();
 		
 		// If nothing is highlighted, warn user
 		if(row < 0){

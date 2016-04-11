@@ -163,6 +163,8 @@ public class TestCaseTable extends JTable {
 				label.setBackground(Color.green);
 			} else if(label.getText().equals(TestCase.FAILED)){
 				label.setBackground(Color.red);
+			} else{
+				label.setBackground(Color.white);
 			}
 			
 			return label;
