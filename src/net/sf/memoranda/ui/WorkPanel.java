@@ -478,6 +478,7 @@ public class WorkPanel extends JPanel {
 		cardLayout1.show(panel, "USERPANEL");
 		setCurrentButton(usersB);
 		Context.put("CURRENT_PANEL", "USERPANEL");
+
 	}
 	public void testcaseB_actionPerformed(ActionEvent e) {
 		cardLayout1.show(panel, "TESTCASES");

@@ -43,12 +43,13 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TaskListImpl;
 import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.TestCaseListImpl;
+import net.sf.memoranda.UsersList;
+import net.sf.memoranda.UsersListImpl;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.DailyItemsPanel;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.TimeSheetPanel;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
-import net.sf.memoranda.ui.UsersList;
 import nu.xom.Builder;
 import nu.xom.DocType;
 import nu.xom.Document;
@@ -628,5 +629,40 @@ public class FileStorage implements Storage {
 			System.out.print("[DEBUG] Object output failed.\n");
 			e.printStackTrace();
 		}
+    }
+    public UsersList openUsersList(Project prj) {
+        String fn = JN_DOCPATH + prj.getID() + File.separator + ".userslist";
+
+        if (documentExists(fn)) {
+            /*DEBUG*/
+            System.out.println(
+                "[DEBUG] Open users list: "
+                    + JN_DOCPATH
+                    + prj.getID()
+                    + File.separator
+                    + ".userslist");
+            
+            Document doc = openDocument(fn);
+            
+            return new UsersListImpl(prj, doc);   
+        }
+        else {
+            /*DEBUG*/
+            System.out.println("[DEBUG] New users list created");
+            return new UsersListImpl(prj);
+        }
+        
+    }
+    
+    public void storeUsersList(UsersList dl, Project prj) {
+        /*DEBUG*/
+        System.out.println(
+            "[DEBUG] Save users list: "
+                + JN_DOCPATH
+                + prj.getID()
+                + File.separator
+                + ".userslist");
+        Document doc = dl.getXMLContent();
+        saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".userslist");
     }
 }
