@@ -1,14 +1,19 @@
 package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -19,6 +24,7 @@ import javax.swing.JOptionPane;
 public class TestCaseDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	private JPanel outerGrid;
 	private JTextField idTextField;
 	private JTextField methodTextField;
 	private JTextField expectedTF;
@@ -28,19 +34,20 @@ public class TestCaseDialog extends JDialog {
 	private JTextArea textArea;
 	private String selectedID, selectedMethod, selectedDescription, 
 		selectedExpected, selectedActual, selectedTestCase, selectedStatus;
+	private boolean canceled = false;
 
 	/**
 	 * Create the dialog.
 	 */
 	public TestCaseDialog(Frame appFrame) { 
-		super(appFrame);
+		super(appFrame, Dialog.ModalityType.APPLICATION_MODAL);
 		display();
 		run();
 	}
 	public TestCaseDialog(Frame appFrame, String testID, String testMethod,
 			String testDescription, String testExpected, String testActual,
 			String testTestCase, String testStatus) { 
-		super(appFrame);
+		super(appFrame, Dialog.ModalityType.APPLICATION_MODAL);
 		display();
 		//Sets the text fields as the test case info
 		//so the user can see
@@ -54,86 +61,113 @@ public class TestCaseDialog extends JDialog {
 		idTextField.setEditable(false);
 		run();
 	}
+	public boolean isCanceled() {
+		return canceled;
+	}
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}
 	public void run() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setModal(true);
+		setMinimumSize(new Dimension(500, 300));
 		setVisible(true);
-		setResizable(false);
+		pack();
 	}
 	private void display() {
+		outerGrid = new JPanel(new GridLayout(2, 1));
+		JPanel lowerPanel = new JPanel();
+		JPanel upperPanel = new JPanel(new GridLayout(4, 2));
+		/*
+		 * Start grid panels:
+		 * 
+		 *  0 1
+		 * 0{}{}
+		 * 1{}{}
+		 * 2{}{}
+		 * 3{}{}
+		 */
+		JPanel grid00 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid01 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid10 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid11 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid20 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid21 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid30 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel grid31 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		
+		lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.Y_AXIS));
+		
 		setTitle("Input Test Case Info");
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
-		setBounds(100, 100, 450, 400);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
+		contentPanel.setLayout(new BorderLayout());
 		
 		JLabel idLabel = new JLabel("ID: ");
 		idLabel.setBounds(29, 30, 30, 16);
-		contentPanel.add(idLabel);
+		grid00.add(idLabel);
 		
 		idTextField = new JTextField();
-		idTextField.setBounds(71, 27, 116, 22);
-		contentPanel.add(idTextField);
+		grid00.add(idTextField);
 		idTextField.setColumns(10);
 		
 		JLabel methodLabel = new JLabel("Method:");
-		methodLabel.setBounds(12, 65, 47, 16);
-		contentPanel.add(methodLabel);
+		grid01.add(methodLabel);
 		
 		methodTextField = new JTextField();
-		methodTextField.setBounds(71, 62, 116, 22);
-		contentPanel.add(methodTextField);
+		grid01.add(methodTextField);
 		methodTextField.setColumns(10);
 
+		JPanel desLabel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		desLabel.setAlignmentY(Component.LEFT_ALIGNMENT);
 		JLabel descriptionLabel = new JLabel("Description");
-		descriptionLabel.setBounds(61, 103, 70, 16);
-		contentPanel.add(descriptionLabel);
+		desLabel.add(descriptionLabel);
+		lowerPanel.add(desLabel);
 		
 		JLabel statusLabel = new JLabel("Status:");
-		statusLabel.setBounds(250, 65, 56, 16);
-		contentPanel.add(statusLabel);
+		grid11.add(statusLabel);
 		
 	    statusCB = new JComboBox();
 		statusCB.setModel(new DefaultComboBoxModel(new String[] {"In Progress", "Passed", "Failed"}));
 		statusCB.setMaximumRowCount(3);
-		statusCB.setBounds(303, 62, 92, 22);
-		contentPanel.add(statusCB);
+		grid11.add(statusCB);
 		
 		JLabel expectedLabel = new JLabel("Expected Result:");
-		expectedLabel.setBounds(199, 135, 105, 16);
-		contentPanel.add(expectedLabel);
+		grid10.add(expectedLabel);
 		
 		expectedTF = new JTextField();
-		expectedTF.setBounds(304, 132, 116, 22);
-		contentPanel.add(expectedTF);
+		grid10.add(expectedTF);
 		expectedTF.setColumns(10);
 		
 		JLabel actualLabel = new JLabel("Actual Result:");
-		actualLabel.setBounds(206, 182, 85, 16);
-		contentPanel.add(actualLabel);
+		grid20.add(actualLabel);
 		
 		actualTextField = new JTextField();
-		actualTextField.setBounds(304, 179, 116, 22);
-		contentPanel.add(actualTextField);
+		grid20.add(actualTextField);
 		actualTextField.setColumns(10);
 		
 		JLabel testCaseLabel = new JLabel("Test Case:");
-		testCaseLabel.setBounds(228, 30, 63, 16);
-		contentPanel.add(testCaseLabel);
+		grid21.add(testCaseLabel);
 		
 		testCaseTextField = new JTextField();
-		testCaseTextField.setBounds(304, 27, 116, 22);
-		contentPanel.add(testCaseTextField);
+		grid21.add(testCaseTextField);
 		testCaseTextField.setColumns(10);
 		
 		textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
-		textArea.setBounds(12, 132, 175, 145);
-		contentPanel.add(textArea);
+		textArea.setColumns(10);
+		lowerPanel.add(textArea);
+		
+		upperPanel.add(grid00);
+		upperPanel.add(grid01);
+		upperPanel.add(grid10);
+		upperPanel.add(grid11);
+		upperPanel.add(grid20);
+		upperPanel.add(grid21);
+		upperPanel.add(grid30);
+		upperPanel.add(grid31);
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -162,10 +196,14 @@ public class TestCaseDialog extends JDialog {
 		cancelButton.setActionCommand("Cancel");
 		cancelButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				canceled = true;
 				dispose();
 			}
 		});
 		buttonPane.add(cancelButton);
+		outerGrid.add(upperPanel);
+		outerGrid.add(lowerPanel);
+		contentPanel.add(outerGrid);
 	}
 	private void okButtonPressed() {
 		//Saves the selected items into variables
