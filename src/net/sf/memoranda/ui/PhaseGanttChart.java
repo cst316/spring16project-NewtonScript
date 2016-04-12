@@ -1,37 +1,18 @@
 package net.sf.memoranda.ui;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
-import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
 
-import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
-import org.jfree.chart.entity.EntityCollection;
-import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.ItemLabelAnchor;
-import org.jfree.chart.labels.ItemLabelPosition;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.CategoryItemRendererState;
-import org.jfree.chart.renderer.category.GanttRenderer;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
-import org.jfree.data.general.Dataset;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.TextAnchor;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Phase;
-import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.util.ChartData;
 
 /**
  * Gantt chart for the phases/tasks
@@ -40,17 +21,25 @@ import net.sf.memoranda.date.CalendarDate;
  */
 public class PhaseGanttChart extends GanttChart{
 
-	private static final long serialVersionUID = 1332L;
 	public static final String DOMAINTITLE = "Percent done";
+	private static final long serialVersionUID = 1332L;
 	
 	public PhaseGanttChart() {
 		super("Project Phase Progress", "Phases", "Progress");
 		init();
 	}
 	
+	
 	private void init(){
 		loadData();
 		setSeriesColor(0, Color.blue);
+		ChartData.addChangeListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				update();
+			}
+			
+		});
 	}
 	
 	// Load data from XML
@@ -76,10 +65,11 @@ public class PhaseGanttChart extends GanttChart{
 		}
 		
 		data.add(phases);
-		update();
+		super.update();
 	}
 	
-	public void updateChart(){
+	@Override
+	public void update(){
 		clearData();
 		loadData();
 	}

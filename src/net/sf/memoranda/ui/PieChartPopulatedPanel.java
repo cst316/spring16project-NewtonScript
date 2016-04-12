@@ -18,16 +18,22 @@ import javax.swing.SwingConstants;
  * 
  * @author Douglas Carroll
  */
-public class PieChartPopulatedPanel extends PieChart {
+public class PieChartPopulatedPanel extends JPanel{
 	
+	private static final long serialVersionUID = 351L;
 	private JPanel rightPanel;
 	private JPanel optionsPanel;
 	private JToggleButton rotateToggle;
 	private JToggleButton labelsToggle;
+	protected PieChart pie;
 	
-	public PieChartPopulatedPanel(String title) {
-		super(title);
+	public PieChartPopulatedPanel(PieChart pie) {
+		this.pie = pie;
 		init();
+	}
+	
+	public PieChart getPie(){
+		return pie;
 	}
 	
 	public JPanel getOptionsPanel(){
@@ -35,6 +41,7 @@ public class PieChartPopulatedPanel extends PieChart {
 	}
 	
 	private void init(){
+		setLayout(new BorderLayout());
 		rightPanel = new JPanel();
 		optionsPanel = new JPanel();
 		rotateToggle = new JToggleButton();
@@ -80,6 +87,9 @@ public class PieChartPopulatedPanel extends PieChart {
 		rightPanel.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
 		rightPanel.add(optionsPanel, BorderLayout.EAST);
 		add(rightPanel, BorderLayout.EAST);
+		add(pie, BorderLayout.CENTER);
+		
+		setVisible(true);
 	}
 
 	/**
@@ -95,20 +105,20 @@ public class PieChartPopulatedPanel extends PieChart {
 	// Handles rotation button functionality
 	private void toggleRotate_Action(ItemEvent e){
 		if(e.getStateChange() == ItemEvent.SELECTED){
-			toggleRotation(true);
+			pie.toggleRotation(true);
 		} 
 		else if(e.getStateChange() == ItemEvent.DESELECTED){
-			toggleRotation(false);
+			pie.toggleRotation(false);
 		}
 	}
 	
 	// Handles label button functionality
 	private void toggleLabels_Action(ItemEvent e){
 		if(e.getStateChange() == ItemEvent.SELECTED){
-			setStaticLabels(true);
+			pie.setStaticLabels(true);
 		} 
 		else if(e.getStateChange() == ItemEvent.DESELECTED){
-			setStaticLabels(false);
+			pie.setStaticLabels(false);
 		}
 	}
 }

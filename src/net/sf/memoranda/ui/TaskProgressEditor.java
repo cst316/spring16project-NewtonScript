@@ -46,7 +46,6 @@ public class TaskProgressEditor extends JPanel implements TableCellEditor{
 						current.setProgress( current.getProgress()-5 );
 					}
 					current.getPhase().calculateProgress(); // Calculate phase progress based on the change
-					DailyItemsPanel.getStatsPanel().updateCharts();
 				}
 				// Repaint the entire table so the phase progress gets updated too.
 				table.repaint();

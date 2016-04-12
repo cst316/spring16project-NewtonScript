@@ -1,29 +1,21 @@
 package net.sf.memoranda.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JToggleButton;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.TestCase;
+import net.sf.memoranda.util.ChartData;
+import net.sf.memoranda.util.CurrentStorage;
 
 /**
  * This panel holds the test case pie with all chart options.
  * 
  * @author Douglas Carroll
  */
-public class TestCasePieChart extends PieChartPopulatedPanel{
+public class TestCasePieChart extends PieChart{
 	
 	private static final long serialVersionUID = 1L;
 	public static final String TITLE = "Test Case Status";
@@ -64,6 +56,13 @@ public class TestCasePieChart extends PieChartPopulatedPanel{
 		setColor(TestCase.PASSED, Color.green);
 		setColor(TestCase.FAILED, Color.red);
 		
+		ChartData.addChangeListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updatePie();
+			}
+			
+		});
 		
 		updatePie();
 	}

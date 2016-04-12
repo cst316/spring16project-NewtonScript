@@ -68,9 +68,9 @@ public class StatsOverviewPanel extends JPanel {
 	private JLabel failedVal = new JLabel();
 	
 	private Font titleFont;
-	private TestCasePieChart tp;
-	private DefectPieChart dp;
-	private PhaseGanttChart pg;
+	private Chart testCasePie;
+	private Chart defectPie;
+	private Chart phaseGantt;
 	
 	
 	public StatsOverviewPanel(){
@@ -103,9 +103,9 @@ public class StatsOverviewPanel extends JPanel {
 		int openDefs = dl.getOpenDefectNum();
 		
 		// Update internal pie charts
-		tp.updatePie();
-		dp.updatePie();
-		pg.updateChart();
+		testCasePie.update();
+		defectPie.update();
+		phaseGantt.update();
 		
 		// Update phase numbers
 		totalPhVal.setText(Integer.toString(phaseNum));
@@ -134,6 +134,7 @@ public class StatsOverviewPanel extends JPanel {
 	
 
 	private void init() {
+		ChartFactory factory = new ChartFactory();
 		outerGrid = new JPanel(new GridLayout(0, 2));
 		upperLeft = new JPanel(new BorderLayout());
 		upperLeftGrid = new JPanel(new GridLayout(0, 2));
@@ -154,22 +155,20 @@ public class StatsOverviewPanel extends JPanel {
 		upperLeft.add(title, BorderLayout.NORTH);
 		
 		// Upper Right
-		tp = new TestCasePieChart();
-		tp.enableOptions(false);
+		testCasePie = factory.getChart(ChartFactory.ChartType.TESTCASE);
 		upperRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
-		upperRight.add(tp, BorderLayout.CENTER);
+		upperRight.add(testCasePie, BorderLayout.CENTER);
 		
 		// Lower left
-		dp = new DefectPieChart(DefectPieChart.Category.OC);
-		dp.enableOptions(false);
+		defectPie = factory.getChart(ChartFactory.ChartType.DEFECT);
 		lowerLeft.add(new JSeparator(), BorderLayout.NORTH);
-		lowerLeft.add(dp, BorderLayout.CENTER);
+		lowerLeft.add(defectPie, BorderLayout.CENTER);
 		
 		// Lower Right
-		pg = new PhaseGanttChart();
+		phaseGantt = factory.getChart(ChartFactory.ChartType.PHASE);
 		lowerRight.add(new JSeparator(), BorderLayout.NORTH);
 		lowerRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
-		lowerRight.add(pg, BorderLayout.CENTER);
+		lowerRight.add(phaseGantt, BorderLayout.CENTER);
 		
 		
 		// Add panels to the grid - ORDER MATTERS

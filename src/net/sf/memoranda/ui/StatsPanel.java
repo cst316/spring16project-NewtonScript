@@ -6,12 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.IOException;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,8 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.JToggleButton;
-import javax.swing.SwingConstants;
 
 /**
  * Panel for the Statistics page.
@@ -38,6 +33,7 @@ public class StatsPanel extends JPanel {
 	public static final int PHASESINDEX = 3;
 	
 	DailyItemsPanel parentPanel;
+	private static final long serialVersionUID = 1556L;
 	private JLabel title;
 	private Font titleFont;
 	private JTabbedPane tabbedPane;
@@ -51,9 +47,9 @@ public class StatsPanel extends JPanel {
 	private JMenuBar menu;
 	private JMenu export;
 	private JMenuItem png;
-	private TestCasePieChart testCasePie;
-	private DefectPieChart defectPie;
-	private PhaseGanttChart phaseChart;
+	private PieChartPopulatedPanel testPanel;
+	private PieChartPopulatedPanel defectPanel;
+	private Chart phaseChart;
 	private StatsOverviewPanel innerOverviewPanel;
 	
 	public StatsPanel(){
@@ -62,9 +58,10 @@ public class StatsPanel extends JPanel {
 
 	// Handles building of all charts
 	private void buildCharts() {
-		testCasePie = new TestCasePieChart();
-		defectPie = new DefectPieChart();
-		phaseChart = new PhaseGanttChart();
+		ChartFactory factory = new ChartFactory();
+		testPanel = factory.getPopulatedChart(ChartFactory.PopulatedType.TESTCASE);
+		defectPanel = factory.getPopulatedChart(ChartFactory.PopulatedType.DEFECT);
+		phaseChart = factory.getChart(ChartFactory.ChartType.PHASE);
 	}
 	
 	// Builds the panel
@@ -112,13 +109,13 @@ public class StatsPanel extends JPanel {
 		
 		// Test case tab
 		testCasePanel.setLayout(new BorderLayout());
-		testCasePanel.add(testCasePie, BorderLayout.CENTER); // Add test case pie
+		testCasePanel.add(testPanel, BorderLayout.CENTER); // Add test case pie
 		tabbedPane.addTab("Test Cases", testCasePanel);
 		tabbedPane.setComponentAt(TESTCASEINDEX, testCasePanel);
 
 		// Defects tab
 		defectsPanel.setLayout(new BorderLayout());
-		defectsPanel.add(defectPie, BorderLayout.CENTER);
+		defectsPanel.add(defectPanel, BorderLayout.CENTER);
 		tabbedPane.addTab("Defects", defectsPanel);
 		tabbedPane.setComponentAt(DEFECTINDEX, defectsPanel);
 
@@ -138,8 +135,7 @@ public class StatsPanel extends JPanel {
 		northPanel.add(new JSeparator());
 		add(northPanel, BorderLayout.NORTH);
 		add(tabbedPane, BorderLayout.CENTER);
-		testCasePie.setPreferredSize(new Dimension());
-		updateCharts();
+		testPanel.getPie().setPreferredSize(new Dimension());
 	}
 	
 	// Loads the title font
@@ -166,27 +162,15 @@ public class StatsPanel extends JPanel {
 					+ "Please select a tab first.");
 			break;
 		case TESTCASEINDEX:
-			testCasePie.exportPNG();
+			testPanel.getPie().exportPNG();
 			break;
 		case DEFECTINDEX:
-			defectPie.exportPNG();
+			defectPanel.getPie().exportPNG();
 			break;
 		case PHASESINDEX:
 			phaseChart.exportPNG();
 			break;
 		}
-		
-		
-	}
-	
-	/**
-	 * Updates the stats panel
-	 */
-	public void updateCharts(){
-		innerOverviewPanel.update();
-		testCasePie.updatePie();
-		defectPie.updatePie();
-		phaseChart.updateChart();
 	}
 	
 }

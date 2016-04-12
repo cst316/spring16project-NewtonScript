@@ -3,19 +3,11 @@ package net.sf.memoranda.ui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
-
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JToggleButton;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Defect;
+import net.sf.memoranda.util.ChartData;
 
 /**
  * Pie chart for defect data
@@ -24,11 +16,7 @@ import net.sf.memoranda.Defect;
  * @author Douglas Carroll
  *
  */
-public class DefectPieChart extends PieChartPopulatedPanel{
-	private static final long serialVersionUID = 120L;
-	
-	public static final String TITLE = "Defects";
-	public static final int STARTVAL = 0; // Starting value for each section
+public class DefectPieChart extends PieChart{
 	
 	// High level Categories
 	public static enum Category { 
@@ -50,6 +38,10 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		}
 	}
 	
+	public static final String TITLE = "Defects";
+	public static final int STARTVAL = 0; // Starting value
+	private static final long serialVersionUID = 120L;
+	
 	// Colors to be used for the pie charts.
 	// Should be as many colors as there are MAX sections for each category (or more).
 	private Color colors[] = {
@@ -66,45 +58,32 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 			Color.ORANGE
 			};
 	private Category cat;
-	private JToggleButton typeButton;
-	private JToggleButton disButton;
-	private JToggleButton injButton;
-	private JToggleButton sevButton;
-	private JToggleButton ocButton;
 	
 	public DefectPieChart() {
 		super(TITLE);
-		cat = Category.TYPE;
 		this.init();
 	}
 	
 	/**
-	 * Constructor to set the type of chart displayed by default
+	 * Get the category currenyl being displayed
 	 * 
-	 * @param c
+	 * @return
 	 */
-	public DefectPieChart(Category c) {
-		super(TITLE);
-		cat = c;
-		this.init();
-	}
-	
 	public Category getCat() {
 		return cat;
 	}
 
+	/**
+	 * Set the category to be displayed
+	 * 
+	 * @param cat
+	 */
 	public void setCat(Category cat) {
 		this.cat = cat;
+		update();
 	}
-
+	
 	private void init(){
-		JPanel options = getOptionsPanel();
-		JPanel buttons = new JPanel();
-		typeButton = new JToggleButton();
-		disButton = new JToggleButton();
-		injButton = new JToggleButton();
-		sevButton = new JToggleButton();
-		ocButton = new JToggleButton();
 		
 		// Toggle rotation off
 		toggleRotation(false);
@@ -121,145 +100,60 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		setLegendLabels("{0} = {1} ({2})");
 		setMouseWheelEnabled(true);
 		
-		// Setup buttons
-		typeButton.setSelected(true);
-		typeButton.setToolTipText(Category.TYPE.toString());
-		typeButton.setIcon(
-	            new ImageIcon(
-	            		net.sf.memoranda.ui.AppFrame.class.getResource(
-	            				"resources/icons/defectPieType.png"))
-	            );
-		typeButton.setBorder(null);
-		typeButton.addActionListener(new ActionListener() {
-			   public void actionPerformed(ActionEvent e) {
-				   clearButtons(typeButton);
-				   cat = Category.TYPE;
-				   updatePie();
-			   }
+		ChartData.addChangeListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				update();
+			}
+			
 		});
 		
-		disButton.setToolTipText(Category.DIS.toString());
-		disButton.setIcon(
-	            new ImageIcon(
-	            		net.sf.memoranda.ui.AppFrame.class.getResource(
-	            				"resources/icons/defectPieDis.png"))
-	            );
-		disButton.setBorder(null);
-		disButton.addActionListener(new ActionListener() {
-			   public void actionPerformed(ActionEvent e) {
-				   clearButtons(disButton);
-				   cat = Category.DIS;
-				   updatePie();
-			   }
-		});
+		cat = Category.TYPE;
 		
-		injButton.setToolTipText(Category.INJ.toString());
-		injButton.setIcon(
-	            new ImageIcon(
-	            		net.sf.memoranda.ui.AppFrame.class.getResource(
-	            				"resources/icons/defectPieInj.png"))
-	            );
-		injButton.setBorder(null);
-		injButton.addActionListener(new ActionListener() {
-			   public void actionPerformed(ActionEvent e) {
-				   clearButtons(injButton);
-				   cat = Category.INJ;
-				   updatePie();
-			   }
-		});
-		
-		sevButton.setToolTipText(Category.SEV.toString());
-		sevButton.setIcon(
-	            new ImageIcon(
-	            		net.sf.memoranda.ui.AppFrame.class.getResource(
-	            				"resources/icons/defectPieSev.png"))
-	            );
-		sevButton.setBorder(null);
-		sevButton.addActionListener(new ActionListener() {
-			   public void actionPerformed(ActionEvent e) {
-				   clearButtons(sevButton);
-				   cat = Category.SEV;
-				   updatePie();
-			   }
-		});
-		
-		ocButton.setToolTipText(Category.OC.toString());
-		ocButton.setIcon(
-	            new ImageIcon(
-	            		net.sf.memoranda.ui.AppFrame.class.getResource(
-	            				"resources/icons/defectPieOC.png"))
-	            );
-		ocButton.setBorder(null);
-		ocButton.addActionListener(new ActionListener() {
-			   public void actionPerformed(ActionEvent e) {
-				   clearButtons(ocButton);
-				   cat = Category.OC;
-				   updatePie();
-			   }
-		});
-		
-		// Put the defect unique options on the panel
-		// Uncomment below to put button on the bottom of the panel
-		//options.add(Box.createVerticalGlue());
-		options.add(typeButton);
-		options.add(disButton);
-		options.add(injButton);
-		options.add(sevButton);
-		options.add(ocButton);
-		
-		updatePie();
-	}
-	
-	/**
-	 * Loads the pie chart from the saved list.
-	 * Made to be called whenever the entire chart needs to
-	 * be updated.
-	 * 
-	 * Should be called when defect chart is selected or 
-	 * when a new type of defect chart is chosen.
-	 */
-	public void updatePie(){
-		setChartView();
 		update();
 	}
 	
 	// Set the chart type based on user selection
-	private void setChartView(){
-		ArrayList<Defect> defList = CurrentProject.getDefectList().getAllDefects();
-		
-		clearData(); // Wipe data in the pie chart
-		
-		switch(cat){
-		case TYPE:
-			showTypeView(defList);
-			break;
-		case DIS:
-			showDisView(defList);
-			break;
-		case INJ:
-			showInjectionView(defList);
-			break;
-		case SEV:
-			showSeverityView(defList);
-			break;
-		case OC:
-			showOpenCloseyView(defList);
-			break;
-		default:
-			showTypeView(defList);
-			break;
+		private void setChartView(){
+			ArrayList<Defect> defList = CurrentProject.getDefectList().getAllDefects();
+			
+			clearData(); // Wipe data in the pie chart
+			
+			switch(cat){
+			case TYPE:
+				showTypeView(defList);
+				break;
+			case DIS:
+				showDisView(defList);
+				break;
+			case INJ:
+				showInjectionView(defList);
+				break;
+			case SEV:
+				showSeverityView(defList);
+				break;
+			case OC:
+				showOpenCloseyView(defList);
+				break;
+			default:
+				showTypeView(defList);
+				break;
+			}
 		}
-	}
 	
-	// Show the type view of the pie
-	private void showTypeView(ArrayList<Defect> dl){
+	/**
+	 * Show the type pie chart.
+	 * 
+	 * @param dl
+	 */
+	public void showTypeView(ArrayList<Defect> dl){
 
 		setTitle("Defects by Type");
 		
 		int i = 0;
 		// Load pie data sets and set to empty
 		for(Defect.TYPE ty : Defect.TYPE.values()){
-			insertNewData(ty.toString(), STARTVAL);
+			insertNewData(ty.toString(), DefectPieChart.STARTVAL);
 			setColor(ty.toString(), colors[i]);
 			i++;
 		}
@@ -272,15 +166,19 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 	}
 	
-	// Show the discovery view of the pie
-	private void showDisView(ArrayList<Defect> dl){
+	/**
+	 * Show the discovery pie chart.
+	 * 
+	 * @param dl
+	 */
+	public void showDisView(ArrayList<Defect> dl){
 	
 		setTitle("Defects by Discovery");
-		
+	
 		int i = 0;
 		// Load pie data sets and set to empty
 		for(Defect.DISCOVERY dis : Defect.DISCOVERY.values()){
-			insertNewData(dis.toString(), STARTVAL);
+			insertNewData(dis.toString(), DefectPieChart.STARTVAL);
 			setColor(dis.toString(), colors[i]);
 			i++;
 		}
@@ -292,15 +190,20 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		}
 		
 	}
-	// Show the injection view of the pie
-	private void showInjectionView(ArrayList<Defect> dl){
+	
+	/**
+	 * Show the Injection pie chart.
+	 * 
+	 * @param dl
+	 */
+	public void showInjectionView(ArrayList<Defect> dl){
 
 		setTitle("Defects by Injection");
 		
 		int i = 0;
 		// Load pie data sets and set to empty
 		for(Defect.INJECTION inj : Defect.INJECTION.values()){
-			insertNewData(inj.toString(), STARTVAL);
+			insertNewData(inj.toString(), DefectPieChart.STARTVAL);
 			setColor(inj.toString(), colors[i]);
 			i++;
 		}
@@ -313,14 +216,18 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 	}
 	
-	// Show the severity view of the pie
-	private void showSeverityView(ArrayList<Defect> dl){
+	/**
+	 * Show the severity pie chart.
+	 * 
+	 * @param dl
+	 */
+	public void showSeverityView(ArrayList<Defect> dl){
 		
 		setTitle("Defects by Severity");
 		
 		// Load pie data sets and set to empty
 		for(Defect.SEVERITY sev : Defect.SEVERITY.values()){
-			insertNewData(sev.toString(), STARTVAL);
+			insertNewData(sev.toString(), DefectPieChart.STARTVAL);
 		}
 		
 		// Set colors for severity
@@ -336,17 +243,21 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		
 	}
 	
-	// Show the open close view of the pie
-	private void showOpenCloseyView(ArrayList<Defect> dl){
+	/**
+	 * Show the open/close pie chart.
+	 * 
+	 * @param dl
+	 */
+	public void showOpenCloseyView(ArrayList<Defect> dl){
 		
 		setTitle("Open/Closed Defects");
 		
 		String open = "Open";
 		String closed = "Closed";
 		
-		insertNewData(open, STARTVAL);
+		insertNewData(open, DefectPieChart.STARTVAL);
 		setColor(open, Color.WHITE);
-		insertNewData(closed, STARTVAL);
+		insertNewData(closed, DefectPieChart.STARTVAL);
 		setColor(closed, Color.GREEN);
 		
 		// Load values
@@ -360,17 +271,9 @@ public class DefectPieChart extends PieChartPopulatedPanel{
 		}
 		
 	}
-
-	// Clear all button states except the one that is selected
-	private void clearButtons(JToggleButton btn){
-		typeButton.setSelected(false);
-		disButton.setSelected(false);
-		injButton.setSelected(false);
-		sevButton.setSelected(false);
-		ocButton.setSelected(false);
-		
-		btn.setSelected(true);
+	
+	public void update(){
+		setChartView();
+		super.update();
 	}
-
-
 }

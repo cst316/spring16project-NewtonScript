@@ -27,34 +27,24 @@ import org.jfree.data.gantt.TaskSeriesCollection;
  * 
  * @author Douglas Carroll
  */
-public class GanttChart extends JPanel {
+public class GanttChart extends Chart {
 
 	public static final double MAXBARSIZE = 0.05;
 	public static final int PNGWIDTH = 1200;
 	public static final int PNGHEIGHT = 800;
 	private static final long serialVersionUID = 189L;
-	private JFreeChart chart;
-	private ChartPanel chartPanel;
 	private TaskSeriesCollection data;
 	private String title;
 	private String domainLabel;
 	private String rangeLabel;
 	
 	public GanttChart(String title, String domain, String range){
-		this.title = title;
+		super(title);
 		domainLabel = domain;
 		rangeLabel = range;
 		init();
 	}
 	
-	public JFreeChart getChart() {
-		return chart;
-	}
-
-	public void setChart(JFreeChart chart) {
-		this.chart = chart;
-	}
-
 	public TaskSeriesCollection getData() {
 		return data;
 	}
@@ -73,53 +63,6 @@ public class GanttChart extends JPanel {
 	
 	public void setSeriesColor(int seriesNum, Color c){
 		chart.getCategoryPlot().getRenderer().setSeriesPaint(seriesNum, c);
-	}
-	
-	/**
-	 * Allows user to save the file as a png.
-	 */
-	public void exportPNG(){
-		String path = "(Path undefined)"; // Start with invalid path label.
-		
-		try{
-			JFileChooser fc = new JFileChooser();
-			fc.setDialogType(JFileChooser.SAVE_DIALOG);
-			fc.addChoosableFileFilter(new FileNameExtensionFilter("png", "png"));
-			fc.setFileHidingEnabled(true); // Hide the users hidden files
-			int res = fc.showOpenDialog(App.getFrame());
-			
-			if(res == JFileChooser.APPROVE_OPTION){
-				path = fc.getSelectedFile() + ".png";
-				File selection = new File(path);
-				// API utility to save to PNG
-				ChartUtilities.saveChartAsPNG(selection, chart, PNGWIDTH, PNGHEIGHT);
-				// Confirm box
-				JOptionPane.showMessageDialog(App.getFrame(), 
-						"File Saved to " + fc.getSelectedFile());
-			}
-		} catch (NullPointerException e) {
-			// Use the memoranda exception dialog to inform the user
-            new ExceptionDialog(
-	                    e,
-	                    "Failed to create file at" + path + ".",
-	                    "Please try again."
-                    );
-		} catch (HeadlessException e) {
-			// Use the memoranda exception dialog to inform the user
-            new ExceptionDialog(
-	                    e,
-	                    "Failed to open dialog.",
-	                    ""
-                    );
-		} catch (IOException e) {
-			// Use the memoranda exception dialog to inform the user
-            new ExceptionDialog(
-	                    e,
-	                    "Exporting PNG to " + path + " failed.",
-	                    "Please try again."
-                    );
-		}
-		
 	}
 
 	private void init(){
@@ -140,20 +83,4 @@ public class GanttChart extends JPanel {
 		chartPanel.setVisible(true);
 	}
 	
-	/**
-	 * Updates the gantt chart
-	 */
-	public void update(){
-		chart.fireChartChanged();
-		chartPanel.updateUI();
-		updateUI();
-	}
-	
-	// Setting these will force the chart to maintain it's aspect ratio
-	private void fixAspectRatio(){
-		chartPanel.setMinimumDrawWidth(0);
-        chartPanel.setMaximumDrawWidth(Integer.MAX_VALUE);
-        chartPanel.setMinimumDrawHeight(0);
-        chartPanel.setMaximumDrawHeight(Integer.MAX_VALUE);
-	}
 }
