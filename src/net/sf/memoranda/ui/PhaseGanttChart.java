@@ -72,10 +72,11 @@ public class PhaseGanttChart extends GanttChart{
 	public void update(){
 		clearData();
 		loadData();
+		super.update();
 	}
 
 	private void clearData(){
-		getData().remove(0);
+		getData().removeAll();
 	}
 
 }
