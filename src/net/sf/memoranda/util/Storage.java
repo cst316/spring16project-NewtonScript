@@ -90,5 +90,6 @@ public interface Storage {
      * @param tsp
      * @param prj
      */
-    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);       
+    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);
+
 }
