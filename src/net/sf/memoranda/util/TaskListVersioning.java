@@ -5,6 +5,7 @@
 package net.sf.memoranda.util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -14,6 +15,7 @@ import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.Task;
 import net.sf.memoranda.TaskImpl;
+import net.sf.memoranda.TaskList;
 import nu.xom.Attribute;
 import nu.xom.DocType;
 import nu.xom.Document;
@@ -164,22 +166,35 @@ public class TaskListVersioning {
          
          PhaseList pl = new PhaseList(project);
          Phase defaultPhase = pl.getDefault();
+         TaskList tl = defaultPhase.getTaskList();
          
          for(int j = 0; j < tasks.size(); j++){
         	 Task task = new TaskImpl(tasks.get(j), null);
-        	 defaultPhase.getTaskList().createTask(
-        			 task.getStartDate() == null ? project.getStartDate() : task.getStartDate(), 
-                	 task.getEndDate() == null ? project.getEndDate() : task.getEndDate(), 
-        			 task.getText(), 
-        			 task.getPriority(), 
-        			 task.getEffort(), 
-        			 task.getDescription(), 
-        			 defaultPhase, 
-        			 defaultPhase.getText()
-        	);
+        	 task.setPhaseTitle(defaultPhase.getText());
+        	 task.setOwner("");
+        	 // Set the tasks new phase element as default
+        	 task.getContent().detach();
+        	 defaultPhase.getContent().appendChild(task.getContent());
+        	 tl.addElement(task.getContent());
+        	 
+        	
+        	 // Grab all sub tasks of this task
+        	 loadAllSubs(task);
+        	
          }
          doc = pl.getXMLContent();
          doc.setDocType(getCurrentDocType());
          FileStorage.saveDocument(doc, filePath);
-	} 
+	}
+	
+	// Recursive function to grab all sub tasks and assign phase
+	private static void loadAllSubs(Task task){
+		Elements subElems = task.getContent().getChildElements("task");
+		for(int k = 0; k < subElems.size(); k++){
+    		Task subTask = new TaskImpl(subElems.get(k), null);
+       	 	subTask.setOwner("");
+    		subTask.setPhaseTitle(task.getPhaseTitle());
+    		loadAllSubs(subTask);
+    	}
+	}
 }

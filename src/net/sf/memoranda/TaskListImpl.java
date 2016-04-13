@@ -52,6 +52,10 @@ public class TaskListImpl implements TaskList {
 	public Project getProject() {
 		return _project;
 	}
+	
+	public Element getRoot(){
+		return _root;
+	}
 		
 	/*
 	 * Build the hashtable recursively
@@ -143,7 +147,7 @@ public class TaskListImpl implements TaskList {
         return task;
     }
     
-    public Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, Phase parentPhase, String phase) {
+    public Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, Task parentTask, String phase) {
         Element el = new Element("task");
         el.addAttribute(new Attribute("startDate", startDate.toString()));
         el.addAttribute(new Attribute("endDate", endDate != null? endDate.toString():""));
@@ -162,12 +166,12 @@ public class TaskListImpl implements TaskList {
         desc.appendChild(description);
         el.appendChild(desc);
 
-        if (parentPhase == null) {
+        if (parentTask == null) {
             _root.appendChild(el);
             Util.debug("Created task without parent.");
         }
         else {
-            Element parent = parentPhase.getContent();
+            Element parent = parentTask.getContent();
             Util.debug("Created task with parent " + parent.getFirstChildElement("text").getValue());
             parent.appendChild(el);
         }
