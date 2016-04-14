@@ -16,6 +16,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 public class ExportSticker {
+	
 
         private String name; 
         
@@ -36,15 +37,15 @@ public class ExportSticker {
         }*/
         
         public ExportSticker(String x) {
-                this.name = remove1(x);
+                this.name = x;
         }
 
         /**
          * Function to eliminate special chars from a string
          */
-        public static String remove1(String input) {
+        /*public static String remove1(String input) {
             
-            String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
+            String original = "Ã¡Ã Ã¤Ã©Ã¨Ã«Ã­Ã¬Ã¯Ã³Ã²Ã¶ÃºÃ¹uÃ±Ã�Ã€Ã„Ã‰ÃˆÃ‹Ã�ÃŒÃ�Ã“Ã’Ã–ÃšÃ™ÃœÃ‘Ã§Ã‡";
             
             String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
             String output = input;
@@ -53,7 +54,7 @@ public class ExportSticker {
                 output = output.replace(original.charAt(i), ascii.charAt(i));
             }
             return output;
-        }
+        }*/
         
         public boolean export(String src){
                 boolean result = true;
@@ -69,12 +70,12 @@ public class ExportSticker {
                         fwrite.write(contents);
                         
                         fwrite.close();
-                        JOptionPane.showMessageDialog(null,Local.getString("Documento creado con exito en su carpeta Memoranda =D"));
+                        JOptionPane.showMessageDialog(null,Local.getString("Document has been successfully created."));
             
             
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null,Local.getString("NO Logramos crear su documento =(..."));
+            JOptionPane.showMessageDialog(null,Local.getString("Failed to create your document."));
         }
                 
                 
