@@ -34,6 +34,7 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
+import net.sf.memoranda.UsersList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -265,6 +266,13 @@ public class AgendaPanel extends JPanel {
 			public void projectWasChanged() {
 				if (isActive)
 					refresh(CurrentDate.get());
+			}
+
+			@Override
+			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
+					TestCaseList tc, DefectList dl, UsersList ul) {
+				// TODO Auto-generated method stub
+				
 			}});
 		EventsScheduler.addListener(new EventNotificationListener() {
 			public void eventIsOccured(net.sf.memoranda.Event ev) {

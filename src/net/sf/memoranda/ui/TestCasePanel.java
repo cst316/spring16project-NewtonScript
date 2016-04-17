@@ -16,6 +16,7 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TestCase;
 import net.sf.memoranda.TestCaseImpl;
 import net.sf.memoranda.TestCaseList;
+import net.sf.memoranda.UsersList;
 import net.sf.memoranda.TestCase.STATUS;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
@@ -82,6 +83,13 @@ public class TestCasePanel extends JPanel {
             public void projectWasChanged() {
             	updateTable();
             }
+
+			@Override
+			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
+					TestCaseList tc, DefectList dl, UsersList ul) {
+				// TODO Auto-generated method stub
+				
+			}
         });
 
 		setLayout(new BorderLayout());

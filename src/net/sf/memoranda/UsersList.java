@@ -1,6 +1,6 @@
 package net.sf.memoranda;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Vector;
 
 import nu.xom.Document;

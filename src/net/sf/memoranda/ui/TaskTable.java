@@ -117,6 +117,13 @@ public class TaskTable extends JTable {
                 //initTable();
 				tableChanged();
             }
+
+			@Override
+			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
+					TestCaseList tc, DefectList dl, UsersList ul) {
+				// TODO Auto-generated method stub
+				
+			}
         });
   
     }
