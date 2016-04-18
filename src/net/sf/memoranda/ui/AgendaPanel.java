@@ -259,7 +259,8 @@ public class AgendaPanel extends JPanel {
 					ResourcesList rl,
 					PhaseList pl,
 					TestCaseList tc,
-					DefectList dl
+					DefectList dl,
+					UsersList ul
 					) {
 			}
 
