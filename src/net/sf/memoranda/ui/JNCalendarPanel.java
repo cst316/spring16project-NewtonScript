@@ -218,16 +218,10 @@ public class JNCalendarPanel extends JPanel {
     });
     CurrentProject.addProjectListener(new ProjectListener() {
             public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, 
-            		TestCaseList tc, DefectList dl) {}
+            		TestCaseList tc, DefectList dl, UsersList ul) {}
             	public void projectWasChanged() {
             		jnCalendar.updateUI();
             }
-				@Override
-				public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-						TestCaseList tc, DefectList dl, UsersList ul) {
-					// TODO Auto-generated method stub
-					
-				}
         });
 
 

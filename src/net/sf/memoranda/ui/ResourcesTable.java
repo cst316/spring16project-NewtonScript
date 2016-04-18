@@ -48,18 +48,13 @@ public class ResourcesTable extends JTable {
         initColumsWidth();
         //this.setModel(new ResourcesTableModel());
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {                
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, 
+            		PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {                
 
             }
             public void projectWasChanged() {
                  tableChanged();
             }
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
-			}
         });
     }
 

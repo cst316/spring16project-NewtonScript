@@ -118,16 +118,11 @@ public class SearchPanel extends JPanel {
         jPanel4.add(regexpCB, BorderLayout.CENTER);
         jPanel3.add(searchB, BorderLayout.SOUTH);
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, 
+            		PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {
                 notesList.update(new Vector());
             }
             public void projectWasChanged() {}
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
-			}
         });
         //notesList.update(new Vector());
 

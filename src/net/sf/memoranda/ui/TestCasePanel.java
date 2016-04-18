@@ -16,7 +16,6 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TestCase;
 import net.sf.memoranda.TestCaseImpl;
 import net.sf.memoranda.TestCaseList;
-import net.sf.memoranda.UsersList;
 import net.sf.memoranda.TestCase.STATUS;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
@@ -24,6 +23,8 @@ import net.sf.memoranda.date.DateListener;
 import net.sf.memoranda.util.CurrentStorage;
 import nu.xom.Attribute;
 import nu.xom.Element;
+import net.sf.memoranda.UsersList;
+
 /*
  * Created by JFormDesigner on Sat Feb 27 19:42:23 MST 2016
  */
@@ -76,20 +77,13 @@ public class TestCasePanel extends JPanel {
         });
         CurrentProject.addProjectListener(new ProjectListener() {
             public void projectChange(Project p, NoteList nl, TaskList tl, 
-            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {
 
             }
 
             public void projectWasChanged() {
             	updateTable();
             }
-
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
-			}
         });
 
 		setLayout(new BorderLayout());

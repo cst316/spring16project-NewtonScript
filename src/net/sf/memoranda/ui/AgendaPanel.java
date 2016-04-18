@@ -34,7 +34,6 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
-import net.sf.memoranda.UsersList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -42,6 +41,7 @@ import net.sf.memoranda.util.AgendaGenerator;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
+import net.sf.memoranda.UsersList;
 import nu.xom.Element;
 
 /*$Id: AgendaPanel.java,v 1.11 2005/02/15 16:58:02 rawsushi Exp $*/
@@ -267,13 +267,6 @@ public class AgendaPanel extends JPanel {
 			public void projectWasChanged() {
 				if (isActive)
 					refresh(CurrentDate.get());
-			}
-
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
 			}});
 		EventsScheduler.addListener(new EventNotificationListener() {
 			public void eventIsOccured(net.sf.memoranda.Event ev) {

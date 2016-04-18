@@ -15,9 +15,9 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import net.sf.memoranda.UsersList;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.UsersList;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
 
@@ -50,8 +50,6 @@ public class WorkPanel extends JPanel {
 	public JButton testcaseB = new JButton();
 	public JButton statsB = new JButton();
 	public JButton usersB = new JButton(); //Button for system users
-	SystemUsersDialog sysUser; // System Users dialog
-	//UsersList userList = UsersList.getInstance(); //List of system users
 	
 	JButton currentB = null;
 	Border border1;

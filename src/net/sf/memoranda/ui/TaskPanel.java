@@ -38,7 +38,6 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
-import net.sf.memoranda.UsersList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -46,6 +45,8 @@ import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
+import net.sf.memoranda.UsersList;
+
 
 /*$Id: TaskPanel.java,v 1.27 2007/01/17 20:49:12 killerjoe Exp $*/
 public class TaskPanel extends JPanel {
@@ -370,19 +371,14 @@ public class TaskPanel extends JPanel {
             }
         });
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, 
+            		PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {
                 newTaskB.setEnabled(
                     CurrentDate.get().inPeriod(p.getStartDate(), p.getEndDate()));
             }
             public void projectWasChanged() {
             	//taskTable.setCurrentRootTask(null); //XXX
             }
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
-			}
         });
         taskTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {

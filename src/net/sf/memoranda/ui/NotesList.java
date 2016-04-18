@@ -25,11 +25,11 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
-import net.sf.memoranda.UsersList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
 import net.sf.memoranda.util.Configuration;
+import net.sf.memoranda.UsersList;
 //import net.sf.memoranda.util.NotesVectorSorter;
 
 /*$Id: NotesList.java,v 1.9 2005/05/05 16:19:16 ivanrise Exp $*/
@@ -65,18 +65,13 @@ public class NotesList extends JList {
         });
 
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+            public void projectChange(Project p, NoteList nl, TaskList tl, 
+            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {
 
             }
             public void projectWasChanged() {
                 update();
             }
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
-			}
         });
         this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
