@@ -23,7 +23,6 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.PhaseList;
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.TestCaseList;
-import net.sf.memoranda.UsersList;
 import net.sf.memoranda.ui.table.TableSorter;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.MimeType;
@@ -54,12 +53,6 @@ public class ResourcesTable extends JTable {
             public void projectWasChanged() {
                  tableChanged();
             }
-			@Override
-			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph,
-					TestCaseList tc, DefectList dl, UsersList ul) {
-				// TODO Auto-generated method stub
-				
-			}
         });
     }
 

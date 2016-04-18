@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-
-import net.sf.memoranda.UsersImpl;
-import net.sf.memoranda.UsersList;
  
 public class SystemUsersDialog extends JDialog
                       implements ListSelectionListener {
@@ -19,19 +16,19 @@ public class SystemUsersDialog extends JDialog
     private JButton addB;
     private JButton removeB;
     private JTextField userName;
-    //UsersList myUsers = UsersList.getInstance();
+    UsersList myUsers = UsersList.getInstance();
  
     public SystemUsersDialog(Frame appFrame, String title) {
         super(appFrame, title);
         
-       // myPanel = new JPanel(new BorderLayout());
-        //listModel = new DefaultListModel();
-        //if(!myUsers.isEmpty()) {
-        	//String[] tmpList = myUsers.getNames();
-        	//for(int i = 0; i < tmpList.length; i++) {
-        		//listModel.addElement(tmpList[i]);
-        	//}
-       // }
+        myPanel = new JPanel(new BorderLayout());
+        listModel = new DefaultListModel();
+        if(!myUsers.isEmpty()) {
+        	String[] tmpList = myUsers.getNames();
+        	for(int i = 0; i < tmpList.length; i++) {
+        		listModel.addElement(tmpList[i]);
+        	}
+        }
  
         //Create the list and put it in a scroll pane.
         list = new JList(listModel);
@@ -96,7 +93,7 @@ public class SystemUsersDialog extends JDialog
     class RemoveButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int index = list.getSelectedIndex();
-            //myUsers.remove(listModel.get(index).toString());
+            myUsers.remove(listModel.get(index).toString());
             listModel.remove(index);
  
             int size = listModel.getSize();
@@ -143,7 +140,7 @@ public class SystemUsersDialog extends JDialog
             } else {  
                 index++;
             }
-            //myUsers.add(userName.getText());
+            myUsers.add(userName.getText());
             listModel.insertElementAt(userName.getText(), index);
  
             //Reset the text field.
