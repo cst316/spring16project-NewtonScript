@@ -12,6 +12,7 @@ import org.jfree.data.gantt.TaskSeriesCollection;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Phase;
+import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.ChartData;
 
 /**
@@ -49,7 +50,12 @@ public class PhaseGanttChart extends GanttChart{
 		TaskSeries phases = new TaskSeries("Scheduled");
 		DateAxis axis = (DateAxis) getPlot().getRangeAxis();
 		axis.setMinimumDate(CurrentProject.get().getStartDate().getDate());
-		axis.setMaximumDate(CurrentProject.get().getEndDate().getDate());
+		if(CurrentProject.get().getEndDate().getDate() != null){
+			axis.setMaximumDate(CurrentProject.get().getEndDate().getDate());
+		}
+		else{
+			axis.setMaximumDate(CalendarDate.today().getDate());
+		}
 		//axis.setDateFormatOverride(new SimpleDateFormat());
 
 		
