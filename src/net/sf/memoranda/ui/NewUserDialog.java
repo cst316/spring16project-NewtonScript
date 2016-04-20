@@ -5,6 +5,18 @@
  */
 package net.sf.memoranda.ui;
 import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.UIManager;
+import javax.swing.JButton;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -17,6 +29,7 @@ public class NewUserDialog extends javax.swing.JDialog {
      */
     public NewUserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setResizable(false);
         initComponents();
     }
 
@@ -49,10 +62,10 @@ public class NewUserDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
+        jPanel1.setBackground(Color.DARK_GRAY);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.CYAN, Color.BLUE));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
@@ -79,10 +92,10 @@ public class NewUserDialog extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Phone Number:");
 
-        fistName.setBackground(new java.awt.Color(153, 255, 255));
+        fistName.setBackground(Color.LIGHT_GRAY);
         fistName.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
         fistName.setForeground(new java.awt.Color(0, 0, 0));
-        fistName.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        fistName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         fistName.setCaretColor(new java.awt.Color(0, 0, 0));
         fistName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         fistName.addActionListener(new java.awt.event.ActionListener() {
@@ -91,31 +104,31 @@ public class NewUserDialog extends javax.swing.JDialog {
             }
         });
 
-        lastName.setBackground(new java.awt.Color(153, 255, 255));
+        lastName.setBackground(Color.LIGHT_GRAY);
         lastName.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
         lastName.setForeground(new java.awt.Color(0, 0, 0));
-        lastName.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        lastName.setBorder(new LineBorder(Color.DARK_GRAY, 1, true));
         lastName.setCaretColor(new java.awt.Color(0, 0, 0));
         lastName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        department.setBackground(new java.awt.Color(153, 255, 255));
+        department.setBackground(Color.LIGHT_GRAY);
         department.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
         department.setForeground(new java.awt.Color(0, 0, 0));
-        department.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        department.setBorder(new LineBorder(Color.DARK_GRAY, 1, true));
         department.setCaretColor(new java.awt.Color(0, 0, 0));
         department.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jobTitle.setBackground(new java.awt.Color(153, 255, 255));
+        jobTitle.setBackground(Color.LIGHT_GRAY);
         jobTitle.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
         jobTitle.setForeground(new java.awt.Color(0, 0, 0));
-        jobTitle.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        jobTitle.setBorder(new LineBorder(Color.DARK_GRAY, 1, true));
         jobTitle.setCaretColor(new java.awt.Color(0, 0, 0));
         jobTitle.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        phoneNumber.setBackground(new java.awt.Color(153, 255, 255));
+        phoneNumber.setBackground(Color.LIGHT_GRAY);
         phoneNumber.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
         phoneNumber.setForeground(new java.awt.Color(0, 0, 0));
-        phoneNumber.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        phoneNumber.setBorder(new LineBorder(Color.DARK_GRAY, 1, true));
         phoneNumber.setCaretColor(new java.awt.Color(0, 0, 0));
         phoneNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         phoneNumber.addActionListener(new java.awt.event.ActionListener() {
@@ -124,76 +137,100 @@ public class NewUserDialog extends javax.swing.JDialog {
             }
         });
 
-        email.setBackground(new java.awt.Color(153, 255, 255));
+        email.setBackground(Color.LIGHT_GRAY);
         email.setFont(new java.awt.Font("Hiragino Sans GB", 0, 14)); // NOI18N
         email.setForeground(new java.awt.Color(0, 0, 0));
-        email.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        email.setBorder(new LineBorder(new Color(64, 64, 64), 1, true));
         email.setCaretColor(new java.awt.Color(0, 0, 0));
         email.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        
+        JButton addUser = new JButton("Add User");
+        addUser.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		
+        	UserPanel.getUserFunctionality().addRow(fistName, lastName, department, jobTitle, email, phoneNumber);
+        		
+  
+        	}
+        });
+        
+        addUser.setToolTipText("Add a user to the table");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(phoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5))
-                            .addGap(52, 52, 52)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(fistName)
-                                .addComponent(lastName, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                                .addComponent(department)
-                                .addComponent(jobTitle)))
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel2Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addContainerGap()
+        					.addComponent(addUser))
+        				.addGroup(Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+        					.addGap(37)
+        					.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel2Layout.createSequentialGroup()
+        							.addComponent(jLabel6)
+        							.addPreferredGap(ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+        							.addComponent(email, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+        						.addComponent(jLabel4, Alignment.TRAILING)
+        						.addGroup(Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        							.addComponent(jLabel7)
+        							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(phoneNumber, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+        						.addGroup(Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        							.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jLabel1)
+        								.addComponent(jLabel2)
+        								.addComponent(jLabel3)
+        								.addComponent(jLabel5))
+        							.addGap(52)
+        							.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING, false)
+        								.addComponent(fistName)
+        								.addComponent(lastName, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+        								.addComponent(department)
+        								.addComponent(jobTitle))))))
+        			.addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(fistName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jobTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(phoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+        	jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel2Layout.createSequentialGroup()
+        			.addGap(35)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel1)
+        				.addComponent(fistName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGap(25)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel2)
+        				.addComponent(lastName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGap(25)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel3)
+        				.addComponent(department, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGap(25)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel5)
+        				.addComponent(jobTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGap(25)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(phoneNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel7))
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addGap(18)
+        					.addComponent(jLabel4))
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addGap(26)
+        					.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jLabel6)
+        						.addComponent(email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+        			.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+        			.addComponent(addUser)
+        			.addGap(14))
         );
+        jPanel2.setLayout(jPanel2Layout);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Color.CYAN, Color.BLUE));
 
         jLabel8.setFont(new java.awt.Font("Hiragino Sans GB", 1, 36)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -217,36 +254,36 @@ public class NewUserDialog extends javax.swing.JDialog {
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        	jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(jPanel2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+        				.addComponent(jPanel3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        			.addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+        			.addContainerGap())
         );
+        jPanel1.setLayout(jPanel1Layout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
         );
+        getContentPane().setLayout(layout);
 
         pack();
     }// </editor-fold>                        
@@ -319,5 +356,4 @@ public class NewUserDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jobTitle;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField phoneNumber;
-    // End of variables declaration                   
 }

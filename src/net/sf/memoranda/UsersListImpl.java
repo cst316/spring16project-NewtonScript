@@ -131,4 +131,18 @@ public class UsersListImpl implements UsersList {
 	public Document getXMLContent() {
 		return doc;
 	}
+	
+	public int getNextid(){
+		int result = 0;
+		int id;
+		
+		for(String key : elements.keySet()){
+			id = Integer.parseInt(key);
+			if(result < id){
+				result = id;
+			}
+		}
+		
+		return result + 1;
+	}
 }
