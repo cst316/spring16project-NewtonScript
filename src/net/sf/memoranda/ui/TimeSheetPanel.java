@@ -283,6 +283,7 @@ public class TimeSheetPanel extends JPanel implements Serializable {
                 int i, j;
                 tabbedPane.setBounds(12, 115, 964, 917);
                 
+                try{
                 tabbedPane.addTab("January", null, panel, null);
                 GridBagLayout gbl_panel = new GridBagLayout();
                 gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -955,6 +956,10 @@ public class TimeSheetPanel extends JPanel implements Serializable {
                         JTextField textField = new JTextField();
                         panel_11.add(textField, gbc_textField);
                 	}
+                }
+                }
+                catch (Exception e){
+                	e.getMessage();
                 }
                 setLayout(null);
                 add(toolBar);
