@@ -200,7 +200,7 @@ public class DefectTable extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Closed Defects", jPanel4);
 
-        addDefect.setText("Add Defect");
+        addDefect.setText("Add");
         addDefect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	addDefectActionPerformed(evt);
@@ -210,28 +210,28 @@ public class DefectTable extends javax.swing.JPanel {
             }
         });
 
-        inspectDefect.setText("Inspect Defect");
+        inspectDefect.setText("Inspect");
         inspectDefect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inspectDefectActionPerformed(evt);
             }
         });
 
-        editDefect.setText("Edit Defect");
+        editDefect.setText("Edit");
         editDefect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editDefectActionPerformed(evt);
             }
         });
 
-        completeDefect.setText("Complete Defect");
+        completeDefect.setText("Complete");
         completeDefect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 completeDefectActionPerformed(evt);
             }
         });
 
-        deleteDefect.setText("Delete Defect");
+        deleteDefect.setText("Delete");
         deleteDefect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteDefectActionPerformed(evt);
