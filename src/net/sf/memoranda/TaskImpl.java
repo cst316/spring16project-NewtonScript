@@ -44,7 +44,14 @@ public class TaskImpl implements Task, Comparable {
     }
 
     public CalendarDate getStartDate() {
-        return new CalendarDate(_element.getAttribute("startDate").getValue());
+		String str = _element.getAttribute("startDate").getValue();
+		CalendarDate cal;
+		if(str.isEmpty()){
+			cal = null;
+		} else {
+			cal = new CalendarDate(str);
+		}
+		return cal;
     }
 
     public void setStartDate(CalendarDate date) {
@@ -52,8 +59,14 @@ public class TaskImpl implements Task, Comparable {
     }
     
     public CalendarDate getEndDate() {
-		return new CalendarDate(_element.getAttribute("endDate").getValue());
-        
+		String str = _element.getAttribute("endDate").getValue();
+		CalendarDate cal;
+		if(str.isEmpty()) {
+			cal = null;
+		} else {
+			cal = new CalendarDate(str);
+		}
+		return cal;
     }
     
     // Sets the default start/end date based on the old getters functionality

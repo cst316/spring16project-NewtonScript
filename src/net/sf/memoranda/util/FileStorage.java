@@ -291,7 +291,8 @@ public class FileStorage implements Storage {
                     + ".tasklist");
             
             Document tasklistDoc = openDocument(fn);
-            /*DocType tasklistDoctype = tasklistDoc.getDocType();
+            
+            DocType tasklistDoctype = tasklistDoc.getDocType();
             String publicId = null;
             if (tasklistDoctype != null) {
                 publicId = tasklistDoctype.getPublicID();
@@ -300,7 +301,8 @@ public class FileStorage implements Storage {
             if (upgradeOccurred) {
                 // reload from new file
                 tasklistDoc = openDocument(fn);
-            }*/
+            }
+            
             return new PhaseList(tasklistDoc, prj);   
         }
         else {

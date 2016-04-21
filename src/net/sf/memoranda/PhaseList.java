@@ -48,6 +48,8 @@ public class PhaseList {
 		buildElements();
 	}
 	
+	
+	
 	// Build the list from file
 	private void buildElements(){
 		Elements els = root.getChildElements("task");
