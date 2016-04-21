@@ -3,6 +3,9 @@ package net.sf.memoranda.server;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
@@ -65,6 +68,17 @@ public class ServerCommCore extends UnicastRemoteObject implements ServerInterfa
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (ServerNotActiveException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void exit(){
+		try {
+			Naming.unbind(ServerStart.SERVERNAME);
+			UnicastRemoteObject.unexportObject(this, true);
+			System.exit(0);
+		} catch (Exception e){
+			System.out.println("[ERROR] Server failed to exit!");
 			e.printStackTrace();
 		}
 	}

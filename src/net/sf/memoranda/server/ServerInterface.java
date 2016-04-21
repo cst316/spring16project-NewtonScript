@@ -13,4 +13,8 @@ public interface ServerInterface extends Remote{
 	// Sets the message of the day
 	public void setMOTD(String message) throws RemoteException;
 	
+	/**
+	 * Exit the server.
+	 */
+	public void exit() throws RemoteException;
 }

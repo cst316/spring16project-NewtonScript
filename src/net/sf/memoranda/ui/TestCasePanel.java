@@ -181,41 +181,45 @@ public class TestCasePanel extends JPanel {
 		
 		//Test case dialog opens here
 		TestCaseDialog dlg = new TestCaseDialog(App.getFrame());
-		id = dlg.getSelectedID();
-		Element elem = new Element("testcase");
-		elem.addAttribute(new Attribute(TestCase.ID, id));
-		elem.addAttribute(new Attribute(TestCase.METHOD, dlg.getSelectedMethod()));
-		elem.addAttribute(new Attribute(TestCase.DES, dlg.getSelectedDescription()));
-		elem.addAttribute(new Attribute(TestCase.TC, dlg.getSelectedTestCase()));
-		elem.addAttribute(new Attribute(TestCase.ER, dlg.getSelectedExpected()));
-		elem.addAttribute(new Attribute(TestCase.AR, dlg.getSelectedActual()));
-		if(dlg.getSelectedStatus().equals("In Progress")) {
-			elem.addAttribute(new Attribute(TestCase.PASS, 
-					STATUS.INPROGRESS.toString()));
-		} else if(dlg.getSelectedStatus().equals("Passed")) {
-			elem.addAttribute(new Attribute(TestCase.PASS, 
-					STATUS.PASSED.toString()));
-		} else if(dlg.getSelectedStatus().equals("Failed")) {
-			elem.addAttribute(new Attribute(TestCase.PASS, 
-					STATUS.FAILED.toString()));
-		}
-		//---------------------------------------------
 		
+		// Only proceed if OK was pressed
+		if(!dlg.isCanceled()){
+			id = dlg.getSelectedID();
+			Element elem = new Element("testcase");
+			elem.addAttribute(new Attribute(TestCase.ID, id));
+			elem.addAttribute(new Attribute(TestCase.METHOD, dlg.getSelectedMethod()));
+			elem.addAttribute(new Attribute(TestCase.DES, dlg.getSelectedDescription()));
+			elem.addAttribute(new Attribute(TestCase.TC, dlg.getSelectedTestCase()));
+			elem.addAttribute(new Attribute(TestCase.ER, dlg.getSelectedExpected()));
+			elem.addAttribute(new Attribute(TestCase.AR, dlg.getSelectedActual()));
+			if(dlg.getSelectedStatus().equals("In Progress")) {
+				elem.addAttribute(new Attribute(TestCase.PASS, 
+						STATUS.INPROGRESS.toString()));
+			} else if(dlg.getSelectedStatus().equals("Passed")) {
+				elem.addAttribute(new Attribute(TestCase.PASS, 
+						STATUS.PASSED.toString()));
+			} else if(dlg.getSelectedStatus().equals("Failed")) {
+				elem.addAttribute(new Attribute(TestCase.PASS, 
+						STATUS.FAILED.toString()));
+			}
 		
-		// If a test case with this id exists, warn the user and don't add the test case
-		if(tcl.hasTestCase(id)){
-			JOptionPane.showMessageDialog(this, 
-					"Test case with the same ID already exists!");
-		} else {
-			// Else, do everything to add the test case
-			// Create a test case based on the above elements and add it to the table
-			tc = tcl.createTestCase(elem);
-			table.addTestCase(tc);
+			//---------------------------------------------
 			
-			save();
-			updateTable();
+			
+			// If a test case with this id exists, warn the user and don't add the test case
+			if(tcl.hasTestCase(id)){
+				JOptionPane.showMessageDialog(this, 
+						"Test case with the same ID already exists!");
+			} else {
+				// Else, do everything to add the test case
+				// Create a test case based on the above elements and add it to the table
+				tc = tcl.createTestCase(elem);
+				table.addTestCase(tc);
+				
+				save();
+				updateTable();
+			}
 		}
-		
 	}
 	
 	private void editAction() {
@@ -232,24 +236,26 @@ public class TestCasePanel extends JPanel {
 			TestCaseDialog dlg = new TestCaseDialog(App.getFrame(), tc.getID(), tc.getMethod(), 
 					tc.getDescription(), tc.getExpectedRes(), tc.getActualRes(), tc.getTestCase(),
 					tc.getStatusString());
-			
-			//Sets new dialog info to test case
-			tc.setMethod(dlg.getSelectedMethod());
-			tc.setDescription(dlg.getSelectedDescription());
-			tc.setExpectedRes(dlg.getSelectedExpected());
-			tc.setActualRes(dlg.getSelectedActual());
-			tc.setTestCase(dlg.getSelectedTestCase());
-			if(dlg.getSelectedStatus().equals("In Progress")) {
-				tc.setStatus(STATUS.INPROGRESS);
-			} else if(dlg.getSelectedStatus().equals("Passed")) {
-				tc.setStatus(STATUS.PASSED);
-			} else if(dlg.getSelectedStatus().equals("Failed")) {
-				tc.setStatus(STATUS.FAILED);
+			if(!dlg.isCanceled()){
+				//Sets new dialog info to test case
+				System.out.println(dlg.getSelectedMethod());
+				tc.setMethod(dlg.getSelectedMethod());
+				tc.setDescription(dlg.getSelectedDescription());
+				tc.setExpectedRes(dlg.getSelectedExpected());
+				tc.setActualRes(dlg.getSelectedActual());
+				tc.setTestCase(dlg.getSelectedTestCase());
+				if(dlg.getSelectedStatus().equals("In Progress")) {
+					tc.setStatus(STATUS.INPROGRESS);
+				} else if(dlg.getSelectedStatus().equals("Passed")) {
+					tc.setStatus(STATUS.PASSED);
+				} else if(dlg.getSelectedStatus().equals("Failed")) {
+					tc.setStatus(STATUS.FAILED);
+				}
+				
+				table.editTestCase(row, tc); // Update the single row
+				save();
+				updateTable();
 			}
-			
-			table.editTestCase(row, tc); // Update the single row
-			save();
-			updateTable();
 		}
 	}
 	
@@ -274,7 +280,7 @@ public class TestCasePanel extends JPanel {
 	}
 	
 	private void passAction(){
-int row = table.getSelectedRow();
+		int row = table.getSelectedRow();
 		
 		// If nothing is highlighted, warn user
 		if(row < 0){

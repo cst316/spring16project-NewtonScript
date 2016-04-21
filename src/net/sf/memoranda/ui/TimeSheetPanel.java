@@ -1,36 +1,20 @@
 package net.sf.memoranda.ui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 import java.io.File;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Resource;
 import net.sf.memoranda.util.AppList;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
@@ -40,23 +24,15 @@ import net.sf.memoranda.util.Util;
 
 import java.io.*;
 import java.awt.GridBagLayout;
+
 import javax.swing.JTextField;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 /* ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
 public class TimeSheetPanel extends JPanel implements Serializable {
-    JToolBar toolBar = new JToolBar();
-    JButton newResB = new JButton();
-    ResourcesTable resourcesTable = new ResourcesTable();
-    JButton removeResB = new JButton();
-    JScrollPane scrollPane = new JScrollPane();
-    JButton refreshB = new JButton();
-  JPopupMenu resPPMenu = new JPopupMenu();
-  JMenuItem ppRun = new JMenuItem();
-  JMenuItem ppRemoveRes = new JMenuItem();
-  JMenuItem ppNewRes = new JMenuItem();
-  JMenuItem ppRefresh = new JMenuItem();
+  private static final long serialVersionUID = 12239L;
   private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 
   private final JLabel lblDate = new JLabel("          Date          ");
@@ -167,119 +143,7 @@ public class TimeSheetPanel extends JPanel implements Serializable {
         }
     }
     void jbInit() throws Exception {
-
-
-        PopupListener ppListener = new PopupListener();
-        resPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
-    ppRun.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppRun.setText(Local.getString("Open resource")+"...");
-    ppRun.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppRun_actionPerformed(e);
-            }
-        });
-    ppRun.setEnabled(false);
-
-    ppRemoveRes.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppRemoveRes.setText(Local.getString("Remove resource"));
-    ppRemoveRes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppRemoveRes_actionPerformed(e);
-            }
-        });
-    ppRemoveRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
-    ppRemoveRes.setEnabled(false);
-    ppNewRes.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppNewRes.setText(Local.getString("New resource")+"...");
-    ppNewRes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ppNewRes_actionPerformed(e);
-            }
-        });
-    ppNewRes.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/date.png")));
-
-    ppRefresh.setFont(new java.awt.Font("Dialog", 1, 11));
-    ppRefresh.setText(Local.getString("Refresh"));
-    ppRefresh.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        ppRefresh_actionPerformed(e);
-      }
-    });
-    ppRefresh.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/error.png")));
-        resourcesTable.setSurrendersFocusOnKeystroke(true);
-        resourcesTable.setShowVerticalLines(true);
-        resourcesTable.setShowHorizontalLines(true);
-        resourcesTable.setMaximumSize(new Dimension(32767, 32767));
-        resourcesTable.setRowHeight(24);
-        scrollPane.getViewport().setBackground(Color.white);
-        scrollPane.setBounds(15, 31, 961, 72);
-        scrollPane.addMouseListener(ppListener);
-        resourcesTable.addMouseListener(ppListener);
-        
-                resourcesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                    public void valueChanged(ListSelectionEvent e) {
-                        boolean enbl = (resourcesTable.getRowCount() > 0) && (resourcesTable.getSelectedRow() > -1);
-        
-                        removeResB.setEnabled(enbl); ppRemoveRes.setEnabled(enbl);
-                        ppRun.setEnabled(enbl);
-                    }
-                });
-                toolBar.setBounds(0, 0, 976, 26);
-                toolBar.setFloatable(false);
-                newResB.setIcon(
-                    new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
-                newResB.setEnabled(true);
-                newResB.setMaximumSize(new Dimension(24, 24));
-                newResB.setMinimumSize(new Dimension(24, 24));
-                newResB.setToolTipText(Local.getString("New Timesheet"));
-                newResB.setRequestFocusEnabled(false);
-                newResB.setPreferredSize(new Dimension(24, 24));
-                newResB.setFocusable(false);
-                newResB.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        newResB_actionPerformed(e);
-                    }
-                });
-                newResB.setBorderPainted(false);
-                toolBar.addSeparator(new Dimension(8, 24));
-                toolBar.addSeparator(new Dimension(8, 24));
-                refreshB.setBorderPainted(false);
-                refreshB.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        refreshB_actionPerformed(e);
-                    }
-                });
-                refreshB.setFocusable(false);
-                refreshB.setPreferredSize(new Dimension(24, 24));
-                refreshB.setRequestFocusEnabled(false);
-                refreshB.setToolTipText(Local.getString("Refresh"));
-                refreshB.setMinimumSize(new Dimension(24, 24));
-                refreshB.setMaximumSize(new Dimension(24, 24));
-                refreshB.setEnabled(true);
-                refreshB.setIcon(
-                    new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/refreshres.png")));
-                
-                    toolBar.add(newResB, null);
-                    toolBar.addSeparator();
-                    toolBar.add(refreshB, null);
-                    removeResB.setBorderPainted(false);
-                    removeResB.setFocusable(false);
-                    removeResB.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            removeResB_actionPerformed(e);
-                        }
-                    });
-                    removeResB.setPreferredSize(new Dimension(24, 24));
-                    removeResB.setRequestFocusEnabled(false);
-                    removeResB.setToolTipText(Local.getString("Remove Time Sheet"));
-                    removeResB.setMinimumSize(new Dimension(24, 24));
-                    removeResB.setMaximumSize(new Dimension(24, 24));
-                    removeResB.setIcon(
-                        new ImageIcon(
-                            net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/agenda.png")));
-                    removeResB.setEnabled(false);
-                    toolBar.add(removeResB, null);
-                scrollPane.setViewportView(resourcesTable);
+    	
                 int i, j;
                 tabbedPane.setBounds(12, 115, 964, 917);
 
@@ -957,123 +821,16 @@ public class TimeSheetPanel extends JPanel implements Serializable {
                 	}
                 }
 
-                setLayout(null);
-                add(toolBar);
-                add(scrollPane);
-                add(tabbedPane);
+                setLayout(new BorderLayout());
+                add(tabbedPane, BorderLayout.CENTER);
+
                 
-               
-        	    
         	 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/                
                 
-                
-                	// remove resources using the DEL key
-                	resourcesTable.addKeyListener(new KeyListener() {
-                		public void keyPressed(KeyEvent e){
-                			if(resourcesTable.getSelectedRows().length>0 
-                				&& e.getKeyCode()==KeyEvent.VK_DELETE)
-                				ppRemoveRes_actionPerformed(null);
-                		}
-                		public void	keyReleased(KeyEvent e){}
-                		public void keyTyped(KeyEvent e){} 
-                	});
-    resPPMenu.add(ppRun);
-    resPPMenu.addSeparator();
-    resPPMenu.add(ppNewRes);
-    resPPMenu.add(ppRemoveRes);
-    resPPMenu.addSeparator();
-    resPPMenu.add(ppRefresh);
-    }
-    
-    
-
-    
-    
-
-    void newResB_actionPerformed(ActionEvent e) {
-        AddResourceDialog dlg = new AddResourceDialog(App.getFrame(), Local.getString("New Timesheet"));
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return;
-        if (dlg.localFileRB.isSelected()) {
-            String fpath = dlg.pathField.getText();
-            MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
-            if (mt.getMimeTypeId().equals("__UNKNOWN")) {
-                mt = addResourceType(fpath);
-                if (mt == null)
-                    return;
-            }
-            if (!checkApp(mt))
-                return;
-            // if file if projectFile, than copy the file and change url.
-            if (dlg.projectFileCB.isSelected()) {
-            	fpath = copyFileToProjectDir(fpath);
-            	CurrentProject.getResourcesList().addResource(fpath, false, true);
-            }
-            else
-            	CurrentProject.getResourcesList().addResource(fpath);            	     	
             
-            resourcesTable.tableChanged();
-        }
-        else {
-            if (!Util.checkBrowser())
-                return;
-            CurrentProject.getResourcesList().addResource(dlg.urlField.getText(), true, false);
-            resourcesTable.tableChanged();
-        }
     }
-
-    void removeResB_actionPerformed(ActionEvent e) {
-        int[] toRemove = resourcesTable.getSelectedRows();
-        String msg = "";
-        if (toRemove.length == 1)
-            msg =
-                Local.getString("Remove the shortcut to resource")
-                    + "\n'"
-                    + resourcesTable.getModel().getValueAt(toRemove[0], 0)
-                    + "'";
-
-        else
-            msg = Local.getString("Remove") + " " + toRemove.length + " " + Local.getString("shortcuts");
-        msg +=
-            "\n"
-            + Local.getString("Are you sure?");
-        int n =
-            JOptionPane.showConfirmDialog(
-                App.getFrame(),
-                msg,
-                Local.getString("Remove resource"),
-                JOptionPane.YES_NO_OPTION);
-        if (n != JOptionPane.YES_OPTION)
-            return;
-        for (int i = 0; i < toRemove.length; i++) {        	
-        		CurrentProject.getResourcesList().removeResource(
-                        ((Resource) resourcesTable.getModel().getValueAt(toRemove[i], ResourcesTable._RESOURCE)).getPath());
-        }
-        resourcesTable.tableChanged();
-    }
-
-    MimeType addResourceType(String fpath) {
-        ResourceTypeDialog dlg = new ResourceTypeDialog(App.getFrame(), Local.getString("Resource type"));
-        Dimension dlgSize = new Dimension(420, 300);
-        dlg.setSize(dlgSize);
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
-        dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
-        dlg.ext = MimeTypesList.getExtension(fpath);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED)
-            return null;
-        int ix = dlg.getTypesList().getSelectedIndex();
-        MimeType mt = (MimeType) MimeTypesList.getAllMimeTypes().toArray()[ix];
-        mt.addExtension(MimeTypesList.getExtension(fpath));
-        CurrentStorage.get().storeMimeTypesList();
-        return mt;
-    }
+    
 
     boolean checkApp(MimeType mt) {
         String appId = mt.getAppId();
@@ -1123,9 +880,6 @@ public class TimeSheetPanel extends JPanel implements Serializable {
     void runApp(String fpath) {
         MimeType mt = MimeTypesList.getMimeTypeForFile(fpath);
         if (mt.getMimeTypeId().equals("__UNKNOWN")) {
-            mt = addResourceType(fpath);
-            if (mt == null)
-                return;
         }
         if (!checkApp(mt))
             return;
@@ -1148,55 +902,6 @@ public class TimeSheetPanel extends JPanel implements Serializable {
         Util.runBrowser(url);
     }
 
-    class PopupListener extends MouseAdapter {
-
-        public void mouseClicked(MouseEvent e) {
-            if ((e.getClickCount() == 2) && (resourcesTable.getSelectedRow() > -1)) {
-                String path = (String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 3);
-                if (path.length() >0)
-                    runApp(path);
-                else
-                    runBrowser((String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 0));
-            }
-            //editTaskB_actionPerformed(null);
-        }
-
-                public void mousePressed(MouseEvent e) {
-                    maybeShowPopup(e);
-                }
-
-                public void mouseReleased(MouseEvent e) {
-                    maybeShowPopup(e);
-                }
-
-                private void maybeShowPopup(MouseEvent e) {
-                    if (e.isPopupTrigger()) {
-                        resPPMenu.show(e.getComponent(), e.getX(), e.getY());
-                    }
-                }
-
-    }
-    void refreshB_actionPerformed(ActionEvent e) {
-        resourcesTable.tableChanged();
-    }
-
-  void ppRun_actionPerformed(ActionEvent e) {
-    String path = (String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 3);
-                if (path.length() >0)
-                    runApp(path);
-                else
-                    runBrowser((String) resourcesTable.getValueAt(resourcesTable.getSelectedRow(), 0));
-  }
-  void ppRemoveRes_actionPerformed(ActionEvent e) {
-    removeResB_actionPerformed(e);
-  }
-  void ppNewRes_actionPerformed(ActionEvent e) {
-    newResB_actionPerformed(e);
-  }
-
-  void ppRefresh_actionPerformed(ActionEvent e) {
-     resourcesTable.tableChanged();
-  }
   
   /**
    * Copy a: file to the b directory of the current project

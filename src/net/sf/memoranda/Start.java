@@ -10,6 +10,8 @@ package net.sf.memoranda;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+
 import net.sf.memoranda.server.ServerStart;
 import net.sf.memoranda.ui.*;
 
@@ -34,7 +36,8 @@ public class Start {
         	System.out.println("Starting server");
     		class Server extends Thread {
     		    public void run(){
-    		      ServerStart.main(args);
+    		      ServerStart server = ServerStart.getInstance();
+    		      server.start();
     		    }
     		  }
     		Server serv = new Server();
@@ -42,7 +45,7 @@ public class Start {
     		// END DEBUG
         	
     		// Connect to the server
-        	ClientComm comm = new ClientComm(DEFAULT_IP, DEFAULT_PORT);	
+        	ClientComm comm = ClientComm.getInstance();	
             
             if ((args.length == 0) || (!args[0].equals("-m"))) {
                 app = new App(true);
@@ -54,7 +57,16 @@ public class Start {
             // Shutdown hook to gracefully exit no matter how the program closes.
             AppFrame.addExitListener(new ActionListener() {
     			public void actionPerformed(ActionEvent arg0) {
-    				
+    				try {
+    					serv.join();
+    					ClientComm.getInstance().getServer().exit();
+					} catch (RemoteException e) {
+						System.out.println("[ERROR] Server failed to exit!");
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						System.out.println("[ERROR] Server thread failed to close!");
+						e.printStackTrace();
+					}
     			}
             });
           
