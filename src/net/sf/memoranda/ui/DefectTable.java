@@ -330,16 +330,13 @@ public class DefectTable extends javax.swing.JPanel {
     
     private void addDefectActionPerformed(java.awt.event.ActionEvent evt) {   
     	
-
         NewDefectDialog addDefect = new NewDefectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
         addDefect.setVisible(true);
    }                                         
                                      
 
    private void inspectDefectActionPerformed(java.awt.event.ActionEvent evt) {
-       
-   	
-   
+
        DefectInspectDialog inspectDefect = new DefectInspectDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
        inspectDefect.setVisible(true);
    }                                             
@@ -352,7 +349,7 @@ public class DefectTable extends javax.swing.JPanel {
 
 
    private void completeDefectActionPerformed(java.awt.event.ActionEvent evt) {                                               
-   	DefectCompleteDialog completeDefect = new DefectCompleteDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+   	   DefectCompleteDialog completeDefect = new DefectCompleteDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
        completeDefect.setVisible(true);
    }       
    

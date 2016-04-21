@@ -2,6 +2,10 @@ package net.sf.memoranda.ui;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
+
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.UsersList;
 
 
 /**
@@ -178,7 +182,10 @@ public class DefectEditDialog extends javax.swing.JDialog {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>               
+    
+    
+    
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:

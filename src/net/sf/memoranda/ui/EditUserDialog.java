@@ -1,10 +1,14 @@
 package net.sf.memoranda.ui;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Users;
+import net.sf.memoranda.UsersList;
+import net.sf.memoranda.util.CurrentStorage;
 
 /**
  *
@@ -19,6 +23,17 @@ public class EditUserDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    public static UserFunctionality userFunctionality;
+    
+    JTable table = UserPanel.getUserTable();
+    int row = table.getSelectedRow();
+    String id      = (String) table.getValueAt(row, 0);
+    String first   = (String) table.getValueAt(row, 1);
+    String last    = (String) table.getValueAt(row, 2);
+    String depart  = (String) table.getValueAt(row, 3);
+    String ttl     = (String) table.getValueAt(row, 4);
+    String mail    = (String) table.getValueAt(row, 5);
+    String phone   = (String) table.getValueAt(row, 6);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,21 +64,6 @@ public class EditUserDialog extends javax.swing.JDialog {
         finishUserButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        
-        
-        JTable table = UserPanel.getUserTable();
-        int row = table.getSelectedRow();
-        String id;
-        String first   = (String) table.getValueAt(row, 1);
-        String last    = (String) table.getValueAt(row, 2);
-        String depart  = (String) table.getValueAt(row, 3);
-        String ttl     = (String) table.getValueAt(row, 4);
-        String mail    = (String) table.getValueAt(row, 4);
-        String phone   = (String) table.getValueAt(row, 5);
-       
-        
-        id = (String)table.getValueAt(row, 0);
-       
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(102, 255, 255), new java.awt.Color(0, 51, 255)));
@@ -264,10 +264,28 @@ public class EditUserDialog extends javax.swing.JDialog {
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {                                      
         // TODO add your handling code here:
-    }                                     
+    }     
+    
+    
+    DefaultTableModel modelUser = (DefaultTableModel) UserPanel.getUserTable().getModel();
+    
 
-    private void finishUserButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
+    private void finishUserButtonActionPerformed(java.awt.event.ActionEvent evt) {    
+    	UsersList userList = CurrentProject.getUsersList();
+    
+       first = firstName.getText();
+       last = lastName.getText();
+       depart = department.getText();
+       ttl = jobTitle.getText();
+       mail = email.getText();
+       phone = phoneNumber.getText();
+       modelUser.addRow(new String[]{id, first, last, depart, ttl, mail, phone});
+        
+       UserPanel.getUserFunctionality().deleteRow(Integer.parseInt(id), table);
+   	   //UserPanel.getUserFunctionality().addRow(firstName, lastName, department, jobTitle, email, phoneNumber);
+
+       userList.createUser(id, first, last, depart, ttl, mail, phone);
+       CurrentStorage.get().storeUsersList(CurrentProject.getUsersList(), CurrentProject.get());
     }                                                
 
     /**

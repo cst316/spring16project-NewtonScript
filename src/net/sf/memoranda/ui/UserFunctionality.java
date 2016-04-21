@@ -30,7 +30,7 @@ public class UserFunctionality {
 
 	    public UserFunctionality(){
 	    	userComparator = new UsersComparator();
-	    	loadDefects();
+	    	loadUsers();
 	    	restoreUserID();
 	    }
 	    
@@ -135,9 +135,9 @@ public class UserFunctionality {
 		/**
 		 * Load users from the file and place them on the table
 		 */
-		private void loadDefects() {
+		private void loadUsers() {
 			UsersList userList = CurrentProject.getUsersList();
-			DefaultTableModel modelOpen = (DefaultTableModel) UserPanel.getUserTable().getModel();
+			DefaultTableModel modelUser = (DefaultTableModel) UserPanel.getUserTable().getModel();
 			
 			// Sort list so that it is applied properly to table
 			ArrayList<Users> list = userList.getAllUsers();
@@ -145,7 +145,7 @@ public class UserFunctionality {
 			
 			for(Users user : list){
 			
-			    modelOpen.addRow(new String[]{
+			    modelUser.addRow(new String[]{
 				    user.getID(), 
 				    user.getFirstName().toString(), 
 				    user.getLastName().toString(), 
@@ -154,7 +154,7 @@ public class UserFunctionality {
 			 	    user.getEmailAddress().toString(),
 			 	    user.getPhoneNumber().toString()
 			    });
-				 System.out.println("Added defect " + user.getID() + " to table.");
+				 System.out.println("Added User " + user.getID() + " to table.");
 			}
 		}
 		

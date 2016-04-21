@@ -184,6 +184,6 @@ public class UserPanel extends javax.swing.JPanel {
     private javax.swing.JButton editUserButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private static javax.swing.JTable userTable;
+    public static javax.swing.JTable userTable;
     // End of variables declaration                   
 }
