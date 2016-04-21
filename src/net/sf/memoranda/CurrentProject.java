@@ -31,6 +31,7 @@ public class CurrentProject {
     private static NoteList _notelist = null;
     private static PhaseList _phaseList = null;
     private static TestCaseList _testCaseList = null;
+    private static UsersList _usersList = null;
     private static ResourcesList _resources = null;
     private static TimeSheetPanel tsp = null;
     private static DefectList _defectList = null;
@@ -60,6 +61,7 @@ public class CurrentProject {
         _resources = CurrentStorage.get().openResourcesList(_project);
         _phaseList = CurrentStorage.get().openPhaseList(_project);
         _testCaseList = CurrentStorage.get().openTestCaseList(_project);
+        _usersList = CurrentStorage.get().openUsersList(_project);
         _tasklist = _phaseList.getAllTasks();
         tsp = CurrentStorage.get().loadTimeSheet(_project);
         _defectList = CurrentStorage.get().openDefectList(_project);
@@ -93,6 +95,9 @@ public class CurrentProject {
     public static TestCaseList getTestCaseList(){
     	return _testCaseList;
     }
+    public static UsersList getUsersList(){
+    	return _usersList;
+    }
     
     public static TimeSheetPanel getTimeSheet(){
     	return tsp;
@@ -104,10 +109,11 @@ public class CurrentProject {
         ResourcesList newresources = CurrentStorage.get().openResourcesList(project);
         PhaseList newPhases = CurrentStorage.get().openPhaseList(project);
         TestCaseList newTestCases = CurrentStorage.get().openTestCaseList(project);
+        UsersList newUsers = CurrentStorage.get().openUsersList(project);
         TaskList newtasklist = newPhases.getAllTasks();
         DefectList newDefects = CurrentStorage.get().openDefectList(project);
         notifyListenersBefore(project, newnotelist, newtasklist, 
-        		newresources, newPhases, newTestCases, newDefects);
+        		newresources, newPhases, newTestCases, newDefects, newUsers);
         _project = project;
         _tasklist = newtasklist;
         _notelist = newnotelist;
@@ -115,6 +121,7 @@ public class CurrentProject {
         _phaseList = newPhases;
         _defectList = newDefects;
         _testCaseList = newTestCases;
+        _usersList = newUsers;
         notifyListenersAfter();
         Context.put("LAST_OPENED_PROJECT_ID", project.getID());
     }
@@ -127,10 +134,10 @@ public class CurrentProject {
         return projectListeners;
     }
 
-    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList newTestCases, DefectList dl) {
+    private static void notifyListenersBefore(Project project, NoteList nl, TaskList tl, ResourcesList rl, PhaseList ph, TestCaseList newTestCases, DefectList dl, UsersList ul) {
 
         for (int i = 0; i < projectListeners.size(); i++) {
-            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, newTestCases, dl);
+            ((ProjectListener)projectListeners.get(i)).projectChange(project, nl, tl, rl, ph, newTestCases, dl, ul);
             /*DEBUGSystem.out.println(projectListeners.get(i));*/
         }
     }
@@ -149,6 +156,7 @@ public class CurrentProject {
         storage.storePhaseList(_phaseList, _project); // Save the phase list to a file
         storage.saveTimeSheet(WorkPanel.getTimeSheetPanel(), _project);
         storage.storeDefectList(_defectList, _project); // Save the defect list to a file
+        storage.storeUsersList(_usersList, _project);
         storage.storeProjectManager();
     }
     

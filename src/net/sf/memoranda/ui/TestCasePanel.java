@@ -23,6 +23,8 @@ import net.sf.memoranda.date.DateListener;
 import net.sf.memoranda.util.CurrentStorage;
 import nu.xom.Attribute;
 import nu.xom.Element;
+import net.sf.memoranda.UsersList;
+
 /*
  * Created by JFormDesigner on Sat Feb 27 19:42:23 MST 2016
  */
@@ -75,7 +77,7 @@ public class TestCasePanel extends JPanel {
         });
         CurrentProject.addProjectListener(new ProjectListener() {
             public void projectChange(Project p, NoteList nl, TaskList tl, 
-            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl) {
+            		ResourcesList rl, PhaseList ph, TestCaseList tc, DefectList dl, UsersList ul) {
 
             }
 

@@ -41,6 +41,7 @@ import net.sf.memoranda.util.AgendaGenerator;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
+import net.sf.memoranda.UsersList;
 import nu.xom.Element;
 
 /*$Id: AgendaPanel.java,v 1.11 2005/02/15 16:58:02 rawsushi Exp $*/
@@ -258,7 +259,8 @@ public class AgendaPanel extends JPanel {
 					ResourcesList rl,
 					PhaseList pl,
 					TestCaseList tc,
-					DefectList dl
+					DefectList dl,
+					UsersList ul
 					) {
 			}
 

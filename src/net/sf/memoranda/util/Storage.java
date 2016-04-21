@@ -16,6 +16,7 @@ import net.sf.memoranda.Project;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TestCaseList;
+import net.sf.memoranda.UsersList;
 import net.sf.memoranda.ui.TimeSheetPanel;
 /**
  * 
@@ -90,5 +91,16 @@ public interface Storage {
      * @param tsp
      * @param prj
      */
-    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);       
+    public void saveTimeSheet(TimeSheetPanel tsp, Project prj);     
+    
+    /**
+     * Used to open the Users list from the XML file
+     * @return 
+     */
+    UsersList openUsersList(Project pr);
+    
+    /**
+     * Used to save the users list to an XML file
+     */
+    void storeUsersList(UsersList ul, Project pr);
 }
