@@ -887,7 +887,7 @@ public class TaskPanel extends JPanel {
         	else
         		list.addNewPhase(text);
         }
-        
+		CurrentStorage.get().storePhaseList(CurrentProject.getPhaseList(), CurrentProject.get()); // Save phases and tasks
         taskTable.tableChanged();
         parentPanel.updateIndicators();
     }

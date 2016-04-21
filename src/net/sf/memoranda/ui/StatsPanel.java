@@ -6,20 +6,17 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.IOException;
+
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.JToggleButton;
-import javax.swing.SwingConstants;
 
 /**
  * Panel for the Statistics page.
@@ -33,9 +30,10 @@ public class StatsPanel extends JPanel {
 	public static final int OVERVIEWINDEX = 0;
 	public static final int TESTCASEINDEX = 1;
 	public static final int DEFECTINDEX = 2;
-	public static final int TASKSINDEX = 3;
+	public static final int PHASESINDEX = 3;
 	
 	DailyItemsPanel parentPanel;
+	private static final long serialVersionUID = 1556L;
 	private JLabel title;
 	private Font titleFont;
 	private JTabbedPane tabbedPane;
@@ -49,8 +47,9 @@ public class StatsPanel extends JPanel {
 	private JMenuBar menu;
 	private JMenu export;
 	private JMenuItem png;
-	private TestCasePieChart testCasePie;
-	private DefectPieChart defectPie;
+	private PieChartPopulatedPanel testPanel;
+	private PieChartPopulatedPanel defectPanel;
+	private Chart phaseChart;
 	private StatsOverviewPanel innerOverviewPanel;
 	
 	public StatsPanel(){
@@ -59,8 +58,10 @@ public class StatsPanel extends JPanel {
 
 	// Handles building of all charts
 	private void buildCharts() {
-		testCasePie = new TestCasePieChart();
-		defectPie = new DefectPieChart();
+		ChartFactory factory = new ChartFactory();
+		testPanel = factory.getPopulatedChart(ChartFactory.PopulatedType.TESTCASE);
+		defectPanel = factory.getPopulatedChart(ChartFactory.PopulatedType.DEFECT);
+		phaseChart = factory.getChart(ChartFactory.ChartType.PHASE);
 	}
 	
 	// Builds the panel
@@ -108,20 +109,21 @@ public class StatsPanel extends JPanel {
 		
 		// Test case tab
 		testCasePanel.setLayout(new BorderLayout());
-		testCasePanel.add(testCasePie, BorderLayout.CENTER); // Add test case pie
+		testCasePanel.add(testPanel, BorderLayout.CENTER); // Add test case pie
 		tabbedPane.addTab("Test Cases", testCasePanel);
 		tabbedPane.setComponentAt(TESTCASEINDEX, testCasePanel);
 
 		// Defects tab
 		defectsPanel.setLayout(new BorderLayout());
-		defectsPanel.add(defectPie, BorderLayout.CENTER);
+		defectsPanel.add(defectPanel, BorderLayout.CENTER);
 		tabbedPane.addTab("Defects", defectsPanel);
 		tabbedPane.setComponentAt(DEFECTINDEX, defectsPanel);
 
 		// Tasks tab
 		tasksPanel.setLayout(new BorderLayout());
-		tabbedPane.addTab("Tasks", tasksPanel);
-		tabbedPane.setComponentAt(TASKSINDEX, tasksPanel);
+		tasksPanel.add(phaseChart, BorderLayout.CENTER);
+		tabbedPane.addTab("Phases", tasksPanel);
+		tabbedPane.setComponentAt(PHASESINDEX, tasksPanel);
 
 		
 		// Mend all panels/comps
@@ -133,8 +135,7 @@ public class StatsPanel extends JPanel {
 		northPanel.add(new JSeparator());
 		add(northPanel, BorderLayout.NORTH);
 		add(tabbedPane, BorderLayout.CENTER);
-		testCasePie.setPreferredSize(new Dimension());
-		updateCharts();
+		testPanel.getPie().setPreferredSize(new Dimension());
 	}
 	
 	// Loads the title font
@@ -157,29 +158,19 @@ public class StatsPanel extends JPanel {
 	
 		switch(index){
 		case OVERVIEWINDEX:
-			// TODO export overview here 
+			JOptionPane.showMessageDialog(this, "Cannot export a PNG of the overview panel.\n"
+					+ "Please select a tab first.");
 			break;
 		case TESTCASEINDEX:
-			testCasePie.exportPNG();
+			testPanel.getPie().exportPNG();
 			break;
 		case DEFECTINDEX:
-			// TODO export defect here 
+			defectPanel.getPie().exportPNG();
 			break;
-		case TASKSINDEX:
-			// TODO export tasks chart here
+		case PHASESINDEX:
+			phaseChart.exportPNG();
 			break;
 		}
-		
-		
-	}
-	
-	/**
-	 * Updates the stats panel
-	 */
-	public void updateCharts(){
-		innerOverviewPanel.update();
-		testCasePie.updatePie();
-		defectPie.updatePie();
 	}
 	
 }

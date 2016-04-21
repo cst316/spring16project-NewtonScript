@@ -39,14 +39,11 @@ import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.ResourcesListImpl;
-import net.sf.memoranda.TaskList;
-import net.sf.memoranda.TaskListImpl;
 import net.sf.memoranda.TestCaseList;
 import net.sf.memoranda.TestCaseListImpl;
 import net.sf.memoranda.UsersList;
 import net.sf.memoranda.UsersListImpl;
 import net.sf.memoranda.date.CalendarDate;
-import net.sf.memoranda.ui.DailyItemsPanel;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.TimeSheetPanel;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
@@ -324,7 +321,7 @@ public class FileStorage implements Storage {
         Document tasklistDoc = phaselist.getXMLContent();
         //tasklistDoc.setDocType(TaskListVersioning.getCurrentDocType());
         saveDocument(tasklistDoc,JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
-        DailyItemsPanel.getStatsPanel().updateCharts();
+        ChartData.updateCharts();
     }
     /**
      * @see net.sf.memoranda.util.Storage#createProjectStorage(net.sf.memoranda.Project)
@@ -525,7 +522,7 @@ public class FileStorage implements Storage {
                 + ".defectlist");
         Document doc = dl.getXMLContent();
         saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".defectlist");
-        DailyItemsPanel.getStatsPanel().updateCharts();
+        ChartData.updateCharts();
     }
 
     public TestCaseList openTestCaseList(Project prj) {
@@ -562,7 +559,7 @@ public class FileStorage implements Storage {
                 + ".testcaselist");
         Document doc = dl.getXMLContent();
         saveDocument(doc, JN_DOCPATH + prj.getID() + File.separator + ".testcaselist");
-        DailyItemsPanel.getStatsPanel().updateCharts();
+        ChartData.updateCharts();
     }
     
     public TimeSheetPanel loadTimeSheet(Project prj){

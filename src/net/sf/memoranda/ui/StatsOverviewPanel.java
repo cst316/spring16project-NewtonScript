@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.DefectList;
@@ -67,8 +68,9 @@ public class StatsOverviewPanel extends JPanel {
 	private JLabel failedVal = new JLabel();
 	
 	private Font titleFont;
-	private TestCasePieChart tp;
-	private DefectPieChart dp;
+	private Chart testCasePie;
+	private Chart defectPie;
+	private Chart phaseGantt;
 	
 	
 	public StatsOverviewPanel(){
@@ -101,9 +103,9 @@ public class StatsOverviewPanel extends JPanel {
 		int openDefs = dl.getOpenDefectNum();
 		
 		// Update internal pie charts
-		tp.updatePie();
-		dp.updatePie();
-		// TODO update line chart here
+		testCasePie.update();
+		defectPie.update();
+		phaseGantt.update();
 		
 		// Update phase numbers
 		totalPhVal.setText(Integer.toString(phaseNum));
@@ -132,6 +134,7 @@ public class StatsOverviewPanel extends JPanel {
 	
 
 	private void init() {
+		ChartFactory factory = new ChartFactory();
 		outerGrid = new JPanel(new GridLayout(0, 2));
 		upperLeft = new JPanel(new BorderLayout());
 		upperLeftGrid = new JPanel(new GridLayout(0, 2));
@@ -152,17 +155,20 @@ public class StatsOverviewPanel extends JPanel {
 		upperLeft.add(title, BorderLayout.NORTH);
 		
 		// Upper Right
-		tp = new TestCasePieChart();
-		tp.enableOptions(false);
-		upperRight.add(tp, BorderLayout.CENTER);
+		testCasePie = factory.getChart(ChartFactory.ChartType.TESTCASE);
+		upperRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
+		upperRight.add(testCasePie, BorderLayout.CENTER);
 		
 		// Lower left
-		dp = new DefectPieChart(DefectPieChart.Category.OC);
-		dp.enableOptions(false);
-		lowerLeft.add(dp, BorderLayout.CENTER);
+		defectPie = factory.getChart(ChartFactory.ChartType.DEFECT);
+		lowerLeft.add(new JSeparator(), BorderLayout.NORTH);
+		lowerLeft.add(defectPie, BorderLayout.CENTER);
 		
 		// Lower Right
-		// TODO add phases line chart here
+		phaseGantt = factory.getChart(ChartFactory.ChartType.PHASE);
+		lowerRight.add(new JSeparator(), BorderLayout.NORTH);
+		lowerRight.add(new JSeparator(SwingConstants.VERTICAL), BorderLayout.WEST);
+		lowerRight.add(phaseGantt, BorderLayout.CENTER);
 		
 		
 		// Add panels to the grid - ORDER MATTERS

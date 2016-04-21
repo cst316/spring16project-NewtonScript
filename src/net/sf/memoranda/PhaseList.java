@@ -156,6 +156,22 @@ public class PhaseList {
 		return tasks;
 	}
 	
+	/**
+	 * Returns a task list without phases
+	 * 
+	 * @return tasks
+	 */
+	public ArrayList<Task> getOnlyTasksList(){
+		ArrayList<Task> tl = getAllTaskslist();
+		ArrayList<Task> result = new ArrayList<Task>();
+		
+		for(Task t : tl){
+			if(!t.isPhase())
+				result.add(t);
+		}
+		return result;
+	}
+	
 	
 	// No generic type set as this is how it was done by the caller
 	public Collection getAllActiveTasks(String taskId, CalendarDate date){
