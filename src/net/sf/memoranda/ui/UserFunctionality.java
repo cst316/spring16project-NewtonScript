@@ -78,13 +78,13 @@ public class UserFunctionality {
 			UsersList userList = CurrentProject.getUsersList();
 			
 		
-			String id         = Integer.toString(userList.getNextid());
+			String id          = Integer.toString(userList.getNextid());
 			String firstName   = first.getText();
-			String lastName   = last.getText();
-			String userDepart = phone.getText();
-			String userTitle  = depart.getText();
-		    String userEmail  = email.getText();
-			String userPhone  = phone.getText();
+			String lastName    = last.getText();
+			String userDepart  = depart.getText();
+			String userTitle   = title.getText();
+		    String userEmail   = email.getText();
+			String userPhone   = phone.getText();
 			
 
 			
@@ -147,10 +147,10 @@ public class UserFunctionality {
 			
 			    modelOpen.addRow(new String[]{
 				    user.getID(), 
-			        user.getTitle().toString(), 
 				    user.getFirstName().toString(), 
 				    user.getLastName().toString(), 
 			 	    user.getDepartment().toString(),
+			 	    user.getTitle().toString(), 
 			 	    user.getEmailAddress().toString(),
 			 	    user.getPhoneNumber().toString()
 			    });
