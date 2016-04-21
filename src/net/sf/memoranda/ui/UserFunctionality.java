@@ -30,7 +30,7 @@ public class UserFunctionality {
 
 	    public UserFunctionality(){
 	    	userComparator = new UsersComparator();
-	    	loadDefects();
+	    	loadUsers();
 	    	restoreUserID();
 	    }
 	    
@@ -78,13 +78,13 @@ public class UserFunctionality {
 			UsersList userList = CurrentProject.getUsersList();
 			
 		
-			String id         = Integer.toString(userList.getNextid());
+			String id          = Integer.toString(userList.getNextid());
 			String firstName   = first.getText();
-			String lastName   = last.getText();
-			String userDepart = phone.getText();
-			String userTitle  = depart.getText();
-		    String userEmail  = email.getText();
-			String userPhone  = phone.getText();
+			String lastName    = last.getText();
+			String userDepart  = depart.getText();
+			String userTitle   = title.getText();
+		    String userEmail   = email.getText();
+			String userPhone   = phone.getText();
 			
 
 			
@@ -135,9 +135,9 @@ public class UserFunctionality {
 		/**
 		 * Load users from the file and place them on the table
 		 */
-		private void loadDefects() {
+		private void loadUsers() {
 			UsersList userList = CurrentProject.getUsersList();
-			DefaultTableModel modelOpen = (DefaultTableModel) UserPanel.getUserTable().getModel();
+			DefaultTableModel modelUser = (DefaultTableModel) UserPanel.getUserTable().getModel();
 			
 			// Sort list so that it is applied properly to table
 			ArrayList<Users> list = userList.getAllUsers();
@@ -145,16 +145,16 @@ public class UserFunctionality {
 			
 			for(Users user : list){
 			
-			    modelOpen.addRow(new String[]{
+			    modelUser.addRow(new String[]{
 				    user.getID(), 
-			        user.getTitle().toString(), 
 				    user.getFirstName().toString(), 
 				    user.getLastName().toString(), 
 			 	    user.getDepartment().toString(),
+			 	    user.getTitle().toString(), 
 			 	    user.getEmailAddress().toString(),
 			 	    user.getPhoneNumber().toString()
 			    });
-				 System.out.println("Added defect " + user.getID() + " to table.");
+				 System.out.println("Added User " + user.getID() + " to table.");
 			}
 		}
 		

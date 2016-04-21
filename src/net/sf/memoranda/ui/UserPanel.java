@@ -169,11 +169,12 @@ public class UserPanel extends javax.swing.JPanel {
     }                                             
 
     private void deleteUserButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
+        userFunctionality.deleteRow(userTable.getSelectedRow(), userTable);
     }                                                
 
     private void editUserButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
+        EditUserDialog editDialog = new EditUserDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        editDialog.setVisible(true);
     }                                              
 
 
@@ -183,6 +184,6 @@ public class UserPanel extends javax.swing.JPanel {
     private javax.swing.JButton editUserButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private static javax.swing.JTable userTable;
+    public static javax.swing.JTable userTable;
     // End of variables declaration                   
 }
