@@ -16,6 +16,7 @@ import net.sf.memoranda.DefectList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.DefectCompleteDialog.CustomCompComboBox;
 import net.sf.memoranda.ui.NewDefectDialog.CustomComboBox;
+import net.sf.memoranda.ui.DefectEditDialog.EditCustomComboBox;
 import net.sf.memoranda.util.CurrentStorage;
 	
 public class DefectFunctionality {
@@ -53,6 +54,45 @@ public class DefectFunctionality {
         
         CurrentStorage.get().storeDefectList(CurrentProject.getDefectList(), CurrentProject.get());
     }
+    
+    
+    
+    public void editRow(
+			EditCustomComboBox<Defect.Discovery> newDefectDiscovery, 
+			EditCustomComboBox<Defect.Injection> newDefectInjection, 
+			JSpinner newDefectDate, 
+			EditCustomComboBox<Defect.Severity> newDefectSeverity, 
+			EditCustomComboBox<Defect.Type> newDefectType, 
+			JTextPane newDefectDescription, Defect defect) {
+        
+		DefectList dl = CurrentProject.getDefectList();
+		Defect.Type type = (Defect.Type) newDefectType.getItem();
+		Defect.Discovery dis = (Defect.Discovery) newDefectDiscovery.getItem();
+		Defect.Injection inj = (Defect.Injection) newDefectInjection.getItem();
+		Defect.Severity sev = (Defect.Severity) newDefectSeverity.getItem();
+		CalendarDate date = new CalendarDate((Date) newDefectDate.getModel().getValue());
+		String desc = String.valueOf(newDefectDescription.getText());
+		
+		
+		JTable table = DefectTable.getOpenTable();
+		
+		defect.setSeverity(sev);
+		defect.setDate(date);
+		defect.setDesc(desc);
+		defect.setDiscovery(dis);
+        defect.setType(type);
+        defect.setInj(inj);
+
+        
+        
+        
+        // Save defect in the file
+        CurrentStorage.get().storeDefectList(CurrentProject.getDefectList(), CurrentProject.get());
+        
+        updateTable();
+	}
+    
+    
     /**
      * Adds a row to the table
      * 
@@ -165,6 +205,18 @@ public class DefectFunctionality {
 			 
 			 System.out.println("Added defect " + d.getId() + " to table.");
 		}
+	}
+	
+	private void updateTable(){
+		
+		DefaultTableModel cTable = (DefaultTableModel) DefectTable.getClosedDefectTable().getModel();
+		DefaultTableModel oTable = (DefaultTableModel) DefectTable.getOpenTable().getModel();
+		
+		cTable.getDataVector().removeAllElements();
+		oTable.getDataVector().removeAllElements();
+		
+		loadDefects();
+		
 	}
 	
 	

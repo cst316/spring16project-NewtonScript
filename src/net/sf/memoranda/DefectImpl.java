@@ -90,7 +90,7 @@ public class DefectImpl implements Defect {
 
 	@Override
 	public void setSeverity(Severity s) {
-		setAttr(SEV, s.toString());
+		setAttr(SEV, s.name());
 	}
 
 
