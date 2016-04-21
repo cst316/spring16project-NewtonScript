@@ -2,6 +2,7 @@ package net.sf.memoranda.ui;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -341,9 +342,15 @@ public class DefectTable extends javax.swing.JPanel {
    }                                             
                                           
 
-    private void editDefectActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        DefectEditDialog editDefect = new DefectEditDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        editDefect.setVisible(true);
+    private void editDefectActionPerformed(java.awt.event.ActionEvent evt) {      
+    	
+    	if (getjTabbedPane().getSelectedIndex() == 0){
+            DefectEditDialog editDefect = new DefectEditDialog((JFrame) SwingUtilities.getWindowAncestor(this), true);
+            editDefect.setVisible(true);
+    	}else{
+    		JOptionPane.showMessageDialog(App.getFrame(), "Cannot edit closed defects.");
+    	}
+        
     }                                          
 
 
