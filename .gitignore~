@@ -1,0 +1,11 @@
+bin
+build
+README.txt
+.classpath
+.settings
+.project
+.DS_Store
+/classes/
+/nbproject/private/
+build.number
+*.number

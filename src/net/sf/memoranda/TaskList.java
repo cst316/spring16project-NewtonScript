@@ -23,7 +23,13 @@ public interface TaskList {
 
     Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId, String phase);
 
+    Task createTask(CalendarDate startDate, CalendarDate endDate, String text,
+			int priority, long effort, String description, Task defaultPhase,
+			String text2);
+    
     void removeTask(Task task);
+    
+    Element getRoot();
 
     public boolean hasSubTasks(String id);
     
