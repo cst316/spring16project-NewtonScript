@@ -19,14 +19,14 @@ import javax.swing.border.LineBorder;
  * 
  * @author jebjohnson
  */
-public class DefectTable extends javax.swing.JPanel {
+public class DefectTestPanel extends javax.swing.JPanel {
 
 	private static DefectFunctionality func;
 	
     /**
      * Creates new form NewJPanel
      */
-    public DefectTable() {
+    public DefectTestPanel() {
         initComponents();
         func = new DefectFunctionality();
     }
