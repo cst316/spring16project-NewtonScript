@@ -1,10 +1,13 @@
 package net.sf.memoranda.ui;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
+import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
 import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Defect;
+import net.sf.memoranda.DefectList;
 import net.sf.memoranda.UsersList;
 
 
@@ -74,20 +77,48 @@ public class DefectEditDialog extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addContainerGap())
         );
+        
+        JTable table = DefectTable.getOpenTable();
+        String id;
+        String hours = "N/A";
+        String dialogNotes = "";
+        String type;
+        
+        if(DefectTable.getjTabbedPane().getSelectedIndex() == 0){
+	    	int row = table.getSelectedRow();
+	        id = (String)table.getValueAt(row,0);
+	        type = (String) table.getValueAt(row, 5);
+        }
+        else{
+        	
+	        JTable table2 = DefectTable.getClosedDefectTable();
+	        int rowSet2 = table2.getSelectedRow();
+	        
+            id = (String)table2.getValueAt(rowSet2, 0);
+            Defect inspect = CurrentProject.getDefectList().getDefect(id);
+            hours = Integer.toString(inspect.getHours());
+            dialogNotes = inspect.getNote();
+        }
+        Defect compD = CurrentProject.getDefectList().getDefect(id);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 255), null));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Type", "Documentation", "Syntax", "Build", "Package", "Assignment", "Interface", "Checking", "Data", "Function", "System", "Environment " }));
         jComboBox1.setToolTipText("Select Defect Type");
-
+        jComboBox1.setSelectedItem(compD.getType().toString());
+        
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Discovery", "Requirements", "Design", "Implementation", "Test" }));
-
+        jComboBox7.setSelectedItem(compD.getDiscovery().toString());
+        
         jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Defect Injection", "Requirements", "Design", "Implementation", "Test", " " }));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Severity", "LOW", "MEDIUM", "HIGH" }));
+        jComboBox8.setSelectedItem(compD.getInj().toString());
+        
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Severity", "Low", "Medium", "High" }));
+        jComboBox3.setSelectedItem(compD.getSeverity().toString());
 
         jTextPane1.setContentType("Description"); // NOI18N
         jScrollPane1.setViewportView(jTextPane1);
+        jTextPane1.setText(compD.getDesc().toString());
 
         jLabel2.setText("Description");
 
@@ -188,7 +219,27 @@ public class DefectEditDialog extends javax.swing.JDialog {
     
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        
+//    	Defect def = CurrentProject.getDefectList().getDefect();
+//    	
+//    	if(DefectTable.getjTabbedPane().getSelectedIndex() == 0){
+//	    	int row = table.getSelectedRow();
+//	        id = (String)table.getValueAt(row,0);
+//	        type = (String) table.getValueAt(row, 5);
+//        }
+//        else{
+//        	
+//	        JTable table2 = DefectTable.getClosedDefectTable();
+//	        int rowSet2 = table2.getSelectedRow();
+//	        
+//            id = (String)table2.getValueAt(rowSet2, 0);
+//            Defect inspect = CurrentProject.getDefectList().getDefect(id);
+//            hours = Integer.toString(inspect.getHours());
+//            dialogNotes = inspect.getNote();
+//        }
+//    	
+//    	
+//    	
     }                                        
 
     /**

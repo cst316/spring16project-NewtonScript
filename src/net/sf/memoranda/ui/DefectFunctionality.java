@@ -65,9 +65,12 @@ public class DefectFunctionality {
      * @param table
      */
 
-	public void addRow(CustomComboBox<Defect.Discovery> newDefectDiscovery, 
-			CustomComboBox<Defect.Injection> newDefectInjection, JSpinner newDefectDate, 
-			CustomComboBox<Defect.Severity> newDefectSeverity, CustomComboBox<Defect.Type> newDefectType, 
+	public void addRow(
+			CustomComboBox<Defect.Discovery> newDefectDiscovery, 
+			CustomComboBox<Defect.Injection> newDefectInjection, 
+			JSpinner newDefectDate, 
+			CustomComboBox<Defect.Severity> newDefectSeverity, 
+			CustomComboBox<Defect.Type> newDefectType, 
 			JTextPane newDefectDescription) {
         
 		DefectList dl = CurrentProject.getDefectList();
