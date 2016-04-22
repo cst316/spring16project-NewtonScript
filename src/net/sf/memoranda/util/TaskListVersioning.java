@@ -61,7 +61,7 @@ public class TaskListVersioning {
     public static boolean upgradeTaskList() {
     	
         boolean result = false;
-        URL url = net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/todo_edit.png");
+        URL url = net.sf.memoranda.ui.AppFrame.class.getResource("resources/version.txt");
         
         if (url != null) {
             Util.debug("Version 3.16 is the latest version, skipping upgrade");
