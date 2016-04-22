@@ -29,7 +29,7 @@ public class DefectPiePopulatedPanel extends PieChartPopulatedPanel {
 	private JToggleButton sevButton;
 	private JToggleButton ocButton;
 	private DefectPieChart pie;
-	private Category cat;
+	private static Category cat;
 	
 	public DefectPiePopulatedPanel(DefectPieChart pie) {
 		super(pie);
@@ -48,6 +48,14 @@ public class DefectPiePopulatedPanel extends PieChartPopulatedPanel {
 		this.pie = pie;
 		cat = c;
 		init();
+	}
+	
+	public static Category getCategory(){
+		return cat;
+	}
+	
+	public static void setCategory(Category c){
+		cat = c;
 	}
 	
 	private void init(){

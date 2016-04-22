@@ -60,7 +60,6 @@ public class DefectPieChart extends PieChart{
 			Color.BLACK,
 			Color.ORANGE
 			};
-	private Category cat;
 	
 	public DefectPieChart() {
 		super(TITLE);
@@ -73,7 +72,7 @@ public class DefectPieChart extends PieChart{
 	 * @return
 	 */
 	public Category getCat() {
-		return cat;
+		return DefectPiePopulatedPanel.getCategory();
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class DefectPieChart extends PieChart{
 	 * @param cat
 	 */
 	public void setCat(Category cat) {
-		this.cat = cat;
+		DefectPiePopulatedPanel.setCategory(cat);
 		update();
 	}
 	
@@ -111,7 +110,7 @@ public class DefectPieChart extends PieChart{
 			
 		});
 		
-		cat = Category.TYPE;
+		setCat(Category.TYPE);
 		
 		update();
 	}
@@ -122,6 +121,7 @@ public class DefectPieChart extends PieChart{
 			
 			clearData(); // Wipe data in the pie chart
 			
+			Category cat = getCat();
 			switch(cat){
 			case TYPE:
 				showTypeView(defList);
