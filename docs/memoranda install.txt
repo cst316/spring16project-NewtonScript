@@ -1,0 +1,8 @@
+Installation Instructions:
+
+1.	To install go to: www.public.asu.edu/~hcho49/Memoranda.
+2.	Depending on which Operating System, go into the respective folder (Windows, Mac, Linux).
+3.	Click the Memoranda.zip to begin download.
+4.	Once completed extract the entire folder into any designated location.
+
+Congratulation, Memoranda has now been installed.
