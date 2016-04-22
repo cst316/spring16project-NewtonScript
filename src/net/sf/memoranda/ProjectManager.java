@@ -25,7 +25,7 @@ import nu.xom.Elements;
 /*$Id: ProjectManager.java,v 1.9 2005/12/01 08:12:26 alexeya Exp $*/
 public class ProjectManager {
 //    public static final String NS_JNPROJECT = "http://www.openmechanics.org/2003/jnotes-projects-file";
-
+	public static final int DAYS = 90;
     public static Document _doc = null;
     static Element _root = null;
     
@@ -40,7 +40,12 @@ public class ProjectManager {
 //            _root.addNamespaceDeclaration("jnotes", NS_JNPROJECT);
 //            _root.appendChild(new Comment("This is JNotes 2 data file. Do not modify."));
             _doc = new Document(_root);
-            createProject("__default", Local.getString("Default project"), CalendarDate.today(), null);
+            CalendarDate endDate = CalendarDate.today();
+            // Set end date
+            for(int i = 0; i < DAYS; i++)
+            	endDate = endDate.tomorrow();
+            	
+            createProject("__default", Local.getString("Default project"), CalendarDate.today(), endDate);
         }
         else
             _root = _doc.getRootElement();
