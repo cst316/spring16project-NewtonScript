@@ -25,8 +25,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 
+import javax.annotation.Resource;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.xml.sax.InputSource;
 
 import net.sf.memoranda.DefectList;
 import net.sf.memoranda.DefectListImpl;
@@ -50,6 +54,8 @@ import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 import nu.xom.Builder;
 import nu.xom.DocType;
 import nu.xom.Document;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 
 
 /**
@@ -290,12 +296,7 @@ public class FileStorage implements Storage {
             
             Document tasklistDoc = openDocument(fn);
             
-            DocType tasklistDoctype = tasklistDoc.getDocType();
-            String publicId = null;
-            if (tasklistDoctype != null) {
-                publicId = tasklistDoctype.getPublicID();
-            }
-            boolean upgradeOccurred = TaskListVersioning.upgradeTaskList(publicId);
+            boolean upgradeOccurred = TaskListVersioning.upgradeTaskList();
             if (upgradeOccurred) {
                 // reload from new file
                 tasklistDoc = openDocument(fn);

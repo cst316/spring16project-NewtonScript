@@ -5,6 +5,7 @@
 package net.sf.memoranda.util;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -57,12 +58,13 @@ public class TaskListVersioning {
         return -1;
     }
     
-    public static boolean upgradeTaskList(String publicId) {
-        int vid = getIndexOfVersion(publicId);
+    public static boolean upgradeTaskList() {
+    	
         boolean result = false;
+        URL url = net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/todo_edit.png");
         
-        if (vid == (VERSIONS.length - 1)) {
-            Util.debug("Version " + publicId + " is the latest version, skipping upgrade");
+        if (url != null) {
+            Util.debug("Version 3.16 is the latest version, skipping upgrade");
         }
         else {
             // get all projects
@@ -74,16 +76,9 @@ public class TaskListVersioning {
                 projectIds[c++] = prj.getID();
             }
             
-            // keep upgrading until it's the current version
-            while (vid < (VERSIONS.length - 1)) {
-                if(vid == 0) {
-                    upgrade1_1d1(projectIds);
-                }
-                else if(vid == 1){
-                	upgrade3_16(projectIds);
-                }
-                vid++;
-            }
+       
+            upgrade3_16(projectIds);
+                
             result = true;
         }
         
